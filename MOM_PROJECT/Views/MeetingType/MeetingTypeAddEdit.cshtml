@@ -1,0 +1,68 @@
+<style>
+body{
+  background: linear-gradient(135deg, #eef2ff, #f8fafc);
+  font-family: "Inter", sans-serif;
+}
+
+.card{
+  border: none;
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 15px 40px rgba(79,70,229,0.12);
+}
+
+.card-body{
+  padding: 30px;
+}
+
+.form-label{
+  font-weight: 500;
+  color: #1e1b4b;
+}
+
+.form-control, .form-select{
+  border-radius: 12px;
+  padding: 10px 14px;
+}
+
+.form-control:focus, .form-select:focus{
+  box-shadow: 0 0 0 0.15rem rgba(79,70,229,0.25);
+  border-color: #6366f1;
+}
+
+.btn-primary{
+  background: linear-gradient(135deg, #4f46e5, #6366f1);
+  border: none;
+  padding: 10px 24px;
+  border-radius: 999px;
+}
+
+.btn-secondary{
+  border-radius: 999px;
+}
+</style>
+<form>
+    <div class="row g-3">
+
+        <div class="col-md-4">
+            <label class="form-label">Meeting Type ID</label>
+            <input type="text" class="form-control" value="Auto" disabled>
+        </div>
+
+        <div class="col-md-4">
+            <label class="form-label">Meeting Type Name</label>
+            <input type="text" class="form-control">
+        </div>
+
+        <div class="col-md-4">
+            <label class="form-label">Remarks</label>
+            <input type="text" class="form-control">
+        </div>
+
+    </div>
+
+    <div class="mt-4 text-end">
+        <button class="btn btn-secondary">Cancel</button>
+        <button class="btn btn-primary">Save</button>
+    </div>
+</form>

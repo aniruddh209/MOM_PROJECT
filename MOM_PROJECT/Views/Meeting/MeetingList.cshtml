@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>MOM – Meeting List</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Bootstrap -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Simple Datatables -->
+<link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet">
+
+<style>
+body{
+  background: linear-gradient(135deg, #eef2ff, #f8fafc);
+  font-family: "Inter", sans-serif;
+}
+
+.card{
+  border: none;
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 15px 40px rgba(79,70,229,0.12);
+}
+
+.card-body{
+  padding: 28px;
+}
+
+/* ================= TABLE ================= */
+.table{
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 0 12px;
+}
+
+.table thead th,
+.table tbody td{
+  padding: 16px 18px;
+  vertical-align: middle;
+  text-align: left;
+  font-size: 14px;
+}
+
+.table thead th{
+  background: #eef2ff;
+  font-weight: 600;
+  color: #3730a3;
+}
+
+/* ROW */
+.table tbody tr{
+  background: #ffffff;
+  transition: .25s ease;
+}
+
+.table tbody tr:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 10px 30px rgba(79,70,229,0.18);
+}
+
+/* CENTERED COLUMNS */
+.table thead th:nth-child(3),
+.table tbody td:nth-child(3),
+.table thead th:nth-child(4),
+.table tbody td:nth-child(4),
+.table thead th:last-child,
+.table tbody td:last-child{
+  text-align: center;
+}
+
+/* COLUMN WIDTHS */
+.table th:nth-child(1),
+.table td:nth-child(1){ width: 22%; }
+
+.table th:nth-child(2),
+.table td:nth-child(2){ width: 18%; }
+
+.table th:nth-child(3),
+.table td:nth-child(3){ width: 10%; }
+
+.table th:nth-child(4),
+.table td:nth-child(4){ width: 18%; }
+
+.table th:nth-child(5),
+.table td:nth-child(5){ width: 18%; }
+
+.table th:nth-child(6),
+.table td:nth-child(6){ width: 18%; }
+
+/* ================= ACTION BUTTON FIX ================= */
+.table thead th:last-child,
+.table tbody td:last-child{
+  overflow: hidden;
+}
+
+.action-btns{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;       /* ✅ FIX */
+  max-width: 100%;
+}
+
+.action-btns .btn{
+  white-space: nowrap;
+  padding: 4px 14px;
+}
+
+/* BUTTON COLORS */
+.btn-outline-primary{
+  border-color: #6366f1;
+  color: #4f46e5;
+}
+
+.btn-outline-primary:hover{
+  background: #4f46e5;
+  color: #ffffff;
+}
+
+.btn-outline-danger{
+  border-color: #ef4444;
+  color: #dc2626;
+}
+
+.btn-outline-danger:hover{
+  background: #dc2626;
+  color: #ffffff;
+}
+
+/* STATUS BADGES */
+.badge-active{
+  background: #dcfce7;
+  color: #166534;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-weight: 500;
+}
+
+.badge-canceled{
+  background: #fee2e2;
+  color: #991b1b;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-weight: 500;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container-fluid mt-4">
+<div class="card">
+<div class="card-body">
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h5 class="mb-0">MOM – Meeting List</h5>
+  <a class="btn btn-primary rounded-pill px-4">+ Add Meeting</a>
+</div>
+
+<table class="table datatable">
+<thead>
+<tr>
+  <th>Meeting Description</th>
+  <th>Document Path</th>
+  <th>Is Canceled</th>
+  <th>Cancellation DateTime</th>
+  <th>Cancellation Reason</th>
+  <th>Action</th>
+</tr>
+</thead>
+
+<tbody>
+
+<tr>
+  <td>Project Kickoff Meeting</td>
+  <td>/docs/kickoff.pdf</td>
+  <td><span class="badge-active">No</span></td>
+  <td>-</td>
+  <td>-</td>
+  <td>
+    <div class="action-btns">
+      <a class="btn btn-sm btn-outline-primary rounded-pill">Edit</a>
+      <a class="btn btn-sm btn-outline-danger rounded-pill"
+         onclick="return confirm('Delete this meeting?');">Delete</a>
+    </div>
+  </td>
+</tr>
+
+<tr>
+  <td>Requirement Discussion</td>
+  <td>/docs/req.pdf</td>
+  <td><span class="badge-canceled">Yes</span></td>
+  <td>2024-03-10 11:30</td>
+  <td>Client unavailable</td>
+  <td>
+    <div class="action-btns">
+      <a class="btn btn-sm btn-outline-primary rounded-pill">Edit</a>
+      <a class="btn btn-sm btn-outline-danger rounded-pill">Delete</a>
+    </div>
+  </td>
+</tr>
+
+<tr><td>Design Review</td><td>/docs/design.pdf</td><td><span class="badge-active">No</span></td><td>-</td><td>-</td><td><div class="action-btns"><a asp-action="MeetingAddEdit" asp-controller="Meeting" class="btn btn-sm btn-outline-primary rounded-pill">Edit</a><a class="btn btn-sm btn-outline-danger rounded-pill">Delete</a></div></td></tr>
+<tr><td>Development Planning</td><td>/docs/dev-plan.pdf</td><td><span class="badge-active">No</span></td><td>-</td><td>-</td><td><div class="action-btns"><a asp-action="MeetingAddEdit" asp-controller="Meeting" class="btn btn-sm btn-outline-primary rounded-pill">Edit</a><a class="btn btn-sm btn-outline-danger rounded-pill">Delete</a></div></td></tr>
+<tr><td>Testing Strategy</td><td>/docs/testing.pdf</td><td><span class="badge-canceled">Yes</span></td><td>2024-03-15 14:00</td><td>Resource issue</td><td><div class="action-btns"><a asp-action="MeetingAddEdit" asp-controller="Meeting" class="btn btn-sm btn-outline-primary rounded-pill">Edit</a><a class="btn btn-sm btn-outline-danger rounded-pill">Delete</a></div></td></tr>
+<tr><td>Client Feedback</td><td>/docs/feedback.pdf</td><td><span class="badge-active">No</span></td><td>-</td><td>-</td><td><div class="action-btns"><a asp-action="MeetingAddEdit" asp-controller="Meeting" class="btn btn-sm btn-outline-primary rounded-pill">Edit</a><a class="btn btn-sm btn-outline-danger rounded-pill">Delete</a></div></td></tr>
+<tr><td>Sprint Review</td><td>/docs/sprint.pdf</td><td><span class="badge-active">No</span></td><td>-</td><td>-</td><td><div class="action-btns"><a asp-action="MeetingAddEdit" asp-controller="Meeting" class="btn btn-sm btn-outline-primary rounded-pill">Edit</a><a class="btn btn-sm btn-outline-danger rounded-pill">Delete</a></div></td></tr>
+<tr><td>Deployment Planning</td><td>/docs/deploy.pdf</td><td><span class="badge-canceled">Yes</span></td><td>2024-03-18 16:45</td><td>Server downtime</td><td><div class="action-btns"><a asp-action="MeetingAddEdit" asp-controller="Meeting" class="btn btn-sm btn-outline-primary rounded-pill">Edit</a><a class="btn btn-sm btn-outline-danger rounded-pill">Delete</a></div></td></tr>
+<tr><td>Security Review</td><td>/docs/security.pdf</td><td><span class="badge-active">No</span></td><td>-</td><td>-</td><td><div class="action-btns"><a asp-action="MeetingAddEdit" asp-controller="Meeting" class="btn btn-sm btn-outline-primary rounded-pill">Edit</a><a class="btn btn-sm btn-outline-danger rounded-pill">Delete</a></div></td></tr>
+<tr><td>Final Presentation</td><td>/docs/final.pdf</td><td><span class="badge-active">No</span></td><td>-</td><td>-</td><td><div class="action-btns"><a asp-action="MeetingAddEdit" asp-controller="Meeting" class="btn btn-sm btn-outline-primary rounded-pill">Edit</a><a class="btn btn-sm btn-outline-danger rounded-pill">Delete</a></div></td></tr>
+<tr><td>Post-Project Review</td><td>/docs/post.pdf</td><td><span class="badge-canceled">Yes</span></td><td>2024-03-22 10:00</td><td>Stakeholder busy</td><td><div class="action-btns"><a asp-action="MeetingAddEdit" asp-controller="Meeting" class="btn btn-sm btn-outline-primary rounded-pill">Edit</a><a class="btn btn-sm btn-outline-danger rounded-pill">Delete</a></div></td></tr>
+<tr><td>Team Retrospective</td><td>/docs/retro.pdf</td><td><span class="badge-active">No</span></td><td>-</td><td>-</td><td><div class="action-btns"><a asp-action="MeetingAddEdit" asp-controller="Meeting" class="btn btn-sm btn-outline-primary rounded-pill">Edit</a><a class="btn btn-sm btn-outline-danger rounded-pill">Delete</a></div></td></tr>
+<tr><td>Budget Review</td><td>/docs/budget.pdf</td><td><span class="badge-active">No</span></td><td>-</td><td>-</td><td><div class="action-btns"><a asp-action="MeetingAddEdit" asp-controller="Meeting" class="btn btn-sm btn-outline-primary rounded-pill">Edit</a><a class="btn btn-sm btn-outline-danger rounded-pill">Delete</a></div></td></tr>
+<tr><td>Training Session</td><td>/docs/training.pdf</td><td><span class="badge-active">No</span></td><td>-</td><td>-</td><td><div class="action-btns"><a asp-action="MeetingAddEdit" asp-controller="Meeting" class="btn btn-sm btn-outline-primary rounded-pill">Edit</a><a class="btn btn-sm btn-outline-danger rounded-pill">Delete</a></div></td></tr>
+<tr><td>Closure Meeting</td><td>/docs/closure.pdf</td><td><span class="badge-active">No</span></td><td>-</td><td>-</td><td><div class="action-btns"><a asp-action="MeetingAddEdit" asp-controller="Meeting" class="btn btn-sm btn-outline-primary rounded-pill">Edit</a><a class="btn btn-sm btn-outline-danger rounded-pill">Delete</a></div></td></tr>
+
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest"></script>
+<script>
+new simpleDatatables.DataTable(".datatable");
+</script>
+
+</body>
+</html>

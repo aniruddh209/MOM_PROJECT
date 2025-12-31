@@ -1,0 +1,66 @@
+<style>
+body{
+  background: linear-gradient(135deg, #eef2ff, #f8fafc);
+  font-family: "Inter", sans-serif;
+}
+
+.card{
+  border: none;
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 15px 40px rgba(79,70,229,0.12);
+}
+
+.card-body{
+  padding: 30px;
+}
+
+.form-label{
+  font-weight: 500;
+  color: #1e1b4b;
+}
+
+.form-control, .form-select{
+  border-radius: 12px;
+  padding: 10px 14px;
+}
+
+.form-control:focus, .form-select:focus{
+  box-shadow: 0 0 0 0.15rem rgba(79,70,229,0.25);
+  border-color: #6366f1;
+}
+
+.btn-primary{
+  background: linear-gradient(135deg, #4f46e5, #6366f1);
+  border: none;
+  padding: 10px 24px;
+  border-radius: 999px;
+}
+
+.btn-secondary{
+  border-radius: 999px;
+}
+</style>
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-body">
+
+            <h5 class="mb-4">Add / Edit Meeting Venue</h5>
+
+            <form>
+                <div class="row g-3">
+                    <div class="col-md-12">
+                        <label class="form-label">Venue Name</label>
+                        <input type="text" class="form-control" placeholder="Enter venue name">
+                    </div>
+                </div>
+
+                <div class="mt-4 text-end">
+                    <button class="btn btn-secondary">Cancel</button>
+                    <button class="btn btn-primary">Save</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
