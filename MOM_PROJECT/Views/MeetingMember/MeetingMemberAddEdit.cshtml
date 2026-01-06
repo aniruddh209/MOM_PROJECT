@@ -1,71 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Add / Edit Meeting Member</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+
 <style>
 body{
-  background: linear-gradient(135deg, #eef2ff, #f8fafc);
+  background: linear-gradient(135deg,#eef2ff,#f8fafc);
   font-family: "Inter", sans-serif;
 }
 
+/* PAGE HEADER */
+.page-title{
+  font-size:28px;
+  font-weight:700;
+}
+.page-subtitle{
+  color:#6b7280;
+}
+
+/* CARD */
 .card{
-  border: none;
-  border-radius: 18px;
-  background: #ffffff;
-  box-shadow: 0 15px 40px rgba(79,70,229,0.12);
+  border:none;
+  border-radius:18px;
+  background:#ffffff;
+  box-shadow:0 15px 40px rgba(79,70,229,0.12);
+  max-width:900px;
+  margin:auto;
 }
 
+/* CARD HEADER */
+.card-header{
+  background: linear-gradient(135deg,#6366f1,#7c3aed);
+  color:#ffffff;
+  font-size:18px;
+  font-weight:600;
+  padding:16px 24px;
+  border-radius:18px 18px 0 0;
+}
+
+/* CARD BODY */
 .card-body{
-  padding: 30px;
+  padding:30px;
 }
 
+/* FORM */
 .form-label{
-  font-weight: 500;
-  color: #1e1b4b;
+  font-weight:500;
+  color:#1e1b4b;
 }
 
 .form-control, .form-select{
-  border-radius: 12px;
-  padding: 10px 14px;
+  border-radius:12px;
+  padding:10px 14px;
 }
 
 .form-control:focus, .form-select:focus{
-  box-shadow: 0 0 0 0.15rem rgba(79,70,229,0.25);
-  border-color: #6366f1;
+  box-shadow:0 0 0 0.15rem rgba(79,70,229,0.25);
+  border-color:#6366f1;
 }
 
+/* BUTTONS */
 .btn-primary{
-  background: linear-gradient(135deg, #4f46e5, #6366f1);
-  border: none;
-  padding: 10px 24px;
-  border-radius: 999px;
+  background: linear-gradient(135deg,#4f46e5,#6366f1);
+  border:none;
+  padding:10px 24px;
+  border-radius:999px;
 }
 
 .btn-secondary{
-  border-radius: 999px;
+  border-radius:999px;
 }
 </style>
-<form>
-  <div class="row g-3">
+</head>
 
-    <div class="col-md-4">
-      <label class="form-label">Meeting Member ID</label>
-      <input type="text" class="form-control" value="Auto" disabled>
-    </div>
+<body>
 
-    <div class="col-md-4">
-      <label class="form-label">Is Present</label>
-      <select class="form-select">
-        <option>Present</option>
-        <option>Absent</option>
-      </select>
-    </div>
+<div class="container-fluid mt-4">
 
-    <div class="col-md-4">
-      <label class="form-label">Remarks</label>
-      <input type="text" class="form-control">
-    </div>
+<!-- PAGE TITLE -->
+<div class="mb-4">
+  <div class="page-title">Meeting Member</div>
+  <div class="page-subtitle">Add or update meeting member attendance</div>
+</div>
 
+<!-- CARD -->
+<div class="card">
+
+  <!-- CARD HEADER -->
+  <div class="card-header">
+    👤 Meeting Member Details
   </div>
 
-  <div class="mt-4 text-end">
-    <button class="btn btn-secondary">Cancel</button>
-    <button class="btn btn-primary">Save</button>
+  <!-- CARD BODY -->
+  <div class="card-body">
+
+    <form>
+
+      <div class="row g-3">
+
+        <!-- ID -->
+        <div class="col-md-4">
+          <label class="form-label">Meeting Member ID</label>
+          <input type="text" class="form-control" value="Auto" disabled>
+        </div>
+
+        <!-- STATUS -->
+        <div class="col-md-4">
+          <label class="form-label">Is Present</label>
+          <select class="form-select">
+            <option>Present</option>
+            <option>Absent</option>
+          </select>
+        </div>
+
+        <!-- REMARKS -->
+        <div class="col-md-4">
+          <label class="form-label">Remarks</label>
+          <input type="text" class="form-control" placeholder="Optional remarks">
+        </div>
+
+      </div>
+
+      <!-- ACTION BUTTONS -->
+      <div class="mt-4 text-end">
+        <a asp-controller="MeetingMember"
+           asp-action="MeetingMemberList"
+           class="btn btn-secondary">
+          Cancel
+        </a>
+
+        <button type="submit" class="btn btn-primary">
+          Save
+        </button>
+      </div>
+
+    </form>
+
   </div>
-</form>
+</div>
+
+</div>
+
+</body>
+</html>

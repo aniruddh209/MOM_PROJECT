@@ -1,0 +1,201 @@
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MOM System | Login</title>
+
+<style>
+/* ===== RESET ===== */
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* ===== BACKGROUND ===== */
+body{
+    min-height:100vh;
+    background: linear-gradient(180deg,#4f46e5,#4338ca);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+/* ===== TOP TITLE ===== */
+.top-title{
+    position:absolute;
+    top:30px;
+    width:100%;
+    text-align:center;
+    color:#fff;
+    font-weight:600;
+    letter-spacing:.5px;
+}
+
+/* ===== CARD ===== */
+.login-card{
+    width:420px;
+    background:#f5f7ff;
+    border-radius:18px;
+    box-shadow:0 30px 60px rgba(0,0,0,.25);
+    overflow:hidden;
+}
+
+/* ===== CARD HEADER ===== */
+.card-header{
+    padding:35px 30px 25px;
+    text-align:center;
+}
+
+.card-header h3{
+    font-size:18px;
+    margin-bottom:12px;
+}
+
+.card-header h2{
+    font-size:28px;
+    margin-bottom:10px;
+}
+
+.card-header p{
+    color:#555;
+    font-size:14px;
+}
+
+/* ===== FORM ===== */
+.card-body{
+    background:#fff;
+    padding:30px;
+}
+
+.form-group{
+    margin-bottom:18px;
+}
+
+.form-group label{
+    display:block;
+    margin-bottom:6px;
+    font-size:14px;
+    color:#4f46e5;
+}
+
+.form-group input{
+    width:100%;
+    padding:14px 16px;
+    border-radius:12px;
+    border:1px solid #ddd;
+    outline:none;
+    background:#eef2ff;
+    font-size:14px;
+}
+
+/* ===== OPTIONS ===== */
+.options{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin:15px 0 25px;
+    font-size:13px;
+}
+
+.options label{
+    display:flex;
+    align-items:center;
+    gap:6px;
+}
+
+.options a{
+    color:#4f46e5;
+    text-decoration:none;
+}
+
+/* ===== BUTTON ===== */
+button{
+    width:100%;
+    padding:15px;
+    border:none;
+    border-radius:14px;
+    font-size:16px;
+    font-weight:600;
+    color:#fff;
+    background:linear-gradient(90deg,#6366f1,#7c3aed);
+    cursor:pointer;
+}
+
+/* ===== FOOTER ===== */
+.card-footer{
+    background:#fff;
+    padding:20px;
+    text-align:center;
+    border-top:1px solid #eee;
+    font-size:14px;
+}
+
+.card-footer a{
+    color:#4f46e5;
+    text-decoration:none;
+    font-weight:600;
+}
+</style>
+</head>
+
+<body>
+
+<!-- TOP SYSTEM NAME -->
+<div class="top-title">
+    ☑ MOM System
+</div>
+
+<!-- LOGIN CARD -->
+<div class="login-card">
+
+    <!-- HEADER -->
+    <div class="card-header">
+        <h3>☑ MOM System</h3>
+        <h2>Welcome Back</h2>
+        <p>Sign in to access your meeting management dashboard</p>
+    </div>
+
+    <!-- FORM -->
+    <div class="card-body">
+        <!-- ✅ ONLY CHANGE IS HERE -->
+        <form asp-action="Index" asp-controller="Home" method="get">
+
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" value="shh">
+            </div>
+
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" value="******">
+            </div>
+
+            <div class="options">
+                <label>
+                    <input type="checkbox">
+                    Remember me
+                </label>
+                <a href="#">Forgot password?</a>
+            </div>
+
+            <button type="submit">⤴ Sign In</button>
+        </form>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="card-footer">
+        Don’t have an account?
+        <a href="@Url.Action("Register","Account")">Create an account</a>
+    </div>
+
+</div>
+
+</body>
+</html>

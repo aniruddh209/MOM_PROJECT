@@ -1,14 +1,11 @@
-﻿
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Components / Accordion - NiceAdmin Bootstrap Template</title>
-  <meta content="" name="description">
-  <meta content="" name="keywords">
+  <title>Minutes of Meeting</title>
 
   <!-- Favicons -->
   <link href="~/assets/img/favicon.png" rel="icon">
@@ -29,25 +26,21 @@
 
   <!-- Template Main CSS File -->
   <link href="~/assets/css/style.css" rel="stylesheet">
-
-  <!-- =======================================================
-  * Template Name: NiceAdmin
-  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
-  * Updated: Apr 20 2024 with Bootstrap v5.3.3
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
 </head>
 
 <body>
 
-  <!-- ======= Header ======= -->
+@{
+    string currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+}
+
+<!-- ======= Header ======= -->
   <header id="header" class="header fixed-top d-flex align-items-center">
 
     <div class="d-flex align-items-center justify-content-between">
-      <a asp-controller="Home" asp-action="index" class="logo d-flex align-items-center">
-        <img src="assets/img/logo.png" alt="">
-        <span class="d-none d-lg-block">Minutes of Meeting</span>
+      <a asp-action="index" asp-controller="Home" class="logo d-flex align-items-center">
+        <img src="~/assets/img/logo.png" alt="">
+        <span class="d-none d-lg-block">Minutes of Meetings</span>
       </a>
       <i class="bi bi-list toggle-sidebar-btn"></i>
     </div><!-- End Logo -->
@@ -212,13 +205,13 @@
         <li class="nav-item dropdown pe-3">
 
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-            <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
-            <span class="d-none d-md-block dropdown-toggle ps-2">K. Anderson</span>
+            <img src="~/assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
+            <span class="d-none d-md-block dropdown-toggle ps-2">Parmar Aniruddh</span>
           </a><!-- End Profile Iamge Icon -->
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
-              <h6>Kevin Anderson</h6>
+              <h6>Parmar Aniruddh</h6>
               <span>Web Designer</span>
             </li>
             <li>
@@ -268,107 +261,100 @@
       </ul>
     </nav><!-- End Icons Navigation -->
 
-  </header><!-- End Header -->
+  </header>
 
-  <!-- ======= Sidebar ======= -->
-  <aside id="sidebar" class="sidebar">
+<!-- ======= Sidebar ======= -->
+<aside id="sidebar" class="sidebar">
 
-    <ul class="sidebar-nav" id="sidebar-nav">
+  <ul class="sidebar-nav" id="sidebar-nav">
 
-      @* <li class="nav-item"> *@
-      @*   <a class="nav-link collapsed" href="index.html"> *@
-      @*     <i class="bi bi-grid"></i> *@
-      @*     <span>Dashboard</span> *@
-      @*   </a> *@
-      @* </li><!-- End Dashboard Nav --> *@
-      
-      <li class="nav-item">
-        <a class="nav-link " asp-controller="Home" asp-action="index">
-          <i class="bi bi-grid"></i>
-          <span>Dashboard</span>
-        </a>
-      </li>
-      <li class="nav-heading">Department</li>
-      <li class="nav-item">
-        <a class="nav-link " asp-controller="Department" asp-action="DepartmentList">
-          <i class="bi bi-file-earmark"></i>
-          <span>Department</span>
-        </a>
-      </li>
-      
-      <li class="nav-heading">Staff</li>
-      
-      <li class="nav-item">
-        <a class="nav-link " asp-controller="Staff" asp-action="StaffList">
-          <i class="bi bi-file-earmark"></i>
-          <span>Staff</span>
-        </a>
-      </li>
-      <li class="nav-heading">Meetings Details</li>
-        <li class="nav-item">
-          <a class="nav-link " asp-controller="MeetingType" asp-action="MeetingTypeList">
-            <i class="bi bi-file-earmark"></i>
-            <span>Meeting Type</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link " asp-controller="MeetingVenue" asp-action="MeetingVenueList">
-            <i class="bi bi-file-earmark"></i>
-            <span>Meeting Venue</span>
-          </a>
-        </li>
-        
-        <li class="nav-item">
-          <a class="nav-link " asp-controller="Meeting" asp-action="MeetingList">
-            <i class="bi bi-file-earmark"></i>
-            <span>Meeting</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link " asp-controller="MeetingMember" asp-action="MeetingMemberList">
-            <i class="bi bi-file-earmark"></i>
-            <span>MeetingMember</span>
-          </a>
-        </li>
-    </ul>
-  </aside><!-- End Sidebar-->
-  
-  <main id="main" class="main">
-    @RenderBody()
-  </main><!-- End #main -->
+    <li class="nav-item">
+      <a class="nav-link @(currentController == "Home" ? "active" : "collapsed")"
+         asp-controller="Home" asp-action="Index">
+        <i class="bi bi-grid"></i>
+        <span>Dashboard</span>
+      </a>
+    </li>
+   
 
-  <!-- ======= Footer ======= -->
-  <footer id="footer" class="footer mt-auto py-3">
-    <div class="container text-center text-md-start">
-      <div class="row align-items-center">
-      
-        <div class="col-md-6 text-muted">
-          © 2025 <strong>MOM System</strong>. All Rights Reserved
-        </div>
+    <li class="nav-heading">Department</li>
+    <li class="nav-item">
+      <a class="nav-link @(currentController == "Department" ? "active" : "collapsed")"
+         asp-controller="Department" asp-action="DepartmentList">
+        <i class="bi bi-file-earmark"></i>
+        <span>Department</span>
+      </a>
+    </li>
 
-        <div class="col-md-6 text-md-end">
-          Designed by <strong>Aniruddh Parmar</strong>
-        </div>
+    <li class="nav-heading">Staff</li>
+    <li class="nav-item">
+      <a class="nav-link @(currentController == "Staff" ? "active" : "collapsed")"
+         asp-controller="Staff" asp-action="StaffList">
+        <i class="bi bi-file-earmark"></i>
+        <span>Staff</span>
+      </a>
+    </li>
 
-      </div>
-    </div>
-  </footer>
+    <li class="nav-heading">Meetings Details</li>
 
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+    <li class="nav-item">
+      <a class="nav-link @(currentController == "MeetingType" ? "active" : "collapsed")"
+         asp-controller="MeetingType" asp-action="MeetingTypeList">
+        <i class="bi bi-file-earmark"></i>
+        <span>Meeting Type</span>
+      </a>
+    </li>
 
-  <!-- Vendor JS Files -->
-  <script src="~/assets/vendor/apexcharts/apexcharts.min.js"></script>
-  <script src="~/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="~/assets/vendor/chart.js/chart.umd.js"></script>
-  <script src="~/assets/vendor/echarts/echarts.min.js"></script>
-  <script src="~/assets/vendor/quill/quill.js"></script>
-  <script src="~/assets/vendor/simple-datatables/simple-datatables.js"></script>
-  <script src="~/assets/vendor/tinymce/tinymce.min.js"></script>
-  <script src="~/assets/vendor/php-email-form/validate.js"></script>
+    <li class="nav-item">
+      <a class="nav-link @(currentController == "MeetingVenue" ? "active" : "collapsed")"
+         asp-controller="MeetingVenue" asp-action="MeetingVenueList">
+        <i class="bi bi-file-earmark"></i>
+        <span>Meeting Venue</span>
+      </a>
+    </li>
 
-  <!-- Template Main JS File -->
-  <script src="~/assets/js/main.js"></script>
+    <li class="nav-item">
+      <a class="nav-link @(currentController == "Meeting" ? "active" : "collapsed")"
+         asp-controller="Meeting" asp-action="MeetingList">
+        <i class="bi bi-file-earmark"></i>
+        <span>Meeting</span>
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link @(currentController == "MeetingMember" ? "active" : "collapsed")"
+         asp-controller="MeetingMember" asp-action="MeetingMemberList">
+        <i class="bi bi-file-earmark"></i>
+        <span>MeetingMember</span>
+      </a>
+    </li>
+
+  </ul>
+
+</aside>
+
+<!-- ======= Main ======= -->
+<main id="main" class="main">
+  @RenderBody()
+</main>
+
+<!-- ======= Footer ======= -->
+<footer id="footer" class="footer">
+  <div class="container text-center">
+    © 2025 <strong>MOM System</strong> | Designed by <strong>Aniruddh Parmar</strong>
+  </div>
+</footer>
+
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center">
+  <i class="bi bi-arrow-up-short"></i>
+</a>
+
+<!-- Vendor JS Files -->
+<script src="~/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="~/assets/vendor/simple-datatables/simple-datatables.js"></script>
+
+<!-- Template Main JS File -->
+<script src="~/assets/js/main.js"></script>
 
 </body>
-
 </html>
