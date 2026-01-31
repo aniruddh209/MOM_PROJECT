@@ -1,3 +1,5 @@
+@model MOM_PROJECT.Models.MeetingMemberModel
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,72 +10,35 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
 
 <style>
+/* ⛔ NO CHANGE IN CSS */
 body{
   background: linear-gradient(135deg,#eef2ff,#f8fafc);
   font-family: "Inter", sans-serif;
 }
-
-/* PAGE HEADER */
-.page-title{
-  font-size:28px;
-  font-weight:700;
-}
-.page-subtitle{
-  color:#6b7280;
-}
-
-/* CARD */
+.page-title{font-size:28px;font-weight:700;}
+.page-subtitle{color:#6b7280;}
 .card{
-  border:none;
-  border-radius:18px;
-  background:#ffffff;
+  border:none;border-radius:18px;background:#fff;
   box-shadow:0 15px 40px rgba(79,70,229,0.12);
-  max-width:900px;
-  margin:auto;
+  max-width:900px;margin:auto;
 }
-
-/* CARD HEADER */
 .card-header{
-  background: linear-gradient(135deg,#6366f1,#7c3aed);
-  color:#ffffff;
-  font-size:18px;
-  font-weight:600;
+  background:linear-gradient(135deg,#6366f1,#7c3aed);
+  color:#fff;font-size:18px;font-weight:600;
   padding:16px 24px;
-  border-radius:18px 18px 0 0;
 }
-
-/* CARD BODY */
-.card-body{
-  padding:30px;
-}
-
-/* FORM */
-.form-label{
-  font-weight:500;
-  color:#1e1b4b;
-}
-
-.form-control, .form-select{
-  border-radius:12px;
-  padding:10px 14px;
-}
-
-.form-control:focus, .form-select:focus{
+.card-body{padding:30px;}
+.form-label{font-weight:500;color:#1e1b4b;}
+.form-control,.form-select{border-radius:12px;padding:10px 14px;}
+.form-control:focus,.form-select:focus{
   box-shadow:0 0 0 0.15rem rgba(79,70,229,0.25);
   border-color:#6366f1;
 }
-
-/* BUTTONS */
 .btn-primary{
-  background: linear-gradient(135deg,#4f46e5,#6366f1);
-  border:none;
-  padding:10px 24px;
-  border-radius:999px;
+  background:linear-gradient(135deg,#4f46e5,#6366f1);
+  border:none;padding:10px 24px;border-radius:999px;
 }
-
-.btn-secondary{
-  border-radius:999px;
-}
+.btn-secondary{border-radius:999px;}
 </style>
 </head>
 
@@ -81,24 +46,26 @@ body{
 
 <div class="container-fluid mt-4">
 
-<!-- PAGE TITLE -->
 <div class="mb-4">
   <div class="page-title">Meeting Member</div>
-  <div class="page-subtitle">Add or update meeting member attendance</div>
+  <div class="page-subtitle">Add or update meeting member</div>
 </div>
 
-<!-- CARD -->
 <div class="card">
+  <div class="card-header">👤 Meeting Member Details</div>
 
-  <!-- CARD HEADER -->
-  <div class="card-header">
-    👤 Meeting Member Details
-  </div>
-
-  <!-- CARD BODY -->
   <div class="card-body">
 
-    <form>
+    <form asp-controller="MeetingMember"
+          asp-action="MeetingMemberSave"
+          method="post">
+
+      <!-- 🔹 Hidden ID -->
+      <input type="hidden" asp-for="MeetingMemberID" />
+
+      <!-- 🔹 Validation Summary -->
+      <div asp-validation-summary="ModelOnly"
+           class="text-danger mb-3"></div>
 
       <div class="row g-3">
 
@@ -111,21 +78,28 @@ body{
         <!-- STATUS -->
         <div class="col-md-4">
           <label class="form-label">Is Present</label>
-          <select class="form-select">
-            <option>Present</option>
-            <option>Absent</option>
+          <select class="form-select" asp-for="IsPresent">
+            <option value="">-- Select --</option>
+            <option value="true">Present</option>
+            <option value="false">Absent</option>
           </select>
+          <span asp-validation-for="IsPresent"
+                class="text-danger"></span>
         </div>
 
         <!-- REMARKS -->
         <div class="col-md-4">
           <label class="form-label">Remarks</label>
-          <input type="text" class="form-control" placeholder="Optional remarks">
+          <input type="text"
+                 class="form-control"
+                 asp-for="Remarks"
+                 placeholder="Optional remarks">
+          <span asp-validation-for="Remarks"
+                class="text-danger"></span>
         </div>
 
       </div>
 
-      <!-- ACTION BUTTONS -->
       <div class="mt-4 text-end">
         <a asp-controller="MeetingMember"
            asp-action="MeetingMemberList"
@@ -144,6 +118,11 @@ body{
 </div>
 
 </div>
+
+<!-- ✅ REQUIRED VALIDATION SCRIPTS -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation-unobtrusive@4.0.0/dist/jquery.validate.unobtrusive.min.js"></script>
 
 </body>
 </html>

@@ -1,8 +1,10 @@
+@model MOM_PROJECT.Models.MeetingTypeModel
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<title>Edit Meeting Type</title>
+<title>Add / Edit Meeting Type</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
@@ -12,66 +14,31 @@ body{
   background: linear-gradient(135deg, #eef2ff, #f8fafc);
   font-family: "Inter", sans-serif;
 }
-
-/* PAGE HEADER */
-.page-title{
-  font-size:28px;
-  font-weight:700;
-}
-.page-subtitle{
-  color:#6b7280;
-}
-
-/* CARD */
+.page-title{font-size:28px;font-weight:700;}
+.page-subtitle{color:#6b7280;}
 .card{
-  border: none;
-  border-radius: 18px;
-  background: #ffffff;
-  box-shadow: 0 15px 40px rgba(79,70,229,0.12);
-  max-width:900px;
-  margin:auto;
+  border:none;border-radius:18px;
+  box-shadow:0 15px 40px rgba(79,70,229,0.12);
+  max-width:900px;margin:auto;
 }
-
 .card-header{
-  background: linear-gradient(135deg, #6366f1, #7c3aed);
-  color:#fff;
-  font-size:18px;
-  font-weight:600;
+  background:linear-gradient(135deg,#6366f1,#7c3aed);
+  color:#fff;font-weight:600;
   padding:16px 24px;
-  border-radius:18px 18px 0 0;
 }
-
-.card-body{
-  padding: 30px;
-}
-
-/* FORM */
-.form-label{
-  font-weight: 500;
-  color: #1e1b4b;
-}
-
-.form-control{
-  border-radius: 12px;
-  padding: 12px 14px;
-}
-
+.card-body{padding:30px;}
+.form-label{font-weight:500;color:#1e1b4b;}
+.form-control{border-radius:12px;padding:12px 14px;}
 .form-control:focus{
-  box-shadow: 0 0 0 0.15rem rgba(79,70,229,0.25);
-  border-color: #6366f1;
+  box-shadow:0 0 0 0.15rem rgba(79,70,229,0.25);
+  border-color:#6366f1;
 }
-
-/* BUTTONS */
 .btn-primary{
-  background: linear-gradient(135deg, #4f46e5, #6366f1);
-  border: none;
-  padding: 10px 24px;
-  border-radius: 999px;
+  background:linear-gradient(135deg,#4f46e5,#6366f1);
+  border:none;border-radius:999px;
+  padding:10px 24px;
 }
-
-.btn-secondary{
-  border-radius: 999px;
-}
+.btn-secondary{border-radius:999px;}
 </style>
 </head>
 
@@ -79,70 +46,87 @@ body{
 
 <div class="container-fluid mt-4">
 
-<!-- PAGE TITLE -->
-<div class="mb-4">
-  <div class="page-title">Edit Meeting Type</div>
-  <div class="page-subtitle">Update existing meeting type</div>
-</div>
-
-<!-- CARD -->
-<div class="card">
-
-  <!-- CARD HEADER -->
-  <div class="card-header">
-    ✏️ Edit Meeting Type
+  <!-- PAGE TITLE -->
+  <div class="mb-4">
+    <div class="page-title">Meeting Type</div>
+    <div class="page-subtitle">Add or update meeting type</div>
   </div>
 
-  <!-- CARD BODY -->
-  <div class="card-body">
+  <!-- CARD -->
+  <div class="card">
+    <div class="card-header">✏️ Meeting Type Details</div>
 
-    <form>
+    <div class="card-body">
 
-      <div class="row g-3">
+      <!-- ✅ FORM START -->
+      <form asp-controller="MeetingType"
+            asp-action="MeetingTypeSave"
+            method="post">
 
-        <!-- ID -->
-        <div class="col-md-4">
-          <label class="form-label">Meeting Type ID</label>
-          <input type="text" class="form-control" value="Auto" disabled>
+        <!-- Hidden ID -->
+        <input type="hidden" asp-for="MeetingTypeID" />
+
+        <!-- Validation Summary -->
+        <div asp-validation-summary="ModelOnly"
+             class="text-danger mb-3"></div>
+
+        <div class="row g-3">
+
+          <!-- ID -->
+          <div class="col-md-4">
+            <label class="form-label">Meeting Type ID</label>
+            <input class="form-control" value="Auto" disabled />
+          </div>
+
+          <!-- NAME -->
+          <div class="col-md-4">
+            <label class="form-label">Meeting Type Name</label>
+            <input asp-for="MeetingTypeName"
+                   class="form-control" />
+            <span asp-validation-for="MeetingTypeName"
+                  class="text-danger"></span>
+            <small class="text-muted">
+              e.g., Review Meeting, Planning Session, Training
+            </small>
+          </div>
+
+          <!-- REMARKS -->
+          <div class="col-md-4">
+            <label class="form-label">Remarks</label>
+            <input asp-for="Remarks"
+                   class="form-control" />
+            <span asp-validation-for="Remarks"
+                  class="text-danger"></span>
+          </div>
+
         </div>
 
-        <!-- NAME -->
-        <div class="col-md-4">
-          <label class="form-label">Meeting Type Name</label>
-          <input type="text" class="form-control" value="Board Meeting">
-          <small class="text-muted">
-            e.g., Review Meeting, Planning Session, Training
-          </small>
+        <!-- ACTION BUTTONS -->
+        <div class="mt-4 text-end">
+          <a asp-controller="MeetingType"
+             asp-action="MeetingTypeList"
+             class="btn btn-secondary">
+            ← Back to List
+          </a>
+
+          <button type="submit"
+                  class="btn btn-primary ms-2">
+            ✔ Save Meeting Type
+          </button>
         </div>
 
-        <!-- REMARKS -->
-        <div class="col-md-4">
-          <label class="form-label">Remarks</label>
-          <input type="text" class="form-control"
-                 value="Board of directors and governance meeting">
-        </div>
+      </form>
+      <!-- ✅ FORM END -->
 
-      </div>
-
-      <!-- ACTION BUTTONS -->
-      <div class="mt-4 text-end">
-        <a asp-controller="MeetingType"
-           asp-action="MeetingTypeList"
-           class="btn btn-secondary">
-          ← Back to List
-        </a>
-
-        <button type="submit" class="btn btn-primary">
-          ✔ Update Meeting Type
-        </button>
-      </div>
-
-    </form>
-
+    </div>
   </div>
-</div>
 
 </div>
+
+<!-- VALIDATION SCRIPTS -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation-unobtrusive@4.0.0/dist/jquery.validate.unobtrusive.min.js"></script>
 
 </body>
 </html>

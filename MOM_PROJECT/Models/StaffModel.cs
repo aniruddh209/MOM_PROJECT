@@ -1,12 +1,25 @@
-namespace MOM_PROJECT.Models;
+using System.ComponentModel.DataAnnotations;
 
-public class StaffModel
+namespace MOM_PROJECT.Models
 {
-    public int StaffID {get; set;}
-    public int DepartmentID  {get; set;}
-    public string MobileNo  {get; set;}
-    public string EmailAddress  {get; set;}
-    public string? Remarks  {get; set;}
-    public DateTime Created {get; set;}
-    public DateTime Modified {get; set;}
+    public class StaffModel
+    {
+        public int StaffID { get; set; }
+
+        [Required(ErrorMessage = "Staff name is required")]
+        [StringLength(100, ErrorMessage = "Maximum 100 characters allowed")]
+        public string StaffName { get; set; }
+
+        [Required(ErrorMessage = "Mobile number is required")]
+        [RegularExpression(@"^[6-9]\d{9}$",
+            ErrorMessage = "Enter valid 10-digit mobile number")]
+        public string MobileNumber { get; set; }
+
+        [Required(ErrorMessage = "Email address is required")]
+        [EmailAddress(ErrorMessage = "Enter valid email address")]
+        public string Email { get; set; }
+
+        [StringLength(200, ErrorMessage = "Maximum 200 characters allowed")]
+        public string Remarks { get; set; }
+    }
 }
