@@ -164,4 +164,8 @@
       <TypeScriptCompile Include="wwwroot\assets\vendor\tinymce\tinymce.d.ts" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Microsoft.Data.SqlClient" Version="7.0.0-preview3.25342.7" />
+    </ItemGroup>
+
 </Project>

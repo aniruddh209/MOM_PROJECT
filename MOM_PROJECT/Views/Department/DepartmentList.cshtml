@@ -1,3 +1,4 @@
+@model List<MOM_PROJECT.Models.DepartmentModel>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -123,7 +124,7 @@
 
         <div class="d-flex justify-content-between align-items-center mb-3">
           <h5 class="mb-0">MOM – Department List</h5>
-          <a asp-action="DepartmentAddEdit" asp-controller="Department" class="btn btn-primary rounded-pill px-4">+ Add
+          <a asp-action="DepartmentAddEdit" asp-controller="Department" class="btn btn-primary rounded-pill px-4 #6f42c1">+ Add
             Department</a>
         </div>
 
@@ -136,99 +137,38 @@
           </thead>
 
           <tbody>
-
+          @if (Model != null && Model.Count > 0)
+          {
+            @foreach (var items in Model)
+            {
+              <tr>
+                <td>@items.DepartmentName</td>
+                <td>
+                  <div class="action-btns">
+                    <a asp-action="DepartmentAddEdit" asp-controller="Department"
+                       class="btn btn-sm btn-outline-primary rounded-pill" asp-action="DepartmentAddEdit"
+                       asp-controller="Department">Edit</a>
+                    <a class="btn btn-sm btn-outline-danger rounded-pill"
+                       onclick="return confirm('Delete this department?');">Delete</a>
+                  </div>
+                </td>
+              </tr>
+            }
+          }
+          else
+          {
             <tr>
-              <td>Information Technology</td>
-              <td>
-                <div class="action-btns">
-                  <a asp-action="DepartmentAddEdit" asp-controller="Department"
-                    class="btn btn-sm btn-outline-primary rounded-pill" asp-action="DepartmentAddEdit"
-                    asp-controller="Department">Edit</a>
-                  <a class="btn btn-sm btn-outline-danger rounded-pill"
-                    onclick="return confirm('Delete this department?');">Delete</a>
-                </div>
+              <td colspan="5" class="text-center text-muted">
+                No records found
               </td>
             </tr>
-
-            <tr>
-              <td>Human Resources</td>
-              <td>
-                <div class="action-btns"><a asp-action="DepartmentAddEdit" asp-controller="Department"
-                    class="btn btn-sm btn-outline-primary rounded-pill">Edit</a><a
-                    class="btn btn-sm btn-outline-danger rounded-pill">Delete</a></div>
-              </td>
-            </tr>
-            <tr>
-              <td>Finance</td>
-              <td>
-                <div class="action-btns"><a a asp-action="DepartmentAddEdit" asp-controller="Department"
-                    class="btn btn-sm btn-outline-primary rounded-pill">Edit</a><a
-                    class="btn btn-sm btn-outline-danger rounded-pill">Delete</a></div>
-              </td>
-            </tr>
-            <tr>
-              <td>Marketing</td>
-              <td>
-                <div class="action-btns"><a asp-action="DepartmentAddEdit" asp-controller="Department"
-                    class="btn btn-sm btn-outline-primary rounded-pill">Edit</a><a
-                    class="btn btn-sm btn-outline-danger rounded-pill">Delete</a></div>
-              </td>
-            </tr>
-            <tr>
-              <td>Sales</td>
-              <td>
-                <div class="action-btns"><a asp-action="DepartmentAddEdit" asp-controller="Department"
-                    class="btn btn-sm btn-outline-primary rounded-pill">Edit</a><a
-                    class="btn btn-sm btn-outline-danger rounded-pill">Delete</a></div>
-              </td>
-            </tr>
-            <tr>
-              <td>Operations</td>
-              <td>
-                <div class="action-btns"><a asp-action="DepartmentAddEdit" asp-controller="Department"
-                    class="btn btn-sm btn-outline-primary rounded-pill">Edit</a><a
-                    class="btn btn-sm btn-outline-danger rounded-pill">Delete</a></div>
-              </td>
-            </tr>
-            <tr>
-              <td>Customer Support</td>
-              <td>
-                <div class="action-btns"><a asp-action="DepartmentAddEdit" asp-controller="Department"
-                    class="btn btn-sm btn-outline-primary rounded-pill">Edit</a><a
-                    class="btn btn-sm btn-outline-danger rounded-pill">Delete</a></div>
-              </td>
-            </tr>
-            <tr>
-              <td>Research & Development</td>
-              <td>
-                <div class="action-btns"><a asp-action="DepartmentAddEdit" asp-controller="Department"
-                    class="btn btn-sm btn-outline-primary rounded-pill">Edit</a><a
-                    class="btn btn-sm btn-outline-danger rounded-pill">Delete</a></div>
-              </td>
-            </tr>
-            <tr>
-              <td>Quality Assurance</td>
-              <td>
-                <div class="action-btns"><a asp-action="DepartmentAddEdit" asp-controller="Department"
-                    class="btn btn-sm btn-outline-primary rounded-pill">Edit</a><a
-                    class="btn btn-sm btn-outline-danger rounded-pill">Delete</a></div>
-              </td>
-            </tr>
-            <tr>
-              <td>Administration</td>
-              <td>
-                <div class="action-btns"><a asp-action="DepartmentAddEdit" asp-controller="Department"
-                    class="btn btn-sm btn-outline-primary rounded-pill">Edit</a><a
-                    class="btn btn-sm btn-outline-danger rounded-pill">Delete</a></div>
-              </td>
-            </tr>
-
+          }
           </tbody>
         </table>
 
       </div>
     </div>
-  </div>
+  </div> 
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest"></script>
