@@ -1,3 +1,5 @@
+@model MOM_PROJECT.Models.StaffModel
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,7 +15,6 @@ body{
   font-family: "Inter", sans-serif;
 }
 
-/* PAGE HEADER */
 .page-title{
   font-size:28px;
   font-weight:700;
@@ -22,7 +23,6 @@ body{
   color:#6b7280;
 }
 
-/* CARD */
 .card{
   border:none;
   border-radius:18px;
@@ -32,7 +32,6 @@ body{
   margin:auto;
 }
 
-/* CARD HEADER */
 .card-header{
   background: linear-gradient(135deg,#6366f1,#7c3aed);
   color:#ffffff;
@@ -42,12 +41,10 @@ body{
   border-radius:18px 18px 0 0;
 }
 
-/* CARD BODY */
 .card-body{
   padding:30px;
 }
 
-/* FORM */
 .form-label{
   font-weight:500;
   color:#1e1b4b;
@@ -63,7 +60,6 @@ body{
   border-color:#6366f1;
 }
 
-/* BUTTONS */
 .btn-primary{
   background: linear-gradient(135deg,#4f46e5,#6366f1);
   border:none;
@@ -81,55 +77,54 @@ body{
 
 <div class="container-fluid mt-4">
 
-  <!-- PAGE HEADER -->
   <div class="mb-4">
     <div class="page-title">Staff Details</div>
     <div class="page-subtitle">Add or update staff information</div>
   </div>
 
-  <!-- CARD -->
   <div class="card">
 
-    <!-- CARD HEADER -->
     <div class="card-header">
       👤 Staff Information
     </div>
 
-    <!-- CARD BODY -->
     <div class="card-body">
 
-      <form>
+      <form asp-action="MeetingSave" asp-controller="Staff" method="post">
 
         <div class="row g-3">
 
           <div class="col-md-4">
             <label class="form-label">Staff ID</label>
-            <input type="text" class="form-control" value="Auto" disabled>
+            <input asp-for="StaffID" class="form-control" disabled />
           </div>
 
           <div class="col-md-4">
             <label class="form-label">Staff Name</label>
-            <input type="text" class="form-control">
+            <input asp-for="StaffName" class="form-control" />
+            <span asp-validation-for="StaffName" class="text-danger"></span>
           </div>
 
           <div class="col-md-4">
             <label class="form-label">Mobile Number</label>
-            <input type="text" class="form-control">
+            <input asp-for="MobileNo" class="form-control" />
+            <span asp-validation-for="MobileNo" class="text-danger"></span>
           </div>
 
           <div class="col-md-6">
             <label class="form-label">Email Address</label>
-            <input type="email" class="form-control">
+            <input asp-for="EmailAddress" class="form-control" />
+            <span asp-validation-for="EmailAddress" class="text-danger"></span>
           </div>
 
           <div class="col-md-6">
             <label class="form-label">Remarks</label>
-            <input type="text" class="form-control">
+            <input asp-for="Remarks" class="form-control" />
+            <span asp-validation-for="Remarks" class="text-danger"></span>
           </div>
 
         </div>
 
-        <!-- ACTION BUTTONS -->
         <div class="mt-4 text-end">
           <a asp-controller="Staff"
              asp-action="StaffList"
@@ -148,6 +143,11 @@ body{
   </div>
 
 </div>
+
+<!-- Validation Scripts -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation-unobtrusive@3.2.12/dist/jquery.validate.unobtrusive.min.js"></script>
 
 </body>
 </html>

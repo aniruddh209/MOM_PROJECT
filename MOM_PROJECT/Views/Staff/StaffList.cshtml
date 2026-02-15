@@ -68,7 +68,7 @@ class="btn btn-primary rounded-pill px-4">+ Add Staff</a>
             <td>@item.StaffName</td>
             <td>@item.MobileNo</td>
             <td>@item.EmailAddress</td>
-            <td>@item.Remarks</td>
+            <td>@(string.IsNullOrEmpty(item.Remarks) ? "-" : item.Remarks)</td>
             <td>
                 <div class="action-btns">
                     <a asp-action="StaffAddEdit" asp-controller="Staff"

@@ -1,3 +1,4 @@
+@model List<MOM_PROJECT.Models.MeetingModel>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -187,219 +188,63 @@
           </thead>
 
           <tbody>
-            <tr>
-              <td>Project Kickoff Meeting</td>
-              <td>/docs/kickoff.pdf</td>
-              <td><span class="badge-active">No</span></td>
-              <td>-</td>
-              <td>-</td>
-              <td>
-                <div class="action-btns">
-                  <a asp-action="MeetingAddEdit" asp-controller="Meeting"
-                    class="btn btn-sm btn-outline-primary rounded-pill">Edit</a>
-                  <a class="btn btn-sm btn-outline-danger rounded-pill"
-                    onclick="return confirm('Delete this meeting?');">Delete</a>
-                </div>
-              </td>
-            </tr>
+          @if (Model != null && Model.Count > 0)
+          {
+            foreach (var item in Model)
+            {
+              <tr>
+                <td>@(string.IsNullOrEmpty(item.MeetingDescription) ? "-" : item.MeetingDescription)</td>
 
-            <tr>
-              <td>Requirement Discussion</td>
-              <td>/docs/req.pdf</td>
-              <td><span class="badge-canceled">Yes</span></td>
-              <td>2024-03-10 11:30</td>
-              <td>Client unavailable</td>
-              <td>
-                <div class="action-btns">
-                  <a asp-action="MeetingAddEdit" asp-controller="Meeting"
-                     class="btn btn-sm btn-outline-primary rounded-pill">Edit</a>
-                  <a class="btn btn-sm btn-outline-danger rounded-pill">Delete</a>
-                </div>
-              </td>
-            </tr>
+                <td>
+                  @(string.IsNullOrEmpty(item.DocumentPath) ? "-" : item.DocumentPath)
+                </td>
 
+                <td>
+                  @if (item.IsCancelled == true)
+                  {
+                    <span class="badge-canceled">Yes</span>
+                  }
+                  else
+                  {
+                    <span class="badge-active">No</span>
+                  }
+                </td>
+
+                <td>
+                  @(item.CancellationDateTime.HasValue 
+                    ? item.CancellationDateTime.Value.ToString("dd/MM/yyyy hh:mm tt") 
+                    : "-")
+                </td>
+
+                <td>
+                  @(string.IsNullOrEmpty(item.CancellationReason) ? "-" : item.CancellationReason)
+                </td>
+
+                <td>
+                  <div class="action-btns">
+                    <a asp-action="MeetingAddEdit"
+                       asp-controller="Meeting"
+                       class="btn btn-sm btn-outline-primary rounded-pill">
+                      Edit
+                    </a>
+
+                    <a class="btn btn-sm btn-outline-danger rounded-pill"
+                       onclick="return confirm('Delete this meeting?');">
+                      Delete
+                    </a>
+                  </div>
+                </td>
+              </tr>
+            }
+          }
+          else
+          {
             <tr>
-              <td>Design Review</td>
-              <td>/docs/design.pdf</td>
-              <td><span class="badge-active">No</span></td>
-              <td>-</td>
-              <td>-</td>
-              <td>
-                <div class="action-btns">
-                  <a asp-action="MeetingAddEdit" asp-controller="Meeting"
-                    class="btn btn-sm btn-outline-primary rounded-pill">Edit</a><a
-                    class="btn btn-sm btn-outline-danger rounded-pill">Delete</a>
-                </div>
+              <td colspan="6" class="text-center text-muted">
+                No records found
               </td>
             </tr>
-            <tr>
-              <td>Development Planning</td>
-              <td>/docs/dev-plan.pdf</td>
-              <td><span class="badge-active">No</span></td>
-              <td>-</td>
-              <td>-</td>
-              <td>
-                <div class="action-btns">
-                  <a asp-action="MeetingAddEdit" asp-controller="Meeting"
-                    class="btn btn-sm btn-outline-primary rounded-pill">Edit</a><a
-                    class="btn btn-sm btn-outline-danger rounded-pill">Delete</a>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>Testing Strategy</td>
-              <td>/docs/testing.pdf</td>
-              <td><span class="badge-canceled">Yes</span></td>
-              <td>2024-03-15 14:00</td>
-              <td>Resource issue</td>
-              <td>
-                <div class="action-btns">
-                  <a asp-action="MeetingAddEdit" asp-controller="Meeting"
-                    class="btn btn-sm btn-outline-primary rounded-pill">Edit</a><a
-                    class="btn btn-sm btn-outline-danger rounded-pill">Delete</a>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>Client Feedback</td>
-              <td>/docs/feedback.pdf</td>
-              <td><span class="badge-active">No</span></td>
-              <td>-</td>
-              <td>-</td>
-              <td>
-                <div class="action-btns">
-                  <a asp-action="MeetingAddEdit" asp-controller="Meeting"
-                    class="btn btn-sm btn-outline-primary rounded-pill">Edit</a><a
-                    class="btn btn-sm btn-outline-danger rounded-pill">Delete</a>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>Sprint Review</td>
-              <td>/docs/sprint.pdf</td>
-              <td><span class="badge-active">No</span></td>
-              <td>-</td>
-              <td>-</td>
-              <td>
-                <div class="action-btns">
-                  <a asp-action="MeetingAddEdit" asp-controller="Meeting"
-                    class="btn btn-sm btn-outline-primary rounded-pill">Edit</a><a
-                    class="btn btn-sm btn-outline-danger rounded-pill">Delete</a>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>Deployment Planning</td>
-              <td>/docs/deploy.pdf</td>
-              <td><span class="badge-canceled">Yes</span></td>
-              <td>2024-03-18 16:45</td>
-              <td>Server downtime</td>
-              <td>
-                <div class="action-btns">
-                  <a asp-action="MeetingAddEdit" asp-controller="Meeting"
-                    class="btn btn-sm btn-outline-primary rounded-pill">Edit</a><a
-                    class="btn btn-sm btn-outline-danger rounded-pill">Delete</a>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>Security Review</td>
-              <td>/docs/security.pdf</td>
-              <td><span class="badge-active">No</span></td>
-              <td>-</td>
-              <td>-</td>
-              <td>
-                <div class="action-btns">
-                  <a asp-action="MeetingAddEdit" asp-controller="Meeting"
-                    class="btn btn-sm btn-outline-primary rounded-pill">Edit</a><a
-                    class="btn btn-sm btn-outline-danger rounded-pill">Delete</a>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>Final Presentation</td>
-              <td>/docs/final.pdf</td>
-              <td><span class="badge-active">No</span></td>
-              <td>-</td>
-              <td>-</td>
-              <td>
-                <div class="action-btns">
-                  <a asp-action="MeetingAddEdit" asp-controller="Meeting"
-                    class="btn btn-sm btn-outline-primary rounded-pill">Edit</a><a
-                    class="btn btn-sm btn-outline-danger rounded-pill">Delete</a>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>Post-Project Review</td>
-              <td>/docs/post.pdf</td>
-              <td><span class="badge-canceled">Yes</span></td>
-              <td>2024-03-22 10:00</td>
-              <td>Stakeholder busy</td>
-              <td>
-                <div class="action-btns">
-                  <a asp-action="MeetingAddEdit" asp-controller="Meeting"
-                    class="btn btn-sm btn-outline-primary rounded-pill">Edit</a><a
-                    class="btn btn-sm btn-outline-danger rounded-pill">Delete</a>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>Team Retrospective</td>
-              <td>/docs/retro.pdf</td>
-              <td><span class="badge-active">No</span></td>
-              <td>-</td>
-              <td>-</td>
-              <td>
-                <div class="action-btns">
-                  <a asp-action="MeetingAddEdit" asp-controller="Meeting"
-                    class="btn btn-sm btn-outline-primary rounded-pill">Edit</a><a
-                    class="btn btn-sm btn-outline-danger rounded-pill">Delete</a>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>Budget Review</td>
-              <td>/docs/budget.pdf</td>
-              <td><span class="badge-active">No</span></td>
-              <td>-</td>
-              <td>-</td>
-              <td>
-                <div class="action-btns">
-                  <a asp-action="MeetingAddEdit" asp-controller="Meeting"
-                    class="btn btn-sm btn-outline-primary rounded-pill">Edit</a><a
-                    class="btn btn-sm btn-outline-danger rounded-pill">Delete</a>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>Training Session</td>
-              <td>/docs/training.pdf</td>
-              <td><span class="badge-active">No</span></td>
-              <td>-</td>
-              <td>-</td>
-              <td>
-                <div class="action-btns">
-                  <a asp-action="MeetingAddEdit" asp-controller="Meeting"
-                    class="btn btn-sm btn-outline-primary rounded-pill">Edit</a><a
-                    class="btn btn-sm btn-outline-danger rounded-pill">Delete</a>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>Closure Meeting</td>
-              <td>/docs/closure.pdf</td>
-              <td><span class="badge-active">No</span></td>
-              <td>-</td>
-              <td>-</td>
-              <td>
-                <div class="action-btns">
-                  <a asp-action="MeetingAddEdit" asp-controller="Meeting"
-                    class="btn btn-sm btn-outline-primary rounded-pill">Edit</a><a
-                    class="btn btn-sm btn-outline-danger rounded-pill">Delete</a>
-                </div>
-              </td>
-            </tr>
+          }
           </tbody>
         </table>
       </div>

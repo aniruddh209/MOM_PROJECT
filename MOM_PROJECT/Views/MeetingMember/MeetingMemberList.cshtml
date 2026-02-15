@@ -1,3 +1,4 @@
+@model List<MOM_PROJECT.Models.MeetingMemberModel>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -160,188 +161,57 @@
         </thead>
 
         <tbody>
-        <tr>
-          <td>1</td>
-          <td><span class="badge-present">Present</span></td>
-          <td>Participated actively</td>
-          <td>
-            <div class="action-btns">
-              <a asp-action="MeetingMemberAddEdit" asp-controller="MeetingMember"
-                 class="btn btn-sm btn-outline-primary rounded-pill">Edit</a>
-              <a class="btn btn-sm btn-outline-danger rounded-pill"
-                 onclick="return confirm('Delete this member?');">Delete</a>
-            </div>
-          </td>
-        </tr>
 
-        <tr>
-          <td>2</td>
-          <td><span class="badge-absent">Absent</span></td>
-          <td>On leave</td>
-          <td>
-            <div class="action-btns">
-              <a asp-action="MeetingMemberAddEdit" asp-controller="MeetingMember"
-                 class="btn btn-sm btn-outline-primary rounded-pill">Edit</a><a
-                                                                               class="btn btn-sm btn-outline-danger rounded-pill" onclick="return confirm('Delete?')">Delete</a>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>3</td>
-          <td><span class="badge-present">Present</span></td>
-          <td>Shared updates</td>
-          <td>
-            <div class="action-btns">
-              <a asp-action="MeetingMemberAddEdit" asp-controller="MeetingMember"
-                 class="btn btn-sm btn-outline-primary rounded-pill">Edit</a><a
-                                                                               class="btn btn-sm btn-outline-danger rounded-pill" onclick="return confirm('Delete?')">Delete</a>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>4</td>
-          <td><span class="badge-present">Present</span></td>
-          <td>Handled queries</td>
-          <td>
-            <div class="action-btns">
-              <a asp-action="MeetingMemberAddEdit" asp-controller="MeetingMember"
-                 class="btn btn-sm btn-outline-primary rounded-pill">Edit</a><a
-                                                                               class="btn btn-sm btn-outline-danger rounded-pill" onclick="return confirm('Delete?')">Delete</a>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>5</td>
-          <td><span class="badge-absent">Absent</span></td>
-          <td>Medical reason</td>
-          <td>
-            <div class="action-btns">
-              <a asp-action="MeetingMemberAddEdit" asp-controller="MeetingMember"
-                 class="btn btn-sm btn-outline-primary rounded-pill">Edit</a><a
-                                                                               class="btn btn-sm btn-outline-danger rounded-pill" onclick="return confirm('Delete?')">Delete</a>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>6</td>
-          <td><span class="badge-present">Present</span></td>
-          <td>Gave presentation</td>
-          <td>
-            <div class="action-btns">
-              <a asp-action="MeetingMemberAddEdit" asp-controller="MeetingMember"
-                 class="btn btn-sm btn-outline-primary rounded-pill">Edit</a><a
-                                                                               class="btn btn-sm btn-outline-danger rounded-pill" onclick="return confirm('Delete?')">Delete</a>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>7</td>
-          <td><span class="badge-present">Present</span></td>
-          <td>Note taking</td>
-          <td>
-            <div class="action-btns">
-              <a asp-action="MeetingMemberAddEdit" asp-controller="MeetingMember"
-                 class="btn btn-sm btn-outline-primary rounded-pill">Edit</a><a
-                                                                               class="btn btn-sm btn-outline-danger rounded-pill" onclick="return confirm('Delete?')">Delete</a>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>8</td>
-          <td><span class="badge-absent">Absent</span></td>
-          <td>Out of station</td>
-          <td>
-            <div class="action-btns">
-              <a asp-action="MeetingMemberAddEdit" asp-controller="MeetingMember"
-                 class="btn btn-sm btn-outline-primary rounded-pill">Edit</a><a
-                                                                               class="btn btn-sm btn-outline-danger rounded-pill" onclick="return confirm('Delete?')">Delete</a>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>9</td>
-          <td><span class="badge-present">Present</span></td>
-          <td>Reviewed MOM</td>
-          <td>
-            <div class="action-btns">
-              <a asp-action="MeetingMemberAddEdit" asp-controller="MeetingMember"
-                 class="btn btn-sm btn-outline-primary rounded-pill">Edit</a><a
-                                                                               class="btn btn-sm btn-outline-danger rounded-pill" onclick="return confirm('Delete?')">Delete</a>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>10</td>
-          <td><span class="badge-present">Present</span></td>
-          <td>Decision making</td>
-          <td>
-            <div class="action-btns">
-              <a asp-action="MeetingMemberAddEdit" asp-controller="MeetingMember"
-                 class="btn btn-sm btn-outline-primary rounded-pill">Edit</a><a
-                                                                               class="btn btn-sm btn-outline-danger rounded-pill" onclick="return confirm('Delete?')">Delete</a>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>11</td>
-          <td><span class="badge-absent">Absent</span></td>
-          <td>No response</td>
-          <td>
-            <div class="action-btns">
-              <a asp-action="MeetingMemberAddEdit" asp-controller="MeetingMember"
-                 class="btn btn-sm btn-outline-primary rounded-pill">Edit</a><a
-                                                                               class="btn btn-sm btn-outline-danger rounded-pill" onclick="return confirm('Delete?')">Delete</a>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>12</td>
-          <td><span class="badge-present">Present</span></td>
-          <td>Technical support</td>
-          <td>
-            <div class="action-btns">
-              <a asp-action="MeetingMemberAddEdit" asp-controller="MeetingMember"
-                 class="btn btn-sm btn-outline-primary rounded-pill">Edit</a><a
-                                                                               class="btn btn-sm btn-outline-danger rounded-pill" onclick="return confirm('Delete?')">Delete</a>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>13</td>
-          <td><span class="badge-present">Present</span></td>
-          <td>Planning discussion</td>
-          <td>
-            <div class="action-btns">
-              <a asp-action="MeetingMemberAddEdit" asp-controller="MeetingMember"
-                 class="btn btn-sm btn-outline-primary rounded-pill">Edit</a><a
-                                                                               class="btn btn-sm btn-outline-danger rounded-pill" onclick="return confirm('Delete?')">Delete</a>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>14</td>
-          <td><span class="badge-absent">Absent</span></td>
-          <td>Personal work</td>
-          <td>
-            <div class="action-btns">
-              <a asp-action="MeetingMemberAddEdit" asp-controller="MeetingMember"
-                 class="btn btn-sm btn-outline-primary rounded-pill">Edit</a><a
-                                                                               class="btn btn-sm btn-outline-danger rounded-pill" onclick="return confirm('Delete?')">Delete</a>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>15</td>
-          <td><span class="badge-present">Present</span></td>
-          <td>Follow-up tasks</td>
-          <td>
-            <div class="action-btns">
-              <a asp-action="MeetingMemberAddEdit" asp-controller="MeetingMember"
-                 class="btn btn-sm btn-outline-primary rounded-pill">Edit</a><a
-                                                                               class="btn btn-sm btn-outline-danger rounded-pill" onclick="return confirm('Delete?')">Delete</a>
-            </div>
-          </td>
-        </tr>
+        @if (Model != null && Model.Count > 0)
+        {
+          foreach (var item in Model)
+          {
+            <tr>
+              <td>
+               @item.MeetingMemberID
+              </td>
+
+              <td>
+                @if (item.IsPresent == true)
+                {
+                  <span class="badge-present">Yes</span>
+                }
+                else
+                {
+                  <span class="badge-absent">No</span>
+                }
+              </td>
+
+              <td>
+                @(string.IsNullOrEmpty(item.Remarks) ? "-" : item.Remarks)
+              </td>
+
+              <td>
+                <div class="action-btns">
+                  <a asp-action="MeetingMemberAddEdit"
+                     asp-controller="MeetingMember"
+                     class="btn btn-sm btn-outline-primary rounded-pill">
+                    Edit
+                  </a>
+
+                  <a class="btn btn-sm btn-outline-danger rounded-pill"
+                     onclick="return confirm('Delete this member?');">
+                    Delete
+                  </a>
+                </div>
+              </td>
+            </tr>
+          }
+        }
+        else
+        {
+          <tr>
+            <td colspan="4" class="text-center text-muted">
+              No records found
+            </td>
+          </tr>
+        }
+
         </tbody>
       </table>
     </div>
