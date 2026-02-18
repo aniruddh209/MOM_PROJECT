@@ -1,7 +1,7 @@
 @model List<MOM_PROJECT.Models.MeetingMemberModel>
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <title>MOM – Meeting Member List</title>
@@ -18,19 +18,14 @@
       background: linear-gradient(135deg, #eef2ff, #f8fafc);
       font-family: "Inter", sans-serif;
     }
-
     .card {
       border: none;
       border-radius: 18px;
       background: #fff;
       box-shadow: 0 15px 40px rgba(79, 70, 229, 0.12);
     }
+    .card-body { padding: 28px; }
 
-    .card-body {
-      padding: 28px;
-    }
-
-    /* TABLE */
     .table {
       width: 100%;
       table-layout: fixed;
@@ -42,7 +37,6 @@
     .table tbody td {
       padding: 16px 18px;
       vertical-align: middle;
-      text-align: left;
       font-size: 14px;
     }
 
@@ -50,6 +44,7 @@
       background: #eef2ff;
       font-weight: 600;
       color: #3730a3;
+      text-align: center;
     }
 
     .table tbody tr {
@@ -62,43 +57,11 @@
       box-shadow: 0 10px 30px rgba(79, 70, 229, 0.18);
     }
 
-    /* CENTER COLUMNS */
-    .table thead th:nth-child(1),
-    .table tbody td:nth-child(1),
-    .table thead th:nth-child(2),
-    .table tbody td:nth-child(2),
-    .table thead th:last-child,
-    .table tbody td:last-child {
-      text-align: center;
-    }
-
-    /* COLUMN WIDTHS */
-    .table th:nth-child(1),
-    .table td:nth-child(1) {
-      width: 20%;
-    }
-
-    .table th:nth-child(2),
-    .table td:nth-child(2) {
-      width: 20%;
-    }
-
-    .table th:nth-child(3),
-    .table td:nth-child(3) {
-      width: 35%;
-    }
-
-    .table th:nth-child(4),
-    .table td:nth-child(4) {
-      width: 25%;
-    }
-
-    /* ACTION BUTTONS */
     .action-btns {
       display: inline-flex;
       gap: 10px;
-      min-width: 140px;
       justify-content: center;
+      min-width: 140px;
     }
 
     .btn-outline-primary {
@@ -121,7 +84,6 @@
       color: #fff;
     }
 
-    /* PRESENT BADGE */
     .badge-present {
       background: #dcfce7;
       color: #166534;
@@ -144,41 +106,62 @@
 <div class="container-fluid mt-4">
   <div class="card">
     <div class="card-body">
+
+      <!-- SUCCESS MESSAGE -->
+      @if (TempData["SuccessMessage"] != null)
+      {
+        <div class="alert alert-success alert-dismissible fade show">
+          @TempData["SuccessMessage"]
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+      }
+
+      <!-- ERROR MESSAGE -->
+      @if (TempData["ErrorMessage"] != null)
+      {
+        <div class="alert alert-danger alert-dismissible fade show">
+          @TempData["ErrorMessage"]
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+      }
+
       <div class="d-flex justify-content-between align-items-center mb-3">
         <h5 class="mb-0">MOM – Meeting Member List</h5>
-        <a asp-action="MeetingMemberAddEdit" asp-controller="MeetingMember"
-           class="btn btn-primary rounded-pill px-4">+ Add Member</a>
+
+        <!-- ✅ FIXED ADD BUTTON (NO IDs PASSED) -->
+        <a asp-controller="MeetingMember"
+           asp-action="MeetingMemberAddEdit"
+           class="btn btn-primary rounded-pill px-4">
+          + Add Member
+        </a>
       </div>
 
       <table class="table datatable">
         <thead>
-        <tr>
-          <th>Meeting Member ID</th>
-          <th>Is Present</th>
-          <th>Remarks</th>
-          <th>Action</th>
-        </tr>
+          <tr>
+            <th>Member ID</th>
+            <th>Status</th>
+            <th>Remarks</th>
+            <th>Action</th>
+          </tr>
         </thead>
 
         <tbody>
-
         @if (Model != null && Model.Count > 0)
         {
           foreach (var item in Model)
           {
             <tr>
-              <td>
-               @item.MeetingMemberID
-              </td>
+              <td class="text-center">@item.MeetingMemberID</td>
 
-              <td>
+              <td class="text-center">
                 @if (item.IsPresent == true)
                 {
-                  <span class="badge-present">Yes</span>
+                  <span class="badge-present">Present</span>
                 }
                 else
                 {
-                  <span class="badge-absent">No</span>
+                  <span class="badge-absent">Absent</span>
                 }
               </td>
 
@@ -186,15 +169,19 @@
                 @(string.IsNullOrEmpty(item.Remarks) ? "-" : item.Remarks)
               </td>
 
-              <td>
+              <td class="text-center">
                 <div class="action-btns">
                   <a asp-action="MeetingMemberAddEdit"
                      asp-controller="MeetingMember"
+                     asp-route-id="@item.MeetingMemberID"
                      class="btn btn-sm btn-outline-primary rounded-pill">
                     Edit
                   </a>
 
-                  <a class="btn btn-sm btn-outline-danger rounded-pill"
+                  <a asp-action="DeleteMeetingMember"
+                     asp-controller="MeetingMember"
+                     asp-route-id="@item.MeetingMemberID"
+                     class="btn btn-sm btn-outline-danger rounded-pill"
                      onclick="return confirm('Delete this member?');">
                     Delete
                   </a>
@@ -211,54 +198,17 @@
             </td>
           </tr>
         }
-
         </tbody>
       </table>
+
     </div>
   </div>
 </div>
-@* <h2>Meeting Member - Action Result Demo</h2> *@
-@* *@
-@* <hr /> *@
-@* *@
-@* <a href="/MeetingMember/MeetingMemberAddEdit"> *@
-@*   <button>View Result (Add/Edit)</button> *@
-@* </a> *@
-@* *@
-@* <br /><br /> *@
-@* *@
-@* <a href="/MeetingMember/ContentDemo"> *@
-@*   <button>Content Result</button> *@
-@* </a> *@
-@* *@
-@* <br /><br /> *@
-@* *@
-@* <a href="/MeetingMember/JsonDemo"> *@
-@*   <button>JSON Result</button> *@
-@* </a> *@
-@* *@
-@* <br /><br /> *@
-@* *@
-@* <a href="/MeetingMember/FileDemo"> *@
-@*   <button>File Result</button> *@
-@* </a> *@
-@* *@
-@* <br /><br /> *@
-@* *@
-@* <a href="/MeetingMember/RedirectDemo"> *@
-@*   <button>Redirect Result</button> *@
-@* </a> *@
-@* *@
-@* <br /><br /> *@
-@* *@
-@* <a href="/MeetingMember/StatusCodeDemo"> *@
-@*   <button>Status Code Result</button> *@
-@* </a> *@
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest"></script>
-  <script>
-    new simpleDatatables.DataTable(".datatable");
-  </script>
-</body>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest"></script>
+<script>
+  new simpleDatatables.DataTable(".datatable");
+</script>
+</body>
 </html>

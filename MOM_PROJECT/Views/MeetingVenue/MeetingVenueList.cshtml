@@ -91,6 +91,7 @@ body{
   margin-left:12px;
   cursor:pointer;
   color:#fff;
+  text-decoration:none;
 }
 
 /* BODY */
@@ -165,7 +166,6 @@ body{
   }
 
 }
-
 </style>
 </head>
 
@@ -177,6 +177,23 @@ body{
   <h3>Meeting Venues</h3>
   <p>Manage meeting rooms and virtual meeting locations</p>
 </div>
+
+<!-- ✅ SUCCESS / ERROR MESSAGE -->
+@if (TempData["SuccessMessage"] != null)
+{
+  <div class="alert alert-success alert-dismissible fade show">
+    @TempData["SuccessMessage"]
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+  <div class="alert alert-danger alert-dismissible fade show">
+    @TempData["ErrorMessage"]
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  </div>
+}
 
 <div class="search-card d-flex justify-content-between align-items-center">
 
@@ -191,7 +208,7 @@ body{
 
 </div>
 
-<!-- ✅ GRID — 3 CARDS PER ROW -->
+<!-- GRID -->
 
 <div class="row g-4" id="venueContainer">
 
@@ -210,11 +227,24 @@ body{
             <small>📍 Venue ID: @item.MeetingVenueID</small>
           </div>
 
+          <!-- ✅ ACTION ICONS (FIXED) -->
           <div class="icon-actions">
-            <span>👁</span>
+            <span title="View">👁</span>
+
             <a asp-action="MeetingVenueAddEdit"
-               asp-controller="MeetingVenue">✏️</a>
-            <span>🗑</span>
+               asp-controller="MeetingVenue"
+               asp-route-id="@item.MeetingVenueID"
+               title="Edit">
+              ✏️
+            </a>
+
+            <a asp-action="DeleteMeetingVenue"
+               asp-controller="MeetingVenue"
+               asp-route-id="@item.MeetingVenueID"
+               title="Delete"
+               onclick="return confirm('Delete this meeting venue?');">
+              🗑
+            </a>
           </div>
 
         </div>
@@ -286,5 +316,6 @@ document.getElementById("venueSearch").addEventListener("keyup", function () {
 
 </script>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

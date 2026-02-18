@@ -1,9 +1,5 @@
 @model MOM_PROJECT.Models.MeetingVenueModel
 
-@{
-    ViewData["Title"] = "Add / Edit Meeting Venue";
-}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -39,14 +35,6 @@ body{
   border-radius:12px;
   padding:14px 16px;
 }
-.form-control:focus{
-  border-color:#6366f1;
-  box-shadow:0 0 0 .15rem rgba(99,102,241,.25);
-}
-.input-group-text{
-  background:#f8fafc;
-  border-radius:12px 0 0 12px;
-}
 .btn-primary{
   background:linear-gradient(135deg,#4f46e5,#6366f1);
   border:none;
@@ -54,12 +42,6 @@ body{
   padding:10px 26px;
 }
 .btn-secondary{border-radius:999px;}
-.form-actions{
-  display:flex;
-  justify-content:flex-end;
-  gap:16px;
-  margin-top:30px;
-}
 </style>
 </head>
 
@@ -67,60 +49,42 @@ body{
 
 <div class="container-fluid mt-4">
 
-  <!-- PAGE TITLE -->
   <div class="mb-4">
     <div class="page-title">Meeting Venue</div>
     <div class="page-subtitle">Add or update venue</div>
   </div>
 
-  <!-- CARD -->
   <div class="venue-card">
 
-    <!-- CARD HEADER -->
     <div class="venue-card-header">
       📍 Meeting Venue Details
     </div>
 
-    <!-- CARD BODY -->
     <div class="venue-card-body">
 
-      <!-- ✅ FORM START -->
+      <!-- ✅ FIXED FORM -->
       <form asp-controller="MeetingVenue"
-            asp-action="MeetingVenueSave"
+            asp-action="MeetingVenueAddEdit"
             method="post">
 
-        <!-- Hidden ID -->
         <input type="hidden" asp-for="MeetingVenueID" />
 
-        <!-- Validation Summary -->
-        <div asp-validation-summary="ModelOnly"
-             class="text-danger mb-3"></div>
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
-        <!-- MEETING VENUE NAME -->
         <div class="mb-3">
           <label class="form-label fw-semibold">Meeting Venue Name</label>
 
-          <div class="input-group">
-            <span class="input-group-text">📍</span>
-            <input asp-for="MeetingVenueName"
-                   class="form-control"
-                   placeholder="Enter meeting venue name" />
-          </div>
+          <input asp-for="MeetingVenueName"
+                 class="form-control"
+                 placeholder="Enter meeting venue name" />
 
-          <span asp-validation-for="MeetingVenueName"
-                class="text-danger"></span>
-
-          <small class="text-muted">
-            e.g., Conference Room A, Board Room, Virtual (Zoom), Auditorium
-          </small>
+          <span asp-validation-for="MeetingVenueName" class="text-danger"></span>
         </div>
 
-        <!-- ACTION BUTTONS -->
-        <div class="form-actions">
+        <div class="d-flex justify-content-end gap-3 mt-4">
           <a asp-action="MeetingVenueList"
-             asp-controller="MeetingVenue"
              class="btn btn-secondary">
-            ← Back to List
+            ← Back
           </a>
 
           <button type="submit" class="btn btn-primary">
@@ -129,14 +93,12 @@ body{
         </div>
 
       </form>
-      <!-- ✅ FORM END -->
 
     </div>
   </div>
 
 </div>
 
-<!-- VALIDATION SCRIPTS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation-unobtrusive@4.0.0/dist/jquery.validate.unobtrusive.min.js"></script>

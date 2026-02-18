@@ -39,6 +39,10 @@ body{
   padding:10px 24px;
 }
 .btn-secondary{border-radius:999px;}
+.required::after{
+  content:" *";
+  color:#dc2626;
+}
 </style>
 </head>
 
@@ -58,10 +62,11 @@ body{
 
     <div class="card-body">
 
-      <!-- ✅ FORM START -->
+      <!-- FORM -->
       <form asp-controller="MeetingType"
             asp-action="MeetingTypeSave"
-            method="post">
+            method="post"
+            novalidate>
 
         <!-- Hidden ID -->
         <input type="hidden" asp-for="MeetingTypeID" />
@@ -78,11 +83,12 @@ body{
             <input class="form-control" value="Auto" disabled />
           </div>
 
-          <!-- NAME -->
+          <!-- NAME (REQUIRED) -->
           <div class="col-md-4">
-            <label class="form-label">Meeting Type Name</label>
+            <label class="form-label required">Meeting Type Name</label>
             <input asp-for="MeetingTypeName"
-                   class="form-control" />
+                   class="form-control"
+                   required />
             <span asp-validation-for="MeetingTypeName"
                   class="text-danger"></span>
             <small class="text-muted">
@@ -90,7 +96,7 @@ body{
             </small>
           </div>
 
-          <!-- REMARKS -->
+          <!-- REMARKS (OPTIONAL) -->
           <div class="col-md-4">
             <label class="form-label">Remarks</label>
             <input asp-for="Remarks"
@@ -116,7 +122,6 @@ body{
         </div>
 
       </form>
-      <!-- ✅ FORM END -->
 
     </div>
   </div>
