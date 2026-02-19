@@ -16,18 +16,15 @@ body {
   font-family: "Inter", sans-serif;
 }
 
-/* CARD */
 .card {
   border: none;
   border-radius: 18px;
   background: #ffffff;
   box-shadow: 0 15px 40px rgba(79, 70, 229, 0.12);
 }
-.card-body {
-  padding: 28px;
-}
 
-/* TABLE */
+.card-body { padding: 28px; }
+
 .table {
   width: 100%;
   table-layout: fixed;
@@ -47,6 +44,9 @@ body {
   font-weight: 600;
   color: #3730a3;
 }
+
+.table thead th.text-left { text-align: left; }
+.table thead th.text-center { text-align: center; }
 
 .table tbody tr {
   background: #ffffff;
@@ -75,10 +75,33 @@ body {
 
 /* ACTION BUTTONS */
 .action-btns {
-  display: flex;
+  display: inline-flex;
+  align-items: center;
   justify-content: center;
-  gap: 8px;
-  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* ✅ CANCELLATION INFO FIX */
+.cancel-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  line-height: 1.4;
+}
+
+.cancel-date {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.cancel-reason {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.cancel-none {
+  text-align: center;
+  color: #9ca3af;
 }
 
 .btn-outline-primary {
@@ -107,7 +130,6 @@ body {
   <div class="card">
     <div class="card-body">
 
-      <!-- SUCCESS MESSAGE -->
       @if (TempData["SuccessMessage"] != null)
       {
         <div class="alert alert-success alert-dismissible fade show">
@@ -116,7 +138,6 @@ body {
         </div>
       }
 
-      <!-- ERROR MESSAGE -->
       @if (TempData["ErrorMessage"] != null)
       {
         <div class="alert alert-danger alert-dismissible fade show">
@@ -137,11 +158,11 @@ body {
       <table class="table datatable">
         <thead>
           <tr>
-            <th>Description</th>
-            <th>Date</th>
-            <th>Cancelled</th>
-            <th>Cancellation Info</th>
-            <th>Action</th>
+            <th class="text-left">Description</th>
+            <th class="text-center">Date</th>
+            <th class="text-center">Cancelled</th>
+            <th class="text-left">Cancellation Info</th>
+            <th class="text-center">Action</th>
           </tr>
         </thead>
 
@@ -151,16 +172,12 @@ body {
           foreach (var item in Model)
           {
             <tr>
-              <td>
-                @(string.IsNullOrEmpty(item.MeetingDescription)
-                  ? "-"
-                  : item.MeetingDescription)
-              </td>
+              <td>@(string.IsNullOrEmpty(item.MeetingDescription) ? "-" : item.MeetingDescription)</td>
 
-              <td>
+              <td class="text-center">
                 @(item.MeetingDate.HasValue
-                  ? item.MeetingDate.Value.ToString("dd/MM/yyyy")
-                  : "-")
+                    ? item.MeetingDate.Value.ToString("dd/MM/yyyy")
+                    : "-")
               </td>
 
               <td class="text-center">
@@ -174,26 +191,28 @@ body {
                 }
               </td>
 
+              <!-- ✅ FIXED CANCELLATION INFO -->
               <td>
                 @if (item.IsCancelled == true)
                 {
-                  <small>
-                    @(item.CancellationDateTime.HasValue
-                      ? item.CancellationDateTime.Value.ToString("dd/MM/yyyy hh:mm tt")
-                      : "-")
-                    <br />
-                    @(string.IsNullOrEmpty(item.CancellationReason)
-                      ? "-"
-                      : item.CancellationReason)
-                  </small>
+                  <div class="cancel-info">
+                    <span class="cancel-date">
+                      @(item.CancellationDateTime.HasValue
+                        ? item.CancellationDateTime.Value.ToString("dd/MM/yyyy hh:mm tt")
+                        : "-")
+                    </span>
+                    <span class="cancel-reason">
+                      @(string.IsNullOrEmpty(item.CancellationReason) ? "-" : item.CancellationReason)
+                    </span>
+                  </div>
                 }
                 else
                 {
-                  <span>-</span>
+                  <div class="cancel-none">-</div>
                 }
               </td>
 
-              <td>
+              <td class="text-center align-middle">
                 <div class="action-btns">
                   <a asp-action="MeetingAddEdit"
                      asp-controller="Meeting"

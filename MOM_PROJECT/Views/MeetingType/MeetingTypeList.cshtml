@@ -15,30 +15,75 @@
       background: linear-gradient(135deg, #eef2ff, #f8fafc);
       font-family: "Inter", sans-serif;
     }
+
     .card {
       border: none;
       border-radius: 18px;
       background: #ffffff;
       box-shadow: 0 15px 40px rgba(79, 70, 229, 0.12);
     }
-    .card-body { padding: 28px; }
-    .table { width: 100%; table-layout: fixed; border-collapse: separate; border-spacing: 0 12px; }
-    .table thead th, .table tbody td {
-      padding: 16px 18px; vertical-align: middle; font-size: 14px;
+
+    .card-body {
+      padding: 28px;
     }
-    .table thead th { background: #eef2ff; font-weight: 600; color: #3730a3; }
-    .table tbody tr { background: #ffffff; transition: 0.25s ease; }
+
+    .table {
+      width: 100%;
+      table-layout: fixed;
+      border-collapse: separate;
+      border-spacing: 0 12px;
+    }
+
+    .table thead th,
+    .table tbody td {
+      padding: 16px 18px;
+      vertical-align: middle;
+      font-size: 14px;
+    }
+
+    .table thead th {
+      background: #eef2ff;
+      font-weight: 600;
+      color: #3730a3;
+    }
+
+    .table tbody tr {
+      background: #ffffff;
+      transition: 0.25s ease;
+    }
+
     .table tbody tr:hover {
       transform: translateY(-1px);
       box-shadow: 0 10px 30px rgba(79, 70, 229, 0.18);
     }
+
+    /* ✅ ONLY FIX: ACTION BUTTON ALIGNMENT */
     .action-btns {
-      display: flex; justify-content: center; gap: 8px; flex-wrap: wrap;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
     }
-    .btn-outline-primary { border-color: #6366f1; color: #4f46e5; }
-    .btn-outline-primary:hover { background: #4f46e5; color: #ffffff; }
-    .btn-outline-danger { border-color: #ef4444; color: #dc2626; }
-    .btn-outline-danger:hover { background: #dc2626; color: #ffffff; }
+
+    .btn-outline-primary {
+      border-color: #6366f1;
+      color: #4f46e5;
+    }
+
+    .btn-outline-primary:hover {
+      background: #4f46e5;
+      color: #ffffff;
+    }
+
+    .btn-outline-danger {
+      border-color: #ef4444;
+      color: #dc2626;
+    }
+
+    .btn-outline-danger:hover {
+      background: #dc2626;
+      color: #ffffff;
+    }
   </style>
 </head>
 
@@ -47,7 +92,6 @@
   <div class="card">
     <div class="card-body">
 
-      <!-- SUCCESS MESSAGE -->
       @if (TempData["SuccessMessage"] != null)
       {
         <div class="alert alert-success alert-dismissible fade show">
@@ -56,7 +100,6 @@
         </div>
       }
 
-      <!-- ERROR MESSAGE -->
       @if (TempData["ErrorMessage"] != null)
       {
         <div class="alert alert-danger alert-dismissible fade show">
@@ -67,8 +110,11 @@
 
       <div class="d-flex justify-content-between align-items-center mb-3">
         <h5 class="mb-0">MOM – Meeting Type List</h5>
-        <a asp-action="MeetingTypeAddEdit" asp-controller="MeetingType"
-           class="btn btn-primary rounded-pill px-4">+ Add Meeting Type</a>
+        <a asp-action="MeetingTypeAddEdit"
+           asp-controller="MeetingType"
+           class="btn btn-primary rounded-pill px-4">
+          + Add Meeting Type
+        </a>
       </div>
 
       <table class="table datatable">
@@ -76,7 +122,7 @@
           <tr>
             <th>Meeting Type Name</th>
             <th>Remarks</th>
-            <th>Action</th>
+            <th class="text-center">Action</th>
           </tr>
         </thead>
 
@@ -88,9 +134,10 @@
             <tr>
               <td>@item.MeetingTypeName</td>
               <td>@(string.IsNullOrEmpty(item.Remarks) ? "-" : item.Remarks)</td>
-              <td>
-                <div class="action-btns">
 
+              <!-- ✅ FIXED ACTION COLUMN -->
+              <td class="text-center align-middle">
+                <div class="action-btns">
                   <a asp-action="MeetingTypeAddEdit"
                      asp-controller="MeetingType"
                      asp-route-id="@item.MeetingTypeID"
@@ -105,7 +152,6 @@
                      onclick="return confirm('Delete this meeting type?');">
                     Delete
                   </a>
-
                 </div>
               </td>
             </tr>

@@ -135,17 +135,19 @@ button{
 
     <!-- FORM -->
     <div class="card-body">
-        <form>
+
+        <!-- ✅ FUNCTIONAL REGISTER FORM -->
+        <form asp-action="Register" asp-controller="Account" method="post">
 
             <div class="form-row">
                 <div class="form-group">
-                    <input type="text" placeholder="Username">
+                    <input type="text" name="Username" placeholder="Username" required>
                     <small>3-50 characters required</small>
                 </div>
 
                 <div class="form-group">
-                    <select>
-                        <option>Select Role</option>
+                    <select name="Role" required>
+                        <option value="">Select Role</option>
                         <option>Admin</option>
                         <option>Member</option>
                     </select>
@@ -154,7 +156,7 @@ button{
 
             <div class="form-row">
                 <div class="form-group">
-                    <input type="password" placeholder="Password">
+                    <input type="password" name="Password" placeholder="Password" required>
                     <small>Minimum 6 characters</small>
                 </div>
 
@@ -174,6 +176,10 @@ button{
 
             <button type="submit">👤 Create Account</button>
         </form>
+
+        <!-- ERROR MESSAGE -->
+        <span style="color:red">@ViewBag.Error</span>
+
     </div>
 
     <!-- FOOTER -->
