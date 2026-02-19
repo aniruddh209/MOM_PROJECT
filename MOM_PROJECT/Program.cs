@@ -1,20 +1,11 @@
-using Microsoft.EntityFrameworkCore;
-using MOM_PROJECT.Data;
-
 var builder = WebApplication.CreateBuilder(args);
 
-// ================= ADD SERVICES =================
+// Add MVC services
 builder.Services.AddControllersWithViews();
-
-// ✅ ADD THESE TWO LINES HERE (BEFORE builder.Build)
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-builder.Services.AddSession();
 
 var app = builder.Build();
 
-// ================= MIDDLEWARE =================
+// Error handling
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -26,12 +17,11 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-// ✅ ADD SESSION HERE (BEFORE Authorization)
-app.UseSession();
+// No authentication
+// No authorization
+// No database
+// No session
 
-app.UseAuthorization();
-
-// ================= ROUTING =================
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Account}/{action=Login}/{id?}");
