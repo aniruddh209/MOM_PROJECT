@@ -4,6 +4,7 @@ namespace MOM_PROJECT.Models;
 
 public class MeetingTypeModel
 {
+    [Key]
     public int MeetingTypeID { get; set; }
 
     [Required(ErrorMessage = "Meeting Type Name is required")]

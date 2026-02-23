@@ -5,6 +5,7 @@ namespace MOM_PROJECT.Models
 {
     public class MeetingVenueModel
     {
+        [Key]
         public int MeetingVenueID { get; set; }
 
         // ================= VENUE NAME =================

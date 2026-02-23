@@ -5,6 +5,7 @@ namespace MOM_PROJECT.Models;
 
 public class DepartmentModel
 {
+    [Key]
     public int DepartmentID {get; set;}
     
     [Required(ErrorMessage = "Name is required")]

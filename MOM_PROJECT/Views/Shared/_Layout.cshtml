@@ -51,11 +51,47 @@
         </a>
       </li>
 
+      <!-- ✅ FIXED PROFILE DROPDOWN -->
       <li class="nav-item dropdown pe-3">
-        <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+        <a class="nav-link nav-profile d-flex align-items-center pe-0"
+           href="#"
+           data-bs-toggle="dropdown">
           <img src="~/assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
-          <span class="d-none d-md-block dropdown-toggle ps-2">Parmar Aniruddh</span>
+          <span class="d-none d-md-block dropdown-toggle ps-2">
+            @(ViewBag.Username ?? "User")
+          </span>
         </a>
+
+        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+
+          <li class="dropdown-header">
+            <h6>@(ViewBag.Username ?? "User")</h6>
+            <span>MOM User</span>
+          </li>
+
+          <li><hr class="dropdown-divider"></li>
+
+          <li>
+            <a class="dropdown-item d-flex align-items-center"
+               asp-controller="Account"
+               asp-action="Profile">
+              <i class="bi bi-person"></i>
+              <span>My Profile</span>
+            </a>
+          </li>
+
+          <li><hr class="dropdown-divider"></li>
+
+          <li>
+            <a class="dropdown-item d-flex align-items-center"
+               asp-controller="Account"
+               asp-action="Logout">
+              <i class="bi bi-box-arrow-right" asp-controller="Account" asp-action="Login"></i>
+              <span>Logout</span>
+            </a>
+          </li>
+
+        </ul>
       </li>
 
     </ul>
@@ -128,9 +164,8 @@
       </a>
     </li>
 
-    <!-- ✅ ATTENDANCE (ONLY ADDITION) -->
+    <!-- ATTENDANCE -->
     <li class="nav-heading">Reports</li>
-
     <li class="nav-item">
       <a class="nav-link @(currentController == "Attendance" ? "active" : "collapsed")"
          asp-controller="Attendance"

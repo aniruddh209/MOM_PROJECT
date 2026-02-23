@@ -1,12 +1,23 @@
-using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using MOM_PROJECT.Models;
 
-namespace MOM_PROJECT.Controllers;
-public class HomeController : Controller
+namespace MOM_PROJECT.Controllers
 {
-    public IActionResult Index()
+    public class HomeController : Controller
     {
-        return View();
+        public IActionResult Index()
+        {
+            // ===== STATIC DASHBOARD DATA =====
+            ViewBag.TotalMeetings = 15;
+            ViewBag.UpcomingMeetings = 0;
+            ViewBag.CompletedMeetings = 10;
+            ViewBag.CancelledMeetings = 5;
+
+            ViewBag.TotalMeetingsChange = "+12% from last month";
+            ViewBag.UpcomingChange = "+8% from last week";
+            ViewBag.CompletedRate = "15% completion rate";
+            ViewBag.CancelledRate = "3% cancellation rate";
+
+            return View();
+        }
     }
 }

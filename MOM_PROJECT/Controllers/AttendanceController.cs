@@ -10,8 +10,7 @@ namespace MOM_PROJECT.Controllers
     {
         private readonly string _connectionString =
             "Server=localhost;Database=MOM_PROJECT;User Id=SA;Password=Aniruddh18;TrustServerCertificate=True;";
-
-        // ================= GET =================
+        
         [HttpGet]
         public IActionResult AttendanceReport()
         {
@@ -21,8 +20,7 @@ namespace MOM_PROJECT.Controllers
 
             return View(new List<AttendanceReportModel>());
         }
-
-        // ================= POST (GENERATE) =================
+        
         [HttpPost]
         public IActionResult AttendanceReport(DateTime startDate, DateTime endDate)
         {
@@ -46,8 +44,7 @@ namespace MOM_PROJECT.Controllers
 
             return View(list);
         }
-
-        // ================= EXPORT =================
+        
         [HttpPost]
         public IActionResult ExportAttendance(DateTime startDate, DateTime endDate)
         {
@@ -90,8 +87,6 @@ namespace MOM_PROJECT.Controllers
                 $"AttendanceReport_{DateTime.Now:yyyyMMddHHmm}.xlsx"
             );
         }
-
-        // ================= DATA =================
         private List<AttendanceReportModel> GetAttendanceData(DateTime startDate, DateTime endDate)
         {
             List<AttendanceReportModel> list = new();

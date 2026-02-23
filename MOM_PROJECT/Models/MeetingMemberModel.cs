@@ -5,6 +5,7 @@ namespace MOM_PROJECT.Models;
 
 public class MeetingMemberModel
 {
+    [Key]
     public int MeetingMemberID { get; set; }
 
     [Required]

@@ -6,6 +6,7 @@ namespace MOM_PROJECT.Models
 {
     public class StaffModel
     {
+        [Key]
         public int StaffID { get; set; }
 
         // For LIST page only
