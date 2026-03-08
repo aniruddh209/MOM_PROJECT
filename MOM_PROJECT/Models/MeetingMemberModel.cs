@@ -1,26 +1,23 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
 
-namespace MOM_PROJECT.Models;
-
-public class MeetingMemberModel
+namespace MOM_PROJECT.Models
 {
-    [Key]
-    public int MeetingMemberID { get; set; }
+    public class MeetingMemberModel
+    {
+        public int MeetingMemberID { get; set; }
+        public int MeetingID { get; set; }
+        public int StaffID { get; set; }
 
-    [Required]
-    public int MeetingID { get; set; }
+        // Display only
+        public string StaffName { get; set; } = "";
+        public string DepartmentName { get; set; } = "";
 
-    [Required]
-    public int StaffID { get; set; }
+        public bool? IsPresent { get; set; }
+        public string Remarks { get; set; } = "";
 
-    [Required(ErrorMessage = "Please select presence status")]
-    public bool? IsPresent { get; set; }
-
-    public string Remarks { get; set; } = string.Empty;
-    public DateTime Created { get; set; }
-    public DateTime Modified { get; set; }
-    // 🔹 Dropdown data (UI only)
-    public List<SelectListItem>? MeetingList { get; set; }
-    public List<SelectListItem>? StaffList { get; set; }
+        // Dropdowns
+        public List<SelectListItem>? MeetingList { get; set; }
+        public List<SelectListItem>? StaffList { get; set; }
+    }
 }

@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using MOM_PROJECT.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Data;
-using System.Collections.Generic;
 
 namespace MOM_PROJECT.Controllers
 {
@@ -10,106 +10,72 @@ namespace MOM_PROJECT.Controllers
     {
         private readonly string _connectionString =
             "Server=localhost;Database=MOM_PROJECT;User Id=SA;Password=Aniruddh18;TrustServerCertificate=True;";
-        
-        public IActionResult MeetingMemberList()
-        {
-            List<MeetingMemberModel> list = new List<MeetingMemberModel>();
 
-            using SqlConnection con = new SqlConnection(_connectionString);
-            using SqlCommand cmd = new SqlCommand("PR_MOM_MeetingMember_SelectAll", con);
+        // ✅ Meeting-wise list
+        public IActionResult MeetingMemberList(int meetingId)
+        {
+            List<MeetingMemberModel> list = new();
+
+            using SqlConnection con = new(_connectionString);
+            using SqlCommand cmd = new("PR_MOM_MeetingMember_SelectByMeetingID", con);
             cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@MeetingID", meetingId);
 
             con.Open();
-            SqlDataReader reader = cmd.ExecuteReader();
-
-            while (reader.Read())
+            SqlDataReader dr = cmd.ExecuteReader();
+            while (dr.Read())
             {
                 list.Add(new MeetingMemberModel
                 {
-                    MeetingMemberID = Convert.ToInt32(reader["MeetingMemberID"]),
-                    MeetingID = Convert.ToInt32(reader["MeetingID"]),
-                    StaffID = Convert.ToInt32(reader["StaffID"]),
-                    IsPresent = Convert.ToBoolean(reader["IsPresent"]),
-                    Remarks = reader["Remarks"]?.ToString()
+                    MeetingMemberID = (int)dr["MeetingMemberID"],
+                    MeetingID = (int)dr["MeetingID"],
+                    StaffName = dr["StaffName"].ToString(),
+                    DepartmentName = dr["DepartmentName"].ToString(),
+                    IsPresent = (bool)dr["IsPresent"],
+                    Remarks = dr["Remarks"]?.ToString()
                 });
             }
 
+            ViewBag.MeetingID = meetingId;
             return View(list);
         }
-        
-        [HttpGet]
-        public IActionResult MeetingMemberAddEdit(int id = 0)
+
+        // ✅ Add / Edit
+        public IActionResult MeetingMemberAddEdit(int meetingId, int id = 0)
         {
-            MeetingMemberModel model = new MeetingMemberModel();
+            MeetingMemberModel model = new()
+            {
+                MeetingID = meetingId,
+                MeetingList = GetMeetingList(),
+                StaffList = GetStaffList()
+            };
 
-            using SqlConnection con = new SqlConnection(_connectionString);
-            con.Open();
-
-            // EDIT
             if (id > 0)
             {
-                using SqlCommand cmd = new SqlCommand("PR_MOM_MeetingMember_SelectByPK", con);
+                using SqlConnection con = new(_connectionString);
+                using SqlCommand cmd = new("PR_MOM_MeetingMember_SelectByPK", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@MeetingMemberID", id);
 
-                SqlDataReader reader = cmd.ExecuteReader();
-                if (reader.Read())
+                con.Open();
+                SqlDataReader dr = cmd.ExecuteReader();
+                if (dr.Read())
                 {
                     model.MeetingMemberID = id;
-                    model.MeetingID = Convert.ToInt32(reader["MeetingID"]);
-                    model.StaffID = Convert.ToInt32(reader["StaffID"]);
-                    model.IsPresent = Convert.ToBoolean(reader["IsPresent"]);
-                    model.Remarks = reader["Remarks"]?.ToString();
-                }
-                reader.Close();
-            }
-
-            // MEETING LIST
-            model.MeetingList = new List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>();
-            using (SqlCommand cmd = new SqlCommand("PR_MOM_Meetings_SelectAll", con))
-            {
-                cmd.CommandType = CommandType.StoredProcedure;
-                SqlDataReader reader = cmd.ExecuteReader();
-                while (reader.Read())
-                {
-                    model.MeetingList.Add(new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
-                    {
-                        Value = reader["MeetingID"].ToString(),
-                        Text = reader["MeetingDescription"].ToString()
-                    });
-                }
-                reader.Close();
-            }
-
-            // STAFF LIST
-            model.StaffList = new List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>();
-            using (SqlCommand cmd = new SqlCommand("PR_MOM_Staff_SelectAll", con))
-            {
-                cmd.CommandType = CommandType.StoredProcedure;
-                SqlDataReader reader = cmd.ExecuteReader();
-                while (reader.Read())
-                {
-                    model.StaffList.Add(new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
-                    {
-                        Value = reader["StaffID"].ToString(),
-                        Text = reader["StaffName"].ToString()
-                    });
+                    model.MeetingID = (int)dr["MeetingID"];
+                    model.StaffID = (int)dr["StaffID"];
+                    model.IsPresent = (bool)dr["IsPresent"];
+                    model.Remarks = dr["Remarks"]?.ToString();
                 }
             }
-
             return View(model);
         }
-        
+
         [HttpPost]
         public IActionResult MeetingMemberSave(MeetingMemberModel model)
         {
-            if (!ModelState.IsValid)
-            {
-                return View("MeetingMemberAddEdit", model);
-            }
-
-            using SqlConnection con = new SqlConnection(_connectionString);
-            using SqlCommand cmd = new SqlCommand();
+            using SqlConnection con = new(_connectionString);
+            using SqlCommand cmd = new();
             cmd.Connection = con;
             cmd.CommandType = CommandType.StoredProcedure;
 
@@ -118,9 +84,7 @@ namespace MOM_PROJECT.Controllers
                 cmd.CommandText = "PR_MOM_MeetingMember_UpdateByPK";
                 cmd.Parameters.AddWithValue("@MeetingMemberID", model.MeetingMemberID);
                 cmd.Parameters.AddWithValue("@IsPresent", model.IsPresent);
-                cmd.Parameters.AddWithValue("@Remarks", model.Remarks ?? "");
-
-                TempData["SuccessMessage"] = "Meeting member updated successfully.";
+                cmd.Parameters.AddWithValue("@Remarks", model.Remarks);
             }
             else
             {
@@ -128,38 +92,67 @@ namespace MOM_PROJECT.Controllers
                 cmd.Parameters.AddWithValue("@MeetingID", model.MeetingID);
                 cmd.Parameters.AddWithValue("@StaffID", model.StaffID);
                 cmd.Parameters.AddWithValue("@IsPresent", model.IsPresent);
-                cmd.Parameters.AddWithValue("@Remarks", model.Remarks ?? "");
-
-                TempData["SuccessMessage"] = "Meeting member added successfully.";
+                cmd.Parameters.AddWithValue("@Remarks", model.Remarks);
             }
 
             con.Open();
             cmd.ExecuteNonQuery();
 
-            return RedirectToAction("MeetingMemberList");
+            return RedirectToAction("MeetingMemberList", new { meetingId = model.MeetingID });
         }
-        
-        public IActionResult DeleteMeetingMember(int id)
+
+        public IActionResult DeleteMeetingMember(int id, int meetingId)
         {
-            try
+            using SqlConnection con = new(_connectionString);
+            using SqlCommand cmd = new("PR_MOM_MeetingMember_DeleteByPK", con);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@MeetingMemberID", id);
+
+            con.Open();
+            cmd.ExecuteNonQuery();
+
+            return RedirectToAction("MeetingMemberList", new { meetingId });
+        }
+
+        // Dropdown helpers
+        private List<SelectListItem> GetMeetingList()
+        {
+            List<SelectListItem> list = new();
+            using SqlConnection con = new(_connectionString);
+            using SqlCommand cmd = new("PR_MOM_Meetings_SelectAll", con);
+            cmd.CommandType = CommandType.StoredProcedure;
+            con.Open();
+
+            SqlDataReader dr = cmd.ExecuteReader();
+            while (dr.Read())
             {
-                using SqlConnection con = new SqlConnection(_connectionString);
-                using SqlCommand cmd = new SqlCommand("PR_MOM_MeetingMember_DeleteByPK", con);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@MeetingMemberID", id);
-
-                con.Open();
-                cmd.ExecuteNonQuery();
-
-                TempData["SuccessMessage"] = "Meeting member deleted successfully.";
+                list.Add(new SelectListItem
+                {
+                    Value = dr["MeetingID"].ToString(),
+                    Text = dr["MeetingDescription"].ToString()
+                });
             }
-            catch (SqlException)
+            return list;
+        }
+
+        private List<SelectListItem> GetStaffList()
+        {
+            List<SelectListItem> list = new();
+            using SqlConnection con = new(_connectionString);
+            using SqlCommand cmd = new("PR_MOM_Staff_SelectAll", con);
+            cmd.CommandType = CommandType.StoredProcedure;
+            con.Open();
+
+            SqlDataReader dr = cmd.ExecuteReader();
+            while (dr.Read())
             {
-                TempData["ErrorMessage"] =
-                    "This meeting member cannot be deleted because it is linked with other records.";
+                list.Add(new SelectListItem
+                {
+                    Value = dr["StaffID"].ToString(),
+                    Text = dr["StaffName"].ToString()
+                });
             }
-
-            return RedirectToAction("MeetingMemberList");
+            return list;
         }
     }
 }

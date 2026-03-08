@@ -9,8 +9,8 @@ namespace MOM_PROJECT.Controllers
     public class DepartmentController : Controller
     {
         private readonly string _connectionString =
-            "Server=localhost;Database=MOM_PROJECT;User Id=SA;Password=Aniruddh18;TrustServerCertificate=True;";
-        
+            // "Server=localhost;Database=MOM_PROJECT;User Id=SA;Password=Aniruddh18;TrustServerCertificate=True;";
+            "Server=localhost,1433;Database=MOM_PROJECT;User Id=sa;Password=Aniruddh18;MultipleActiveResultSets=true;TrustServerCertificate=True;";
         public IActionResult DepartmentList()
         {
             List<DepartmentModel> list = new List<DepartmentModel>();

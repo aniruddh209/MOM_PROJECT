@@ -11,12 +11,854 @@
 --------------------------------------------------------------*/
 :root {
   scroll-behavior: smooth;
+
+  /* ── Brand palette ── */
+  --mom-primary: #6366f1;
+  --mom-primary-dk: #4f46e5;
+  --mom-violet: #7c3aed;
+
+  /* ── Soft backgrounds ── */
+  --mom-indigo-bg: #f0f1ff;
+  /* lighter than before */
+  --mom-page-bg: #f8f9fe;
+
+  /* ── Text ── */
+  --mom-dark-text: #2d2b55;
+  /* softer than #1e1b4b */
+  --mom-body-text: #4b5563;
+  --mom-muted: #9ca3af;
+  /* lighter grey */
+
+  /* ── Shadows (much lighter) ── */
+  --mom-card-shadow: 0 4px 24px rgba(99, 102, 241, 0.07);
+  --mom-card-hover: 0 12px 40px rgba(99, 102, 241, 0.13);
+}
+
+body {
+  font-family: "Open Sans", sans-serif;
+  background: var(--mom-page-bg);
+  color: var(--mom-body-text);
+}
+
+/* ================================================================
+   MOM GLOBAL THEME – shared premium styles for all internal pages
+   ================================================================ */
+
+/* ── Smooth Google Font import ─────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+/* ── Page header ─────────────────────────────────────────────────── */
+.mom-page-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--mom-dark-text);
+  font-family: "Inter", sans-serif;
+  letter-spacing: -0.2px;
+  margin-bottom: 4px;
+}
+
+.mom-page-subtitle {
+  color: var(--mom-muted);
+  font-size: 14px;
+  font-weight: 400;
+  margin-top: 3px;
+}
+
+/* ── Shared card container ───────────────────────────────────────── */
+.mom-card {
+  border: 1px solid #ede9fe;
+  /* subtle violet border */
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: var(--mom-card-shadow);
+  overflow: hidden;
+  margin-bottom: 32px;
+  /* more breathing room below */
+}
+
+/* ── Gradient card header bar ────────────────────────────────────── */
+.mom-card-header {
+  background: linear-gradient(135deg, #818cf8, #a78bfa);
+  /* lighter indigo→violet */
+  color: #fff;
+  padding: 20px 28px;
+  /* more padding */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mom-card-header h5,
+.mom-card-header .mom-card-title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: "Inter", sans-serif;
+  letter-spacing: 0.1px;
+}
+
+/* ── Ghost button inside header ──────────────────────────────────── */
+.mom-btn-ghost {
+  background: rgba(255, 255, 255, 0.20);
+  border: 1.5px solid rgba(255, 255, 255, 0.60);
+  color: #fff !important;
+  border-radius: 999px;
+  padding: 8px 22px;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.2s;
+  font-family: "Inter", sans-serif;
+  display: inline-block;
+}
+
+.mom-btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.32);
+  color: #fff !important;
+}
+
+/* ── Card body ────────────────────────────────────────────────────── */
+.mom-card-body {
+  padding: 32px 36px;
+  /* much more spacious */
+}
+
+/* ── Table ────────────────────────────────────────────────────────── */
+.mom-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 12px;
+  /* more vertical gap between rows */
+  font-family: "Inter", sans-serif;
+}
+
+.mom-table thead th {
+  background: #f5f3ff;
+  /* very light lavender */
+  color: #6d6be0;
+  /* lighter purple, not harsh */
+  font-weight: 600;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  padding: 14px 20px;
+  /* more generous padding */
+  border: none;
+  white-space: nowrap;
+}
+
+.mom-table thead th:first-child {
+  border-radius: 12px 0 0 12px;
+}
+
+.mom-table thead th:last-child {
+  border-radius: 0 12px 12px 0;
+}
+
+.mom-table tbody tr {
+  background: #fff;
+  box-shadow: 0 1px 6px rgba(99, 102, 241, 0.05);
+  /* lighter row shadow */
+  transition: transform 0.18s, box-shadow 0.18s;
+}
+
+.mom-table tbody tr:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--mom-card-hover);
+}
+
+.mom-table tbody td {
+  padding: 16px 20px;
+  /* more row height */
+  vertical-align: middle;
+  font-size: 14px;
+  color: var(--mom-body-text);
+  border: none;
+  line-height: 1.5;
+}
+
+.mom-table tbody td:first-child {
+  border-radius: 12px 0 0 12px;
+}
+
+.mom-table tbody td:last-child {
+  border-radius: 0 12px 12px 0;
+}
+
+/* ── Form labels ──────────────────────────────────────────────────── */
+.mom-label {
+  font-weight: 600;
+  color: #5b5ea6;
+  /* softer indigo, not harsh dark */
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+  display: block;
+  font-family: "Inter", sans-serif;
+}
+
+/* ── Form controls ────────────────────────────────────────────────── */
+.mom-control {
+  border-radius: 12px !important;
+  padding: 12px 16px !important;
+  /* slightly more padding */
+  border: 1.5px solid #e9e7fb !important;
+  /* light lavender border */
+  font-size: 14px !important;
+  font-family: "Inter", sans-serif;
+  background: #fafafe !important;
+  /* very light tint */
+  color: var(--mom-body-text) !important;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s !important;
+}
+
+.mom-control:focus {
+  border-color: #818cf8 !important;
+  /* lighter focus ring */
+  box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.15) !important;
+  background: #fff !important;
+  outline: none;
+}
+
+.mom-control:disabled {
+  background: #f5f5fb !important;
+  color: #c4c4d8 !important;
+  cursor: not-allowed;
+}
+
+/* ── Section divider ──────────────────────────────────────────────── */
+.mom-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 30px 0 20px;
+  /* more top space */
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: #818cf8;
+  /* lighter indigo text */
+  font-family: "Inter", sans-serif;
+}
+
+.mom-section::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, #e5e7ff, transparent);
+}
+
+/* ── Primary save button ──────────────────────────────────────────── */
+.mom-btn-save {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  border: none;
+  border-radius: 999px;
+  color: #fff !important;
+  padding: 11px 32px;
+  font-weight: 600;
+  font-size: 14px;
+  font-family: "Inter", sans-serif;
+  transition: opacity 0.2s, transform 0.18s, box-shadow 0.2s;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.25);
+}
+
+.mom-btn-save:hover {
+  opacity: 0.90;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.35);
+  color: #fff !important;
+}
+
+/* ── Back / secondary button ──────────────────────────────────────── */
+.mom-btn-back {
+  border-radius: 999px !important;
+  padding: 11px 26px !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  font-family: "Inter", sans-serif;
+}
+
+/* ── Pill action buttons ──────────────────────────────────────────── */
+.mom-btn-edit {
+  border: 1.5px solid #c7d2fe;
+  color: #4f46e5;
+  background: #f0f1ff;
+  border-radius: 999px;
+  font-size: 12px;
+  padding: 6px 16px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.18s;
+  font-family: "Inter", sans-serif;
+  display: inline-block;
+}
+
+.mom-btn-edit:hover {
+  background: #6366f1;
+  color: #fff;
+  border-color: #6366f1;
+}
+
+.mom-btn-delete {
+  border: 1.5px solid #fca5a5;
+  color: #dc2626;
+  background: #fff8f8;
+  border-radius: 999px;
+  font-size: 12px;
+  padding: 6px 16px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.18s;
+  font-family: "Inter", sans-serif;
+  display: inline-block;
+}
+
+.mom-btn-delete:hover {
+  background: #ef4444;
+  color: #fff;
+  border-color: #ef4444;
+}
+
+/* ── Status badges ────────────────────────────────────────────────── */
+.mom-pill-success {
+  background: #f0fdf4;
+  color: #16a34a;
+  padding: 5px 14px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: "Inter", sans-serif;
+  border: 1px solid #bbf7d0;
+}
+
+.mom-pill-danger {
+  background: #fff5f5;
+  color: #dc2626;
+  padding: 5px 14px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: "Inter", sans-serif;
+  border: 1px solid #fecaca;
+}
+
+.mom-pill-info {
+  background: #f0f1ff;
+  color: #4f46e5;
+  padding: 5px 14px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: "Inter", sans-serif;
+  border: 1px solid #c7d2fe;
+}
+
+/* ── Alert messages ───────────────────────────────────────────────── */
+.mom-alert-success {
+  background: #f0fdf4;
+  border-left: 4px solid #4ade80;
+  border-radius: 12px;
+  color: #166534;
+  padding: 14px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+.mom-alert-danger {
+  background: #fff9f9;
+  border-left: 4px solid #f87171;
+  border-radius: 12px;
+  color: #b91c1c;
+  padding: 14px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+/* ── Staff avatar chip ────────────────────────────────────────────── */
+.mom-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #818cf8, #a78bfa);
+  /* softer */
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-family: "Inter", sans-serif;
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.22);
+}
+
+/* ── Stat summary cards ───────────────────────────────────────────── */
+.mom-stat-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: var(--mom-card-shadow);
+  padding: 26px 28px;
+  /* more padding */
+  border-left: 4px solid #818cf8;
+  /* lighter colour, thinner */
+  font-family: "Inter", sans-serif;
+  border: 1px solid #ede9fe;
+  border-left: 4px solid #818cf8;
+}
+
+.mom-stat-value {
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--mom-dark-text);
+  line-height: 1.1;
+}
+
+.mom-stat-label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+  color: var(--mom-muted);
+  font-weight: 600;
+  margin-top: 6px;
+}
+
+/* ── Venue card grid ──────────────────────────────────────────────── */
+.mom-venue-card {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: var(--mom-card-shadow);
+  border: 1px solid #ede9fe;
+  overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.mom-venue-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--mom-card-hover);
+}
+
+.mom-venue-header {
+  background: linear-gradient(135deg, #818cf8, #a78bfa);
+  /* lighter */
+  color: #fff;
+  padding: 20px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.mom-venue-body {
+  padding: 24px;
+  flex: 1;
+}
+
+.mom-venue-footer {
+  border-top: 1px solid #f3f4f6;
+  padding: 14px 24px;
+  font-size: 12px;
+  color: var(--mom-muted);
+  display: flex;
+  justify-content: space-between;
+  background: #fafafe;
 }
 
 body {
   font-family: "Open Sans", sans-serif;
   background: #f6f9ff;
   color: #444444;
+}
+
+/* ================================================================
+   MOM GLOBAL THEME – shared premium styles for all internal pages
+   ================================================================ */
+
+/* ── Smooth Google Font import ─────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+/* ── Page header ────────────────────────────────────────────────── */
+.mom-page-title {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--mom-dark-text);
+  font-family: "Inter", sans-serif;
+  letter-spacing: -0.3px;
+}
+
+.mom-page-subtitle {
+  color: var(--mom-muted);
+  font-size: 14px;
+  margin-top: 2px;
+}
+
+/* ── Shared card container ──────────────────────────────────────── */
+.mom-card {
+  border: none;
+  border-radius: 20px;
+  background: #ffffff;
+  box-shadow: var(--mom-card-shadow);
+  overflow: hidden;
+  margin-bottom: 28px;
+}
+
+/* ── Gradient card header bar ───────────────────────────────────── */
+.mom-card-header {
+  background: linear-gradient(135deg, var(--mom-primary), var(--mom-violet));
+  color: #fff;
+  padding: 18px 26px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mom-card-header h5,
+.mom-card-header .mom-card-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  font-family: "Inter", sans-serif;
+  letter-spacing: 0.2px;
+}
+
+/* ── Ghost button inside gradient header ─────────────────────────── */
+.mom-btn-ghost {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1.5px solid rgba(255, 255, 255, 0.55);
+  color: #fff !important;
+  border-radius: 999px;
+  padding: 7px 20px;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.2s;
+  font-family: "Inter", sans-serif;
+}
+
+.mom-btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.28);
+  color: #fff !important;
+}
+
+/* ── Card body padding ───────────────────────────────────────────── */
+.mom-card-body {
+  padding: 26px 28px;
+}
+
+/* ── Table ───────────────────────────────────────────────────────── */
+.mom-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 10px;
+  font-family: "Inter", sans-serif;
+}
+
+.mom-table thead th {
+  background: var(--mom-indigo-bg);
+  color: #3730a3;
+  font-weight: 700;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+  padding: 13px 18px;
+  border: none;
+  white-space: nowrap;
+}
+
+.mom-table thead th:first-child {
+  border-radius: 10px 0 0 10px;
+}
+
+.mom-table thead th:last-child {
+  border-radius: 0 10px 10px 0;
+}
+
+.mom-table tbody tr {
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(79, 70, 229, 0.06);
+  transition: transform 0.18s, box-shadow 0.18s;
+}
+
+.mom-table tbody tr:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 9px 26px rgba(79, 70, 229, 0.15);
+}
+
+.mom-table tbody td {
+  padding: 14px 18px;
+  vertical-align: middle;
+  font-size: 14px;
+  color: #374151;
+  border: none;
+}
+
+.mom-table tbody td:first-child {
+  border-radius: 10px 0 0 10px;
+}
+
+.mom-table tbody td:last-child {
+  border-radius: 0 10px 10px 0;
+}
+
+/* ── Form labels ─────────────────────────────────────────────────── */
+.mom-label {
+  font-weight: 600;
+  color: var(--mom-dark-text);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+  font-family: "Inter", sans-serif;
+}
+
+/* ── Form controls ───────────────────────────────────────────────── */
+.mom-control {
+  border-radius: 12px !important;
+  padding: 11px 15px !important;
+  border: 1.5px solid #e5e7eb !important;
+  font-size: 14px !important;
+  font-family: "Inter", sans-serif;
+  transition: border-color 0.2s, box-shadow 0.2s !important;
+}
+
+.mom-control:focus {
+  border-color: var(--mom-primary) !important;
+  box-shadow: 0 0 0 0.18rem rgba(99, 102, 241, 0.18) !important;
+  outline: none;
+}
+
+.mom-control:disabled {
+  background: #f3f4f6 !important;
+  color: #9ca3af !important;
+}
+
+/* ── Section divider ─────────────────────────────────────────────── */
+.mom-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 24px 0 18px;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--mom-primary);
+  font-family: "Inter", sans-serif;
+}
+
+.mom-section::after {
+  content: "";
+  flex: 1;
+  height: 1.5px;
+  background: linear-gradient(to right, #e0e7ff, transparent);
+}
+
+/* ── Primary save button ─────────────────────────────────────────── */
+.mom-btn-save {
+  background: linear-gradient(135deg, var(--mom-primary-dk), var(--mom-primary));
+  border: none;
+  border-radius: 999px;
+  color: #fff !important;
+  padding: 11px 30px;
+  font-weight: 700;
+  font-size: 14px;
+  font-family: "Inter", sans-serif;
+  transition: opacity 0.2s, transform 0.18s;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.mom-btn-save:hover {
+  opacity: 0.87;
+  transform: translateY(-1px);
+}
+
+/* ── Back/secondary button ───────────────────────────────────────── */
+.mom-btn-back {
+  border-radius: 999px !important;
+  padding: 11px 24px !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  font-family: "Inter", sans-serif;
+}
+
+/* ── Pill action buttons ─────────────────────────────────────────── */
+.mom-btn-edit {
+  border: 1.5px solid var(--mom-primary);
+  color: var(--mom-primary-dk);
+  background: var(--mom-indigo-bg);
+  border-radius: 999px;
+  font-size: 12px;
+  padding: 5px 15px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.18s;
+  font-family: "Inter", sans-serif;
+}
+
+.mom-btn-edit:hover {
+  background: var(--mom-primary);
+  color: #fff;
+}
+
+.mom-btn-delete {
+  border: 1.5px solid #f87171;
+  color: #dc2626;
+  background: #fff5f5;
+  border-radius: 999px;
+  font-size: 12px;
+  padding: 5px 15px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.18s;
+  font-family: "Inter", sans-serif;
+}
+
+.mom-btn-delete:hover {
+  background: #ef4444;
+  color: #fff;
+  border-color: #ef4444;
+}
+
+/* ── Status badges ───────────────────────────────────────────────── */
+.mom-pill-success {
+  background: #dcfce7;
+  color: #166534;
+  padding: 5px 14px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  font-family: "Inter", sans-serif;
+}
+
+.mom-pill-danger {
+  background: #fee2e2;
+  color: #991b1b;
+  padding: 5px 14px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  font-family: "Inter", sans-serif;
+}
+
+.mom-pill-info {
+  background: var(--mom-indigo-bg);
+  color: var(--mom-primary-dk);
+  padding: 5px 14px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  font-family: "Inter", sans-serif;
+}
+
+/* ── Alert messages ──────────────────────────────────────────────── */
+.mom-alert-success {
+  background: #f0fdf4;
+  border-left: 4px solid #22c55e;
+  border-radius: 12px;
+  color: #166534;
+  padding: 12px 18px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.mom-alert-danger {
+  background: #fff5f5;
+  border-left: 4px solid #ef4444;
+  border-radius: 12px;
+  color: #991b1b;
+  padding: 12px 18px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* ── Staff avatar chip ───────────────────────────────────────────── */
+.mom-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--mom-primary), var(--mom-violet));
+  color: #fff;
+  font-size: 13px;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-family: "Inter", sans-serif;
+}
+
+/* ── Stat summary cards (attendance) ─────────────────────────────── */
+.mom-stat-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: var(--mom-card-shadow);
+  padding: 22px 24px;
+  border-left: 5px solid var(--mom-primary);
+  font-family: "Inter", sans-serif;
+}
+
+.mom-stat-value {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--mom-dark-text);
+}
+
+.mom-stat-label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--mom-muted);
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+/* ── Venue card grid ──────────────────────────────────────────────── */
+.mom-venue-card {
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: var(--mom-card-shadow);
+  overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.mom-venue-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 25px 55px rgba(79, 70, 229, 0.20);
+}
+
+.mom-venue-header {
+  background: linear-gradient(135deg, var(--mom-primary), #8b5cf6);
+  color: #fff;
+  padding: 18px 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.mom-venue-body {
+  padding: 20px 22px;
+  flex: 1;
+}
+
+.mom-venue-footer {
+  border-top: 1px solid #eef2ff;
+  padding: 12px 22px;
+  font-size: 12px;
+  color: var(--mom-muted);
+  display: flex;
+  justify-content: space-between;
 }
 
 a {

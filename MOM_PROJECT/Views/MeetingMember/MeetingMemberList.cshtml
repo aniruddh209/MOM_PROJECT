@@ -1,225 +1,309 @@
 @model List<MOM_PROJECT.Models.MeetingMemberModel>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8" />
-<title>MOM – Meeting Member List</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-<link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
-
-<style>
-body {
-  background: linear-gradient(135deg, #eef2ff, #f8fafc);
-  font-family: "Inter", sans-serif;
+@{
+    ViewData["Title"] = "Meeting Members";
+    Layout = "_Layout";
 }
 
-.card {
+<style>
+/* ── Page Header ─────────────────────────────────── */
+.page-title   { font-size: 26px; font-weight: 700; color: #1e1b4b; }
+.page-subtitle{ color: #6b7280; font-size: 14px; }
+
+/* ── Card ─────────────────────────────────────────── */
+.mom-card {
   border: none;
   border-radius: 18px;
   background: #ffffff;
-  box-shadow: 0 15px 40px rgba(79, 70, 229, 0.12);
+  box-shadow: 0 15px 40px rgba(79, 70, 229, 0.10);
+  overflow: hidden;
 }
 
-.card-body {
-  padding: 28px;
+/* ── Card Header ─────────────────────────────────── */
+.mom-card-header {
+  background: linear-gradient(135deg, #6366f1, #7c3aed);
+  color: #fff;
+  padding: 18px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.mom-card-header h5 {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 600;
+}
+.btn-add-member {
+  background: rgba(255,255,255,0.18);
+  border: 1.5px solid rgba(255,255,255,0.5);
+  color: #fff;
+  border-radius: 999px;
+  padding: 6px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  transition: background 0.2s;
+  text-decoration: none;
+}
+.btn-add-member:hover {
+  background: rgba(255,255,255,0.30);
+  color: #fff;
 }
 
-/* SAME TABLE STYLE AS MEETING TYPE */
-.table {
+/* ── Back link bar ───────────────────────────────── */
+.back-bar {
+  background: #f5f3ff;
+  padding: 10px 24px;
+  border-bottom: 1px solid #ede9fe;
+}
+.back-bar a {
+  font-size: 13px;
+  font-weight: 600;
+  color: #6366f1;
+  text-decoration: none;
+}
+.back-bar a:hover { text-decoration: underline; }
+
+/* ── Table ───────────────────────────────────────── */
+.mom-table-wrap { padding: 24px; }
+
+.mom-table {
   width: 100%;
   border-collapse: separate;
-  border-spacing: 0 12px;
+  border-spacing: 0 10px;
 }
+.mom-table thead th {
+  background: #eef2ff;
+  color: #3730a3;
+  font-weight: 700;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  padding: 13px 18px;
+  border: none;
+}
+.mom-table thead th:first-child { border-radius: 10px 0 0 10px; }
+.mom-table thead th:last-child  { border-radius: 0 10px 10px 0; }
 
-.table thead th,
-.table tbody td {
-  padding: 16px 18px;
+.mom-table tbody tr {
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(79,70,229,0.07);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.mom-table tbody tr:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(79,70,229,0.14);
+}
+.mom-table tbody td {
+  padding: 14px 18px;
   vertical-align: middle;
   font-size: 14px;
+  color: #374151;
+  border: none;
 }
+.mom-table tbody td:first-child { border-radius: 10px 0 0 10px; }
+.mom-table tbody td:last-child  { border-radius: 0 10px 10px 0; }
 
-.table thead th {
+/* ── Staff Avatar chip ─────────────────────────── */
+.staff-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.staff-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6366f1, #7c3aed);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.staff-name { font-weight: 600; color: #1e1b4b; }
+
+/* ── Dept tag ─────────────────────────────────────── */
+.dept-tag {
   background: #eef2ff;
+  color: #4f46e5;
+  border-radius: 999px;
+  padding: 4px 12px;
+  font-size: 12px;
   font-weight: 600;
-  color: #3730a3;
 }
 
-.table tbody tr {
-  background: #ffffff;
-  transition: 0.25s ease;
-}
-
-.table tbody tr:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 10px 30px rgba(79, 70, 229, 0.18);
-}
-
-/* CENTER REQUIRED COLUMNS */
-.table thead th:nth-child(1),
-.table tbody td:nth-child(1),
-.table thead th:nth-child(2),
-.table tbody td:nth-child(2),
-.table thead th:nth-child(4),
-.table tbody td:nth-child(4) {
-  text-align: center;
-}
-
-/* STATUS BADGES */
+/* ── Present/Absent badges ────────────────────────── */
 .badge-present {
   background: #dcfce7;
   color: #166534;
-  padding: 6px 14px;
+  padding: 5px 14px;
   border-radius: 999px;
-  font-weight: 500;
+  font-size: 12px;
+  font-weight: 700;
 }
-
 .badge-absent {
   background: #fee2e2;
   color: #991b1b;
-  padding: 6px 14px;
+  padding: 5px 14px;
   border-radius: 999px;
-  font-weight: 500;
+  font-size: 12px;
+  font-weight: 700;
 }
 
-/* ACTION BUTTONS */
-.action-btns {
+/* ── Action buttons ──────────────────────────────── */
+.action-group {
   display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
+  gap: 6px;
 }
-
-.btn-outline-primary {
-  border-color: #6366f1;
+.btn-edit-row {
+  border: 1.5px solid #6366f1;
   color: #4f46e5;
+  background: #eef2ff;
+  border-radius: 999px;
+  font-size: 12px;
+  padding: 5px 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s;
 }
-
-.btn-outline-primary:hover {
-  background: #4f46e5;
-  color: #ffffff;
-}
-
-.btn-outline-danger {
-  border-color: #ef4444;
+.btn-edit-row:hover { background: #6366f1; color: #fff; }
+.btn-delete-row {
+  border: 1.5px solid #f87171;
   color: #dc2626;
+  background: #fff5f5;
+  border-radius: 999px;
+  font-size: 12px;
+  padding: 5px 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s;
 }
+.btn-delete-row:hover { background: #ef4444; color: #fff; }
 
-.btn-outline-danger:hover {
-  background: #dc2626;
-  color: #ffffff;
+/* ── Empty state ─────────────────────────────────── */
+.empty-state {
+  text-align: center;
+  padding: 50px 20px;
+  color: #9ca3af;
 }
+.empty-state i { font-size: 48px; display: block; margin-bottom: 12px; opacity: 0.4; }
 </style>
-</head>
 
-<body>
+<div class="container-fluid px-4 mt-4">
 
-<div class="container-fluid mt-4">
-  <div class="card">
-    <div class="card-body">
-
-      @if (TempData["SuccessMessage"] != null)
-      {
-        <div class="alert alert-success alert-dismissible fade show">
-          @TempData["SuccessMessage"]
-          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-      }
-
-      @if (TempData["ErrorMessage"] != null)
-      {
-        <div class="alert alert-danger alert-dismissible fade show">
-          @TempData["ErrorMessage"]
-          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-      }
-
-      <div class="d-flex justify-content-between align-items-center mb-3">
-        <h5 class="mb-0">MOM – Meeting Member List</h5>
-
-        <a asp-controller="MeetingMember"
-           asp-action="MeetingMemberAddEdit"
-           class="btn btn-primary rounded-pill px-4">
-          + Add Member
-        </a>
-      </div>
-
-      <table class="table datatable">
-        <thead>
-          <tr>
-            <th>Member ID</th>
-            <th>Status</th>
-            <th>Remarks</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-
-        <tbody>
-        @if (Model != null && Model.Count > 0)
-        {
-          foreach (var item in Model)
-          {
-            <tr>
-              <td>@item.MeetingMemberID</td>
-
-              <td>
-                @if (item.IsPresent == true)
-                {
-                  <span class="badge-present">Present</span>
-                }
-                else
-                {
-                  <span class="badge-absent">Absent</span>
-                }
-              </td>
-
-              <td>
-                @(string.IsNullOrWhiteSpace(item.Remarks) ? "-" : item.Remarks)
-              </td>
-
-              <td>
-                <div class="action-btns">
-                  <a asp-action="MeetingMemberAddEdit"
-                     asp-controller="MeetingMember"
-                     asp-route-id="@item.MeetingMemberID"
-                     class="btn btn-sm btn-outline-primary rounded-pill">
-                    Edit
-                  </a>
-
-                  <a asp-action="DeleteMeetingMember"
-                     asp-controller="MeetingMember"
-                     asp-route-id="@item.MeetingMemberID"
-                     class="btn btn-sm btn-outline-danger rounded-pill"
-                     onclick="return confirm('Delete this member?');">
-                    Delete
-                  </a>
-                </div>
-              </td>
-            </tr>
-          }
-        }
-        else
-        {
-          <tr>
-            <td colspan="4" class="text-center text-muted">
-              No records found
-            </td>
-          </tr>
-        }
-        </tbody>
-      </table>
-
+  <!-- Page Header -->
+  <div class="mb-4 d-flex justify-content-between align-items-center">
+    <div>
+      <div class="page-title">👥 Meeting Members</div>
+      <div class="page-subtitle">Manage attendance and members for this meeting</div>
     </div>
+    <a asp-action="MeetingList" asp-controller="Meeting"
+       class="btn btn-outline-secondary rounded-pill px-4"
+       style="font-size:13px; font-weight:600;">
+      ← Back to Meetings
+    </a>
+  </div>
+
+  <!-- Main Card -->
+  <div class="mom-card">
+
+    <!-- Card Header -->
+    <div class="mom-card-header">
+      <h5>👤 Members List</h5>
+      <a asp-action="MeetingMemberAddEdit"
+         asp-route-meetingId="@ViewBag.MeetingID"
+         class="btn-add-member">
+        + Add Member
+      </a>
+    </div>
+
+    <!-- Table -->
+    <div class="mom-table-wrap">
+      @if (Model != null && Model.Count > 0)
+      {
+        <table class="mom-table">
+          <thead>
+            <tr>
+              <th>Staff Member</th>
+              <th>Department</th>
+              <th class="text-center">Status</th>
+              <th>Remarks</th>
+              <th class="text-center">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @foreach (var m in Model)
+            {
+              <tr>
+
+                <!-- Staff with avatar chip -->
+                <td>
+                  <div class="staff-chip">
+                    <div class="staff-avatar">
+                      @(string.IsNullOrWhiteSpace(m.StaffName) ? "?" : m.StaffName.Substring(0,1).ToUpper())
+                    </div>
+                    <span class="staff-name">@m.StaffName</span>
+                  </div>
+                </td>
+
+                <!-- Department -->
+                <td>
+                  <span class="dept-tag">@m.DepartmentName</span>
+                </td>
+
+                <!-- Attendance Status -->
+                <td class="text-center">
+                  @if (m.IsPresent == true)
+                  {
+                    <span class="badge-present">✓ Present</span>
+                  }
+                  else
+                  {
+                    <span class="badge-absent">✗ Absent</span>
+                  }
+                </td>
+
+                <!-- Remarks -->
+                <td>
+                  <span class="text-muted" style="font-size:13px;">
+                    @(string.IsNullOrWhiteSpace(m.Remarks) ? "—" : m.Remarks)
+                  </span>
+                </td>
+
+                <!-- Actions -->
+                <td class="text-center">
+                  <div class="action-group">
+                    <a asp-action="MeetingMemberAddEdit"
+                       asp-route-id="@m.MeetingMemberID"
+                       asp-route-meetingId="@ViewBag.MeetingID"
+                       class="btn-edit-row">
+                      ✏ Edit
+                    </a>
+                    <a asp-action="DeleteMeetingMember"
+                       asp-route-id="@m.MeetingMemberID"
+                       asp-route-meetingId="@ViewBag.MeetingID"
+                       class="btn-delete-row"
+                       onclick="return confirm('Remove this member?');">
+                      🗑 Delete
+                    </a>
+                  </div>
+                </td>
+
+              </tr>
+            }
+          </tbody>
+        </table>
+      }
+      else
+      {
+        <div class="empty-state">
+          <i class="bi bi-people"></i>
+          No members added yet. Click <strong>+ Add Member</strong> to get started.
+        </div>
+      }
+    </div>
+
   </div>
 </div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest"></script>
-<script>
-  new simpleDatatables.DataTable(".datatable");
-</script>
-
-</body>
-</html>

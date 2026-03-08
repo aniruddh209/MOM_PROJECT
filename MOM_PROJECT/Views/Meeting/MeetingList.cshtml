@@ -1,258 +1,274 @@
 @model List<MOM_PROJECT.Models.MeetingModel>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8" />
-<title>MOM – Meeting List</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-<link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
-
-<style>
-body {
-  background: linear-gradient(135deg, #eef2ff, #f8fafc);
-  font-family: "Inter", sans-serif;
+@{
+    ViewData["Title"] = "Meeting List";
+    Layout = "_Layout";
 }
 
-.card {
+<style>
+/* ── Page Header ─────────────────────────────────── */
+.page-title   { font-size: 26px; font-weight: 700; color: #1e1b4b; }
+.page-subtitle{ color: #6b7280; font-size: 14px; }
+
+/* ── Card ─────────────────────────────────────────── */
+.mom-card {
   border: none;
   border-radius: 18px;
   background: #ffffff;
-  box-shadow: 0 15px 40px rgba(79, 70, 229, 0.12);
+  box-shadow: 0 15px 40px rgba(79, 70, 229, 0.10);
+  overflow: hidden;
 }
 
-.card-body { padding: 28px; }
+/* ── Card top bar ────────────────────────────────── */
+.mom-card-header {
+  background: linear-gradient(135deg, #6366f1, #7c3aed);
+  color: #fff;
+  padding: 18px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.mom-card-header h5 {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+.btn-add-meeting {
+  background: rgba(255,255,255,0.18);
+  border: 1.5px solid rgba(255,255,255,0.5);
+  color: #fff;
+  border-radius: 999px;
+  padding: 6px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  transition: background 0.2s;
+  text-decoration: none;
+}
+.btn-add-meeting:hover {
+  background: rgba(255,255,255,0.30);
+  color: #fff;
+}
 
-.table {
+/* ── Table ───────────────────────────────────────── */
+.mom-table-wrap { padding: 24px; }
+
+.mom-table {
   width: 100%;
-  table-layout: fixed;
   border-collapse: separate;
-  border-spacing: 0 12px;
+  border-spacing: 0 10px;
+  table-layout: fixed;
 }
 
-.table thead th,
-.table tbody td {
-  padding: 16px 18px;
+.mom-table thead th {
+  background: #eef2ff;
+  color: #3730a3;
+  font-weight: 700;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  padding: 14px 18px;
+}
+.mom-table thead th:first-child { border-radius: 10px 0 0 10px; }
+.mom-table thead th:last-child  { border-radius: 0 10px 10px 0; }
+
+.mom-table tbody tr {
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(79,70,229,0.07);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.mom-table tbody tr:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(79,70,229,0.15);
+}
+.mom-table tbody td {
+  padding: 15px 18px;
   vertical-align: middle;
   font-size: 14px;
+  color: #374151;
+  border: none;
 }
+.mom-table tbody td:first-child { border-radius: 10px 0 0 10px; }
+.mom-table tbody td:last-child  { border-radius: 0 10px 10px 0; }
 
-.table thead th {
-  background: #eef2ff;
-  font-weight: 600;
-  color: #3730a3;
-}
-
-.table thead th.text-left { text-align: left; }
-.table thead th.text-center { text-align: center; }
-
-.table tbody tr {
-  background: #ffffff;
-  transition: 0.25s ease;
-}
-
-.table tbody tr:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 10px 30px rgba(79, 70, 229, 0.18);
-}
-
-/* BADGES */
-.badge-active {
+/* ── Badges ───────────────────────────────────────── */
+.pill-active {
   background: #dcfce7;
   color: #166534;
-  padding: 6px 14px;
+  padding: 5px 14px;
   border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
 }
-
-.badge-canceled {
+.pill-canceled {
   background: #fee2e2;
   color: #991b1b;
-  padding: 6px 14px;
+  padding: 5px 14px;
   border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
 }
 
-/* ACTION BUTTONS */
-.action-btns {
+/* ── Action Buttons ──────────────────────────────── */
+.action-group {
   display: inline-flex;
-  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
   justify-content: center;
-  gap: 10px;
 }
-
-/* ✅ CANCELLATION INFO FIX */
-.cancel-info {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  line-height: 1.4;
+.action-group .btn {
+  border-radius: 999px;
+  font-size: 12px;
+  padding: 5px 14px;
+  font-weight: 600;
+  transition: all 0.2s;
 }
-
-.cancel-date {
-  font-size: 13px;
-  font-weight: 500;
+.btn-members {
+  border: 1.5px solid #22c55e;
+  color: #16a34a;
+  background: #f0fdf4;
 }
-
-.cancel-reason {
-  font-size: 13px;
-  color: #6b7280;
-}
-
-.cancel-none {
-  text-align: center;
-  color: #9ca3af;
-}
-
-.btn-outline-primary {
-  border-color: #6366f1;
+.btn-members:hover { background: #22c55e; color: #fff; }
+.btn-edit-row {
+  border: 1.5px solid #6366f1;
   color: #4f46e5;
+  background: #eef2ff;
 }
-.btn-outline-primary:hover {
-  background: #4f46e5;
-  color: #ffffff;
-}
-
-.btn-outline-danger {
-  border-color: #ef4444;
+.btn-edit-row:hover { background: #6366f1; color: #fff; }
+.btn-delete-row {
+  border: 1.5px solid #f87171;
   color: #dc2626;
+  background: #fff5f5;
 }
-.btn-outline-danger:hover {
-  background: #dc2626;
-  color: #ffffff;
-}
+.btn-delete-row:hover { background: #ef4444; color: #fff; }
 </style>
-</head>
 
-<body>
+<div class="container-fluid px-4 mt-4">
 
-<div class="container-fluid mt-4">
-  <div class="card">
-    <div class="card-body">
+  <!-- Page Header -->
+  <div class="mb-4 d-flex justify-content-between align-items-center">
+    <div>
+      <div class="page-title">📋 Meeting List</div>
+      <div class="page-subtitle">Manage all scheduled and past meetings</div>
+    </div>
+  </div>
 
-      @if (TempData["SuccessMessage"] != null)
-      {
-        <div class="alert alert-success alert-dismissible fade show">
-          @TempData["SuccessMessage"]
-          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-      }
+  <!-- Main Card -->
+  <div class="mom-card">
 
-      @if (TempData["ErrorMessage"] != null)
-      {
-        <div class="alert alert-danger alert-dismissible fade show">
-          @TempData["ErrorMessage"]
-          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-      }
+    <!-- Card Header -->
+    <div class="mom-card-header">
+      <h5>🗓 All Meetings</h5>
+      <a asp-action="MeetingAddEdit" asp-controller="Meeting" class="btn-add-meeting">
+        + Add Meeting
+      </a>
+    </div>
 
-      <div class="d-flex justify-content-between align-items-center mb-3">
-        <h5 class="mb-0">MOM – Meeting List</h5>
-        <a asp-action="MeetingAddEdit"
-           asp-controller="Meeting"
-           class="btn btn-primary rounded-pill px-4">
-          + Add Meeting
-        </a>
-      </div>
-
-      <table class="table datatable">
+    <!-- Table -->
+    <div class="mom-table-wrap">
+      <table class="mom-table datatable">
         <thead>
           <tr>
-            <th class="text-left">Description</th>
+            <th>Description</th>
             <th class="text-center">Date</th>
             <th class="text-center">Cancelled</th>
-            <th class="text-left">Cancellation Info</th>
-            <th class="text-center">Action</th>
+            <th>Cancellation Info</th>
+            <th class="text-center">Actions</th>
           </tr>
         </thead>
-
         <tbody>
-        @if (Model != null && Model.Count > 0)
-        {
-          foreach (var item in Model)
+          @if (Model != null && Model.Count > 0)
+          {
+            foreach (var item in Model)
+            {
+              <tr>
+                <!-- Description -->
+                <td>
+                  @(string.IsNullOrWhiteSpace(item.MeetingDescription) ? "-" : item.MeetingDescription)
+                </td>
+
+                <!-- Date -->
+                <td class="text-center">
+                  @(item.MeetingDate.HasValue
+                      ? item.MeetingDate.Value.ToString("dd/MM/yyyy")
+                      : "-")
+                </td>
+
+                <!-- Cancelled Badge -->
+                <td class="text-center">
+                  @if (item.IsCancelled == true)
+                  {
+                    <span class="pill-canceled">Yes</span>
+                  }
+                  else
+                  {
+                    <span class="pill-active">No</span>
+                  }
+                </td>
+
+                <!-- Cancellation Info -->
+                <td>
+                  @if (item.IsCancelled == true)
+                  {
+                    <div style="font-size:13px;">
+                      @(item.CancellationDateTime.HasValue
+                          ? item.CancellationDateTime.Value.ToString("dd/MM/yyyy hh:mm tt")
+                          : "-")
+                    </div>
+                    <small class="text-muted">
+                      @(string.IsNullOrWhiteSpace(item.CancellationReason) ? "-" : item.CancellationReason)
+                    </small>
+                  }
+                  else
+                  {
+                    <span class="text-muted">—</span>
+                  }
+                </td>
+
+                <!-- Actions -->
+                <td class="text-center">
+                  <div class="action-group">
+                    <a asp-controller="MeetingMember"
+                       asp-action="MeetingMemberList"
+                       asp-route-meetingId="@item.MeetingID"
+                       class="btn btn-members">
+                      Members
+                    </a>
+                    <a asp-controller="Meeting"
+                       asp-action="MeetingAddEdit"
+                       asp-route-id="@item.MeetingID"
+                       class="btn btn-edit-row">
+                      Edit
+                    </a>
+                    <a asp-controller="Meeting"
+                       asp-action="DeleteMeeting"
+                       asp-route-id="@item.MeetingID"
+                       class="btn btn-delete-row"
+                       onclick="return confirm('Delete this meeting?');">
+                      Delete
+                    </a>
+                  </div>
+                </td>
+              </tr>
+            }
+          }
+          else
           {
             <tr>
-              <td>@(string.IsNullOrEmpty(item.MeetingDescription) ? "-" : item.MeetingDescription)</td>
-
-              <td class="text-center">
-                @(item.MeetingDate.HasValue
-                    ? item.MeetingDate.Value.ToString("dd/MM/yyyy")
-                    : "-")
-              </td>
-
-              <td class="text-center">
-                @if (item.IsCancelled == true)
-                {
-                  <span class="badge-canceled">Yes</span>
-                }
-                else
-                {
-                  <span class="badge-active">No</span>
-                }
-              </td>
-
-              <!-- ✅ FIXED CANCELLATION INFO -->
-              <td>
-                @if (item.IsCancelled == true)
-                {
-                  <div class="cancel-info">
-                    <span class="cancel-date">
-                      @(item.CancellationDateTime.HasValue
-                        ? item.CancellationDateTime.Value.ToString("dd/MM/yyyy hh:mm tt")
-                        : "-")
-                    </span>
-                    <span class="cancel-reason">
-                      @(string.IsNullOrEmpty(item.CancellationReason) ? "-" : item.CancellationReason)
-                    </span>
-                  </div>
-                }
-                else
-                {
-                  <div class="cancel-none">-</div>
-                }
-              </td>
-
-              <td class="text-center align-middle">
-                <div class="action-btns">
-                  <a asp-action="MeetingAddEdit"
-                     asp-controller="Meeting"
-                     asp-route-id="@item.MeetingID"
-                     class="btn btn-sm btn-outline-primary rounded-pill">
-                    Edit
-                  </a>
-
-                  <a asp-action="DeleteMeeting"
-                     asp-controller="Meeting"
-                     asp-route-id="@item.MeetingID"
-                     class="btn btn-sm btn-outline-danger rounded-pill"
-                     onclick="return confirm('Delete this meeting?');">
-                    Delete
-                  </a>
-                </div>
+              <td colspan="5" class="text-center text-muted py-4">
+                <i class="bi bi-calendar-x fs-2 d-block mb-2 opacity-50"></i>
+                No meetings found
               </td>
             </tr>
           }
-        }
-        else
-        {
-          <tr>
-            <td colspan="5" class="text-center text-muted">
-              No records found
-            </td>
-          </tr>
-        }
         </tbody>
       </table>
-
     </div>
+
   </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest"></script>
 <script>
-new simpleDatatables.DataTable(".datatable");
+  new simpleDatatables.DataTable(".datatable");
 </script>
-
-</body>
-</html>
