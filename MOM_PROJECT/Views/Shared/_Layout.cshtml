@@ -44,6 +44,13 @@
   <nav class="header-nav ms-auto">
     <ul class="d-flex align-items-center">
 
+      <!-- 🌙 Theme Toggle -->
+      <li class="nav-item me-2">
+        <button id="themeToggleBtn" title="Toggle dark / light theme" onclick="toggleTheme()">
+          <span id="themeIcon">🌙</span>
+        </button>
+      </li>
+
       <li class="nav-item dropdown">
         <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
           <i class="bi bi-bell"></i>
@@ -86,7 +93,7 @@
             <a class="dropdown-item d-flex align-items-center"
                asp-controller="Account"
                asp-action="Logout">
-              <i class="bi bi-box-arrow-right" asp-controller="Account" asp-action="Login"></i>
+              <i class="bi bi-box-arrow-right"></i>
               <span>Logout</span>
             </a>
           </li>
@@ -198,6 +205,32 @@
 <script src="~/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="~/assets/vendor/simple-datatables/simple-datatables.js"></script>
 <script src="~/assets/js/main.js"></script>
+
+<script>
+/* ── Theme Toggle (persisted via localStorage) ── */
+(function () {
+  var saved = localStorage.getItem('momTheme') || 'light';
+  if (saved === 'dark') {
+    document.body.setAttribute('data-theme', 'dark');
+    var icon = document.getElementById('themeIcon');
+    if (icon) icon.textContent = '☀️';
+  }
+})();
+
+function toggleTheme() {
+  var isDark = document.body.getAttribute('data-theme') === 'dark';
+  var icon   = document.getElementById('themeIcon');
+  if (isDark) {
+    document.body.removeAttribute('data-theme');
+    localStorage.setItem('momTheme', 'light');
+    if (icon) icon.textContent = '🌙';
+  } else {
+    document.body.setAttribute('data-theme', 'dark');
+    localStorage.setItem('momTheme', 'dark');
+    if (icon) icon.textContent = '☀️';
+  }
+}
+</script>
 
 </body>
 </html>

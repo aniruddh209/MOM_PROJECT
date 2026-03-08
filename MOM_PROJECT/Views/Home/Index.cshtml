@@ -45,8 +45,11 @@
     background:#6366f1;
 }
 
+.card-green { background: #ecfdf5; }
 .card-green::before{ background:#22c55e; }
+.card-blue { background: #eff6ff; }
 .card-blue::before{ background:#3b82f6; }
+.card-orange { background: #fffbeb; }
 .card-orange::before{ background:#f59e0b; }
 
 .stat-icon {
@@ -138,55 +141,46 @@
                 <div class="stat-icon icon-purple">
                     <i class="bi bi-calendar-event"></i>
                 </div>
-                <div class="stat-number">15</div>
+                <div class="stat-number">@ViewBag.TotalMeetings</div>
                 <div class="stat-label">Total Meetings</div>
-                <span class="stat-badge badge-success">
-                    ↑ 12% from last month
-                </span>
+                <span class="stat-badge badge-success">All time</span>
             </div>
         </div>
 
         <div class="col-md-3">
-            <div class="stat-card card-green" style="background:#ecfdf5;">
-                <div class="stat-icon icon-green">
-                    <i class="bi bi-clock"></i>
-                </div>
-                <div class="stat-number">0</div>
-                <div class="stat-label">Upcoming</div>
-                <span class="stat-badge badge-success">
-                    ↑ 8% from last week
-                </span>
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="stat-card card-blue" style="background:#eff6ff;">
+            <div class="stat-card card-blue">
                 <div class="stat-icon icon-blue">
                     <i class="bi bi-check-circle"></i>
                 </div>
-                <div class="stat-number">10</div>
+                <div class="stat-number">@ViewBag.CompletedMeetings</div>
                 <div class="stat-label">Completed</div>
-                <span class="stat-badge badge-info">
-                    ↑ 15% completion rate
-                </span>
+                <span class="stat-badge badge-info">Not cancelled</span>
             </div>
         </div>
 
         <div class="col-md-3">
-            <div class="stat-card card-orange" style="background:#fffbeb;">
+            <div class="stat-card card-orange">
                 <div class="stat-icon icon-orange">
                     <i class="bi bi-x-circle"></i>
                 </div>
-                <div class="stat-number">5</div>
+                <div class="stat-number">@ViewBag.CancelledMeetings</div>
                 <div class="stat-label">Cancelled</div>
-                <span class="stat-badge badge-danger">
-                    ↓ 3% cancellation rate
-                </span>
+                <span class="stat-badge badge-danger">Recorded cancellations</span>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="stat-card card-green">
+                <div class="stat-icon icon-green">
+                    <i class="bi bi-people"></i>
+                </div>
+                <div class="stat-number">@ViewBag.TotalMembers</div>
+                <div class="stat-label">Member Records</div>
+                <span class="stat-badge badge-success">Attendance records</span>
             </div>
         </div>
 
     </div>
-
     <!-- CHARTS -->
     <div class="row g-4">
 

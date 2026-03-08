@@ -7,32 +7,10 @@
 
 <style>
 /* ── Page Header ─────────────────────────────────── */
-.page-title   { font-size: 26px; font-weight: 700; color: #1e1b4b; }
-.page-subtitle{ color: #6b7280; font-size: 14px; }
+.page-title    { font-size: 26px; font-weight: 700; color: #1e1b4b; }
+.page-subtitle { color: #6b7280; font-size: 14px; }
 
-/* ── Card ─────────────────────────────────────────── */
-.mom-card {
-  border: none;
-  border-radius: 18px;
-  background: #ffffff;
-  box-shadow: 0 15px 40px rgba(79, 70, 229, 0.10);
-  overflow: hidden;
-}
-
-/* ── Card Header ─────────────────────────────────── */
-.mom-card-header {
-  background: linear-gradient(135deg, #6366f1, #7c3aed);
-  color: #fff;
-  padding: 18px 24px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.mom-card-header h5 {
-  margin: 0;
-  font-size: 17px;
-  font-weight: 600;
-}
+/* ── Ghost add-member button ─────────────────────── */
 .btn-add-member {
   background: rgba(255,255,255,0.18);
   border: 1.5px solid rgba(255,255,255,0.5);
@@ -44,149 +22,66 @@
   transition: background 0.2s;
   text-decoration: none;
 }
-.btn-add-member:hover {
-  background: rgba(255,255,255,0.30);
-  color: #fff;
+.btn-add-member:hover { background: rgba(255,255,255,0.30); color: #fff; }
+
+/* ── Table wrap ──────────────────────────────────── */
+.mom-table-wrap {
+  background: transparent;
+  padding: 0;
 }
 
-/* ── Back link bar ───────────────────────────────── */
-.back-bar {
-  background: #f5f3ff;
-  padding: 10px 24px;
-  border-bottom: 1px solid #ede9fe;
-}
-.back-bar a {
-  font-size: 13px;
-  font-weight: 600;
-  color: #6366f1;
-  text-decoration: none;
-}
-.back-bar a:hover { text-decoration: underline; }
-
-/* ── Table ───────────────────────────────────────── */
-.mom-table-wrap { padding: 24px; }
-
-.mom-table {
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0 10px;
-}
-.mom-table thead th {
-  background: #eef2ff;
-  color: #3730a3;
-  font-weight: 700;
-  font-size: 13px;
-  text-transform: uppercase;
-  letter-spacing: 0.6px;
-  padding: 13px 18px;
-  border: none;
-}
-.mom-table thead th:first-child { border-radius: 10px 0 0 10px; }
-.mom-table thead th:last-child  { border-radius: 0 10px 10px 0; }
-
-.mom-table tbody tr {
-  background: #fff;
-  box-shadow: 0 2px 8px rgba(79,70,229,0.07);
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-.mom-table tbody tr:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(79,70,229,0.14);
-}
-.mom-table tbody td {
-  padding: 14px 18px;
-  vertical-align: middle;
-  font-size: 14px;
-  color: #374151;
-  border: none;
-}
-.mom-table tbody td:first-child { border-radius: 10px 0 0 10px; }
-.mom-table tbody td:last-child  { border-radius: 0 10px 10px 0; }
-
-/* ── Staff Avatar chip ─────────────────────────── */
+/* ── Staff chip (avatar + name) ──────────────────── */
 .staff-chip {
   display: inline-flex;
   align-items: center;
   gap: 8px;
 }
 .staff-avatar {
-  width: 32px;
-  height: 32px;
+  width: 32px; height: 32px;
   border-radius: 50%;
   background: linear-gradient(135deg, #6366f1, #7c3aed);
   color: #fff;
-  font-size: 13px;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  font-size: 13px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
   flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(99,102,241,0.35);
 }
-.staff-name { font-weight: 600; color: #1e1b4b; }
+.staff-name { font-weight: 600; color: #374151; }
 
-/* ── Dept tag ─────────────────────────────────────── */
+/* ── Dept tag ────────────────────────────────────── */
 .dept-tag {
   background: #eef2ff;
   color: #4f46e5;
+  border: 1px solid #c7d2fe;
   border-radius: 999px;
   padding: 4px 12px;
-  font-size: 12px;
-  font-weight: 600;
+  font-size: 12px; font-weight: 600;
 }
 
-/* ── Present/Absent badges ────────────────────────── */
+/* ── Present/Absent badges ───────────────────────── */
 .badge-present {
-  background: #dcfce7;
-  color: #166534;
+  background: #f0fdf4;
+  color: #16a34a;
+  border: 1px solid #bbf7d0;
   padding: 5px 14px;
   border-radius: 999px;
-  font-size: 12px;
-  font-weight: 700;
+  font-size: 12px; font-weight: 700;
 }
 .badge-absent {
-  background: #fee2e2;
-  color: #991b1b;
+  background: #fff5f5;
+  color: #dc2626;
+  border: 1px solid #fecaca;
   padding: 5px 14px;
   border-radius: 999px;
-  font-size: 12px;
-  font-weight: 700;
+  font-size: 12px; font-weight: 700;
 }
 
 /* ── Action buttons ──────────────────────────────── */
-.action-group {
-  display: inline-flex;
-  gap: 6px;
-}
-.btn-edit-row {
-  border: 1.5px solid #6366f1;
-  color: #4f46e5;
-  background: #eef2ff;
-  border-radius: 999px;
-  font-size: 12px;
-  padding: 5px 14px;
-  font-weight: 600;
-  text-decoration: none;
-  transition: all 0.2s;
-}
-.btn-edit-row:hover { background: #6366f1; color: #fff; }
-.btn-delete-row {
-  border: 1.5px solid #f87171;
-  color: #dc2626;
-  background: #fff5f5;
-  border-radius: 999px;
-  font-size: 12px;
-  padding: 5px 14px;
-  font-weight: 600;
-  text-decoration: none;
-  transition: all 0.2s;
-}
-.btn-delete-row:hover { background: #ef4444; color: #fff; }
+.action-group { display: inline-flex; gap: 6px; }
 
 /* ── Empty state ─────────────────────────────────── */
 .empty-state {
-  text-align: center;
-  padding: 50px 20px;
-  color: #9ca3af;
+  text-align: center; padding: 50px 20px; color: #94a3b8;
 }
 .empty-state i { font-size: 48px; display: block; margin-bottom: 12px; opacity: 0.4; }
 </style>

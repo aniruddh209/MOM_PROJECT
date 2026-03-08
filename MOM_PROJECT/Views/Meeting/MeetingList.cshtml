@@ -7,33 +7,10 @@
 
 <style>
 /* ── Page Header ─────────────────────────────────── */
-.page-title   { font-size: 26px; font-weight: 700; color: #1e1b4b; }
-.page-subtitle{ color: #6b7280; font-size: 14px; }
+.page-title    { font-size: 26px; font-weight: 700; color: #1e1b4b; }
+.page-subtitle { color: #6b7280; font-size: 14px; }
 
-/* ── Card ─────────────────────────────────────────── */
-.mom-card {
-  border: none;
-  border-radius: 18px;
-  background: #ffffff;
-  box-shadow: 0 15px 40px rgba(79, 70, 229, 0.10);
-  overflow: hidden;
-}
-
-/* ── Card top bar ────────────────────────────────── */
-.mom-card-header {
-  background: linear-gradient(135deg, #6366f1, #7c3aed);
-  color: #fff;
-  padding: 18px 24px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.mom-card-header h5 {
-  margin: 0;
-  font-size: 17px;
-  font-weight: 600;
-  letter-spacing: 0.3px;
-}
+/* ── Ghost add-meeting button in header ─────────── */
 .btn-add-meeting {
   background: rgba(255,255,255,0.18);
   border: 1.5px solid rgba(255,255,255,0.5);
@@ -50,66 +27,13 @@
   color: #fff;
 }
 
-/* ── Table ───────────────────────────────────────── */
-.mom-table-wrap { padding: 24px; }
-
-.mom-table {
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0 10px;
-  table-layout: fixed;
+/* ── Table wrap (inherits card body) ─────────────── */
+.mom-table-wrap {
+  background: transparent;
+  padding: 0;
 }
 
-.mom-table thead th {
-  background: #eef2ff;
-  color: #3730a3;
-  font-weight: 700;
-  font-size: 13px;
-  text-transform: uppercase;
-  letter-spacing: 0.6px;
-  padding: 14px 18px;
-}
-.mom-table thead th:first-child { border-radius: 10px 0 0 10px; }
-.mom-table thead th:last-child  { border-radius: 0 10px 10px 0; }
-
-.mom-table tbody tr {
-  background: #fff;
-  box-shadow: 0 2px 8px rgba(79,70,229,0.07);
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-.mom-table tbody tr:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(79,70,229,0.15);
-}
-.mom-table tbody td {
-  padding: 15px 18px;
-  vertical-align: middle;
-  font-size: 14px;
-  color: #374151;
-  border: none;
-}
-.mom-table tbody td:first-child { border-radius: 10px 0 0 10px; }
-.mom-table tbody td:last-child  { border-radius: 0 10px 10px 0; }
-
-/* ── Badges ───────────────────────────────────────── */
-.pill-active {
-  background: #dcfce7;
-  color: #166534;
-  padding: 5px 14px;
-  border-radius: 999px;
-  font-size: 12px;
-  font-weight: 600;
-}
-.pill-canceled {
-  background: #fee2e2;
-  color: #991b1b;
-  padding: 5px 14px;
-  border-radius: 999px;
-  font-size: 12px;
-  font-weight: 600;
-}
-
-/* ── Action Buttons ──────────────────────────────── */
+/* ── Action Buttons (dark palette) ──────────────── */
 .action-group {
   display: inline-flex;
   gap: 6px;
@@ -123,24 +47,6 @@
   font-weight: 600;
   transition: all 0.2s;
 }
-.btn-members {
-  border: 1.5px solid #22c55e;
-  color: #16a34a;
-  background: #f0fdf4;
-}
-.btn-members:hover { background: #22c55e; color: #fff; }
-.btn-edit-row {
-  border: 1.5px solid #6366f1;
-  color: #4f46e5;
-  background: #eef2ff;
-}
-.btn-edit-row:hover { background: #6366f1; color: #fff; }
-.btn-delete-row {
-  border: 1.5px solid #f87171;
-  color: #dc2626;
-  background: #fff5f5;
-}
-.btn-delete-row:hover { background: #ef4444; color: #fff; }
 </style>
 
 <div class="container-fluid px-4 mt-4">

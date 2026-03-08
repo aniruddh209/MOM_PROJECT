@@ -14,172 +14,158 @@
 body {
   font-family: "Inter", sans-serif;
   min-height: 100vh;
-  background: linear-gradient(135deg, #1e1b4b 0%, #4f46e5 50%, #7c3aed 100%);
+  background: #f1f5f9;          /* light neutral — not dark */
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 20px;
-  position: relative;
-  overflow: hidden;
 }
 
-/* Decorative blobs */
-body::before {
-  content: "";
-  position: absolute;
-  width: 500px; height: 500px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.04);
-  top: -150px; left: -150px;
-  pointer-events: none;
-}
-body::after {
-  content: "";
-  position: absolute;
-  width: 350px; height: 350px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.04);
-  bottom: -100px; right: -80px;
-  pointer-events: none;
-}
-
-/* Card */
-.login-card {
+.login-wrapper {
+  display: flex;
   width: 100%;
-  max-width: 440px;
+  max-width: 900px;
   border-radius: 24px;
   overflow: hidden;
-  box-shadow: 0 40px 80px rgba(0,0,0,0.4);
-  position: relative;
-  z-index: 1;
-  animation: slideUp 0.4s ease;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+  animation: fadeIn 0.4s ease;
 }
-
-@@keyframes slideUp {
-  from { opacity: 0; transform: translateY(24px); }
+@@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(16px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* Header */
-.card-top {
-  background: linear-gradient(135deg, #6366f1, #7c3aed);
-  padding: 40px 36px 32px;
-  text-align: center;
+/* Left panel — brand accent */
+.login-left {
+  flex: 1;
+  background: linear-gradient(145deg, #6366f1, #818cf8, #a78bfa);
+  padding: 56px 44px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   color: #fff;
 }
-.brand-icon {
-  width: 64px; height: 64px;
-  border-radius: 18px;
-  background: rgba(255,255,255,0.18);
-  display: inline-flex; align-items: center; justify-content: center;
-  font-size: 28px;
-  margin-bottom: 16px;
-  border: 2px solid rgba(255,255,255,0.3);
+.brand-logo {
+  width: 60px; height: 60px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 16px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 26px;
+  margin-bottom: 28px;
+  border: 1.5px solid rgba(255,255,255,0.3);
 }
-.card-top h1 { font-size: 26px; font-weight: 800; margin-bottom: 6px; }
-.card-top p  { font-size: 14px; opacity: 0.8; }
+.login-left h1 { font-size: 28px; font-weight: 800; line-height: 1.2; margin-bottom: 12px; }
+.login-left p  { font-size: 14px; opacity: 0.8; line-height: 1.6; }
+.feature-list  { margin-top: 32px; }
+.feature-item  {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 13px; margin-bottom: 14px; opacity: 0.9;
+}
+.feature-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: rgba(255,255,255,0.7);
+  flex-shrink: 0;
+}
 
-/* Body */
-.card-body {
+/* Right panel — form */
+.login-right {
+  flex: 1;
   background: #fff;
-  padding: 32px 36px;
+  padding: 56px 44px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
+.login-right h2 { font-size: 22px; font-weight: 800; color: #1f2937; margin-bottom: 6px; }
+.login-right .sub { font-size: 14px; color: #9ca3af; margin-bottom: 32px; }
 
 .form-group { margin-bottom: 20px; }
-
 .form-group label {
   display: block;
   font-size: 12px;
-  font-weight: 700;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  color: #1e1b4b;
-  margin-bottom: 8px;
+  color: #6b7280;
+  margin-bottom: 7px;
 }
-
-.input-wrap {
-  position: relative;
-}
+.input-wrap { position: relative; }
 .input-icon {
-  position: absolute;
-  left: 14px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 16px;
-  color: #9ca3af;
+  position: absolute; left: 14px; top: 50%;
+  transform: translateY(-50%); font-size: 15px; color: #d1d5db;
   pointer-events: none;
 }
 .form-group input {
   width: 100%;
-  padding: 13px 14px 13px 44px;
-  border-radius: 12px;
+  padding: 13px 14px 13px 42px;
+  border-radius: 10px;
   border: 1.5px solid #e5e7eb;
   font-size: 14px;
   font-family: "Inter", sans-serif;
-  background: #f8fafc;
+  background: #fff;
+  color: #374151;
   transition: border-color 0.2s, box-shadow 0.2s;
-  color: #111827;
 }
 .form-group input:focus {
   outline: none;
-  border-color: #6366f1;
-  box-shadow: 0 0 0 3px rgba(99,102,241,0.18);
-  background: #fff;
+  border-color: #818cf8;
+  box-shadow: 0 0 0 3px rgba(129,140,248,0.15);
 }
 
-.options {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 8px 0 24px;
-  font-size: 13px;
+.row-options {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 24px; font-size: 13px;
 }
-.options label { display: flex; align-items: center; gap: 6px; color: #6b7280; cursor: pointer; }
-.options a { color: #6366f1; font-weight: 600; text-decoration: none; }
-.options a:hover { text-decoration: underline; }
+.row-options label { display: flex; align-items: center; gap: 6px; color: #6b7280; cursor: pointer; }
+.row-options a { color: #6366f1; font-weight: 600; text-decoration: none; }
 
 .btn-signin {
   width: 100%;
   padding: 14px;
-  border: none;
-  border-radius: 14px;
-  font-size: 15px;
-  font-weight: 700;
-  color: #fff;
-  font-family: "Inter", sans-serif;
-  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  border: none; border-radius: 10px;
+  font-size: 15px; font-weight: 700;
+  color: #fff; font-family: "Inter", sans-serif;
+  background: linear-gradient(135deg, #6366f1, #818cf8);
   cursor: pointer;
   transition: opacity 0.2s, transform 0.15s;
-  letter-spacing: 0.3px;
+  box-shadow: 0 4px 14px rgba(99,102,241,0.30);
 }
 .btn-signin:hover { opacity: 0.88; transform: translateY(-1px); }
 
-/* Footer */
-.card-footer {
-  background: #f8fafc;
-  padding: 18px 36px;
-  text-align: center;
-  border-top: 1px solid #f1f5f9;
-  font-size: 14px;
-  color: #6b7280;
+.signup-link {
+  margin-top: 24px; text-align: center;
+  font-size: 14px; color: #9ca3af;
 }
-.card-footer a { color: #6366f1; font-weight: 700; text-decoration: none; }
-.card-footer a:hover { text-decoration: underline; }
+.signup-link a { color: #6366f1; font-weight: 700; text-decoration: none; }
+
+@@media (max-width: 640px) {
+  .login-wrapper { flex-direction: column; }
+  .login-left { padding: 36px; }
+  .login-right { padding: 36px; }
+}
 </style>
 </head>
 <body>
 
-<div class="login-card">
+<div class="login-wrapper">
 
-  <!-- Header -->
-  <div class="card-top">
-    <div class="brand-icon">📋</div>
-    <h1>Welcome Back</h1>
-    <p>Sign in to your MOM System account</p>
+  <!-- Left brand panel -->
+  <div class="login-left">
+    <div class="brand-logo">📋</div>
+    <h1>Meeting & MOM Management</h1>
+    <p>Organise, track and manage all your meetings in one place.</p>
+    <div class="feature-list">
+      <div class="feature-item"><div class="feature-dot"></div> Manage meetings & attendees</div>
+      <div class="feature-item"><div class="feature-dot"></div> Track attendance & reports</div>
+      <div class="feature-item"><div class="feature-dot"></div> Department & staff management</div>
+      <div class="feature-item"><div class="feature-dot"></div> Export to Excel in one click</div>
+    </div>
   </div>
 
-  <!-- Body -->
-  <div class="card-body">
+  <!-- Right form panel -->
+  <div class="login-right">
+    <h2>Welcome back 👋</h2>
+    <p class="sub">Sign in to your MOM System account</p>
 
     <form action="#" onsubmit="return false;">
 
@@ -199,26 +185,20 @@ body::after {
         </div>
       </div>
 
-      <div class="options">
-        <label>
-          <input type="checkbox"> Remember me
-        </label>
+      <div class="row-options">
+        <label><input type="checkbox"> Remember me</label>
         <a href="#">Forgot password?</a>
       </div>
 
-      <!-- Open Dashboard -->
       <a href="@Url.Action("Index","Home")" style="text-decoration:none;display:block;">
-        <button type="button" class="btn-signin">⤴ Sign In</button>
+        <button type="button" class="btn-signin">Sign In →</button>
       </a>
 
     </form>
 
-  </div>
-
-  <!-- Footer -->
-  <div class="card-footer">
-    Don't have an account?
-    <a href="@Url.Action("Register","Account")">Create account →</a>
+    <div class="signup-link">
+      Don't have an account? <a href="@Url.Action("Register","Account")">Create one →</a>
+    </div>
   </div>
 
 </div>
