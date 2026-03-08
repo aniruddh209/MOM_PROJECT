@@ -10,8 +10,7 @@ namespace MOM_PROJECT.Controllers
     {
         private readonly string _connectionString =
             "Server=localhost;Database=MOM_PROJECT;User Id=SA;Password=Aniruddh18;TrustServerCertificate=True;";
-
-        // ✅ Meeting-wise list
+        
         public IActionResult MeetingMemberList(int meetingId)
         {
             List<MeetingMemberModel> list = new();
@@ -39,8 +38,7 @@ namespace MOM_PROJECT.Controllers
             ViewBag.MeetingID = meetingId;
             return View(list);
         }
-
-        // ✅ Add / Edit
+        
         public IActionResult MeetingMemberAddEdit(int meetingId, int id = 0)
         {
             MeetingMemberModel model = new()
@@ -113,8 +111,7 @@ namespace MOM_PROJECT.Controllers
 
             return RedirectToAction("MeetingMemberList", new { meetingId });
         }
-
-        // Dropdown helpers
+        
         private List<SelectListItem> GetMeetingList()
         {
             List<SelectListItem> list = new();

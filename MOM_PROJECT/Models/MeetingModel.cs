@@ -5,11 +5,9 @@ namespace MOM_PROJECT.Models
 {
     public class MeetingModel
     {
-        // ✅ PRIMARY KEY (REQUIRED BY EF)
         [Key]
         public int MeetingID { get; set; }
-
-        // ===== MEETING INFO =====
+        
         [Required(ErrorMessage = "Meeting date is required")]
         public DateTime? MeetingDate { get; set; }
 

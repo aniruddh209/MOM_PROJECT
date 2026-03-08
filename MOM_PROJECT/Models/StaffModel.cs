@@ -8,11 +8,9 @@ namespace MOM_PROJECT.Models
     {
         [Key]
         public int StaffID { get; set; }
-
-        // For LIST page only
+        
         public string? DepartmentName { get; set; }
-
-        // REQUIRED for INSERT / UPDATE
+        
         [Required(ErrorMessage = "Department is required")]
         public int DepartmentID { get; set; }
 
@@ -29,8 +27,7 @@ namespace MOM_PROJECT.Models
         public string EmailAddress { get; set; }
 
         public string? Remarks { get; set; }
-
-        // ✅ ONLY ADDITION (for Department dropdown)
+        
         public List<SelectListItem>? DepartmentList { get; set; }
     }
 }

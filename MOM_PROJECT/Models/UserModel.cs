@@ -4,7 +4,7 @@ namespace MOM_PROJECT.Models
 {
     public class UserModel
     {
-        [Key] // ✅ EXPLICIT PRIMARY KEY
+        [Key] 
         public int UserId { get; set; }
 
         public string Username { get; set; }

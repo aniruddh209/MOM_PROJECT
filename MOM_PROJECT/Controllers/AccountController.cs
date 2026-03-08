@@ -15,7 +15,6 @@ public class AccountController : Controller
 
     public ActionResult Logout()
     {
-        // Clear any sessions or auth tokens
         HttpContext.Session.Clear();
         return RedirectToAction("Login", "Account");
     }
