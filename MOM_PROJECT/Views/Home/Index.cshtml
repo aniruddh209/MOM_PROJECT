@@ -5,34 +5,57 @@
 
 <style>
 .dashboard-title {
-    font-size: 26px;
-    font-weight: 700;
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    background: linear-gradient(135deg, #1e1b4b, #4f46e5);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+body[data-theme="dark"] .dashboard-title {
+    background: linear-gradient(135deg, #ffffff, #a5b4fc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 .dashboard-subtitle {
     color: #6b7280;
+    font-weight: 500;
 }
 
 /* Welcome */
 .welcome-alert {
-    background:#dcfce7;
-    border-left:5px solid #22c55e;
-    padding:14px 18px;
-    border-radius:12px;
-    color:#166534;
-    font-weight:500;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
+    background: linear-gradient(to right, #dcfce7, #f0fdf4);
+    border-left: 6px solid #22c55e;
+    padding: 16px 20px;
+    border-radius: 14px;
+    color: #166534;
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 15px rgba(34,197,94,0.1);
+    animation: fadeInDown 0.6s ease-out;
+}
+@@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-15px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 /* Stat cards */
 .stat-card {
     border-radius: 18px;
-    padding: 22px;
+    padding: 24px;
     background: #fff;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.04);
     position: relative;
-    overflow:hidden;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1;
+}
+
+.stat-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(99,102,241,0.15);
 }
 
 .stat-card::before{
@@ -53,14 +76,16 @@
 .card-orange::before{ background:#f59e0b; }
 
 .stat-icon {
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    color:#fff;
-    margin-bottom:12px;
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    margin-bottom: 16px;
+    font-size: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
 .icon-purple { background:#6366f1; }
@@ -85,10 +110,14 @@
 
 /* Charts */
 .chart-card {
-    background:#fff;
-    border-radius:18px;
-    box-shadow:0 10px 25px rgba(0,0,0,0.08);
-    padding:20px;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+    padding: 24px;
+    transition: transform 0.3s ease;
+}
+.chart-card:hover {
+    transform: translateY(-4px);
 }
 .chart-header {
     display:flex;
@@ -222,10 +251,10 @@
 new Chart(document.getElementById('meetingTypeChart'), {
     type: 'doughnut',
     data: {
-        labels: ['Review', 'Planning', 'Scrum', 'Retrospective'],
+        labels: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(ViewBag.TypeLabels)),
         datasets: [{
-            data: [4,5,3,3],
-            backgroundColor: ['#6366f1','#22c55e','#3b82f6','#f59e0b']
+            data: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(ViewBag.TypeData)),
+            backgroundColor: ['#6366f1','#22c55e','#3b82f6','#f59e0b','#a855f7','#ec4899','#8b5cf6','#14b8a6']
         }]
     },
     options: {
@@ -238,10 +267,10 @@ new Chart(document.getElementById('meetingTypeChart'), {
 new Chart(document.getElementById('departmentChart'), {
     type:'bar',
     data:{
-        labels:['IT','HR','Finance','Marketing'],
+        labels: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(ViewBag.DeptLabels)),
         datasets:[{
             label:'Number of Meetings',
-            data:[5,3,4,2],
+            data: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(ViewBag.DeptData)),
             backgroundColor:'#6366f1'
         }]
     },
