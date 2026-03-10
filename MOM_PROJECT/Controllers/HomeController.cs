@@ -7,7 +7,7 @@ namespace MOM_PROJECT.Controllers
     public class HomeController : Controller
     {
         private readonly string _connectionString =
-            "Server=localhost,1433;Database=MOM_PROJECT;User Id=sa;Password=Aniruddh18;MultipleActiveResultSets=true;TrustServerCertificate=True;";
+            "Server=localhost;Database=MOM_PROJECT;User Id=SA;Password=Aniruddh18;TrustServerCertificate=True;";
 
         public IActionResult Index()
         {
@@ -39,7 +39,7 @@ namespace MOM_PROJECT.Controllers
                 }
 
                 // ── Total meeting members (attendance records) ─
-                using (SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM MOM_MeetingMembers", con))
+                using (SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM MOM_MeetingMember", con))
                 {
                     totalMembers = (int)cmd.ExecuteScalar();
                 }
@@ -94,18 +94,6 @@ namespace MOM_PROJECT.Controllers
             ViewBag.CompletedMeetings = completed;
             ViewBag.TotalMembers      = totalMembers;
             ViewBag.TotalDepts        = totalDepts;
-
-            // Fallback placeholder data if DB is completely empty so UI doesn't break
-            if (typeLabels.Count == 0)
-            {
-                typeLabels.AddRange(new[] { "Review", "Planning", "Scrum", "Retrospective" });
-                typeData.AddRange(new[] { 4, 5, 3, 3 });
-            }
-            if (deptLabels.Count == 0)
-            {
-                deptLabels.AddRange(new[] { "IT", "HR", "Finance", "Marketing" });
-                deptData.AddRange(new[] { 5, 3, 4, 2 });
-            }
 
             ViewBag.TypeLabels = typeLabels.ToArray();
             ViewBag.TypeData = typeData.ToArray();

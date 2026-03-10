@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace MOM_PROJECT.Models
 {
@@ -33,5 +35,8 @@ namespace MOM_PROJECT.Models
 
         public DateTime? CancellationDateTime { get; set; }
         public string? CancellationReason { get; set; }
+        public List<SelectListItem>? DepartmentList { get; set; }
+        public List<SelectListItem>? MeetingTypeList { get; set; }
+        public List<SelectListItem>? MeetingVenueList { get; set; }
     }
 }

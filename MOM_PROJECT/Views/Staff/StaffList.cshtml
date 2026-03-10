@@ -39,11 +39,11 @@
         <thead>
           <tr>
             <th>Staff Name</th>
-            <th>Department</th>
-            <th>Mobile</th>
-            <th>Email</th>
-            <th>Remarks</th>
-            <th class="text-center">Actions</th>
+            <th data-searchable="false">Department</th>
+            <th data-searchable="false">Mobile</th>
+            <th data-searchable="false">Email</th>
+            <th data-searchable="false">Remarks</th>
+            <th data-searchable="false" class="text-center">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -54,9 +54,7 @@
               <tr>
                 <td>
                   <div class="d-flex align-items-center gap-2">
-                    <div class="mom-avatar">
-                      @(string.IsNullOrWhiteSpace(item.StaffName) ? "?" : item.StaffName.Substring(0,1).ToUpper())
-                    </div>
+                    <div class="mom-avatar">@(string.IsNullOrWhiteSpace(item.StaffName) ? "?" : item.StaffName.Substring(0,1).ToUpper())</div>
                     <span style="font-weight:600;color:#1e1b4b;">@item.StaffName</span>
                   </div>
                 </td>
@@ -92,8 +90,3 @@
     </div>
   </div>
 </div>
-
-<link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest"></script>
-<script>new simpleDatatables.DataTable(".datatable");</script>

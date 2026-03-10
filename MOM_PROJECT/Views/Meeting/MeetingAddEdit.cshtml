@@ -156,29 +156,25 @@
         <div class="row g-3">
 
           <div class="col-md-4">
-            <label class="form-label">Department</label>
-            <select asp-for="DepartmentID" class="form-select" required>
+            <label class="mom-label">Department</label>
+            <select asp-for="DepartmentID" asp-items="Model.DepartmentList"
+                    class="form-select mom-control">
               <option value="">-- Select Department --</option>
-              <option value="1">Department 1</option>
-              <option value="2">Department 2</option>
             </select>
           </div>
+          
 
           <div class="col-md-4">
             <label class="form-label">Meeting Type</label>
-            <select asp-for="MeetingTypeID" class="form-select" required>
+            <select asp-for="MeetingTypeID" asp-items="Model.MeetingTypeList" class="form-select" required>
               <option value="">-- Select Type --</option>
-              <option value="1">Type 1</option>
-              <option value="2">Type 2</option>
             </select>
           </div>
 
           <div class="col-md-4">
             <label class="form-label">Meeting Venue</label>
-            <select asp-for="MeetingVenueID" class="form-select" required>
+            <select asp-for="MeetingVenueID" asp-items="Model.MeetingVenueList" class="form-select" required>
               <option value="">-- Select Venue --</option>
-              <option value="1">Venue 1</option>
-              <option value="2">Venue 2</option>
             </select>
           </div>
 
@@ -207,8 +203,7 @@
           </div>
 
         </div>
-
-        <!-- Action Buttons -->
+        
         <div class="mt-4 text-end d-flex gap-2 justify-content-end">
           <a asp-action="MeetingList" asp-controller="Meeting"
              class="btn btn-outline-secondary btn-back-list">
