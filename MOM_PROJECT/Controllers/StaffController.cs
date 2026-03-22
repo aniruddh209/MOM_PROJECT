@@ -11,13 +11,42 @@ namespace MOM_PROJECT.Controllers
         private readonly string _connectionString =
             "Server=localhost;Database=MOM_PROJECT;User Id=SA;Password=Aniruddh18;TrustServerCertificate=True;";
 
+        // GET: StaffList (no search)
+        [HttpGet]
         public IActionResult StaffList()
         {
+            List<StaffModel> list = GetStaffMembers(null);
+            return View(list);
+        }
+
+        // POST: StaffList (search via FormCollection)
+        [HttpPost]
+        public IActionResult StaffList(IFormCollection formData)
+        {
+            string searchText = formData["SearchText"].ToString();
+            if (string.IsNullOrWhiteSpace(searchText))
+                searchText = null;
+
+            ViewBag.SearchText = searchText;
+            List<StaffModel> list = GetStaffMembers(searchText);
+            return View(list);
+        }
+
+        // Shared helper
+        private List<StaffModel> GetStaffMembers(string? searchText)
+        {
             List<StaffModel> list = new List<StaffModel>();
+
+            int? userId = null;
+            var userIdStr = HttpContext.Session.GetString("UserID");
+            if (!string.IsNullOrEmpty(userIdStr))
+                userId = Convert.ToInt32(userIdStr);
 
             using SqlConnection con = new SqlConnection(_connectionString);
             using SqlCommand cmd = new SqlCommand("PR_MOM_Staff_SelectAll", con);
             cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@UserID", (object?)userId ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@SearchText", (object?)searchText ?? DBNull.Value);
 
             con.Open();
             SqlDataReader reader = cmd.ExecuteReader();
@@ -34,7 +63,7 @@ namespace MOM_PROJECT.Controllers
                 list.Add(model);
             }
 
-            return View(list);
+            return list;
         }
 
         [HttpGet]
@@ -65,8 +94,14 @@ namespace MOM_PROJECT.Controllers
             }
 
             model.DepartmentList = new List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>();
+
+            // Get the logged-in user's ID for dropdown filtering
+            var userIdStr = HttpContext.Session.GetString("UserID");
+            object userIdParam = string.IsNullOrEmpty(userIdStr) ? DBNull.Value : (object)Convert.ToInt32(userIdStr);
+
             using SqlCommand deptCmd = new SqlCommand("PR_MOM_Department_SelectAll", con);
             deptCmd.CommandType = CommandType.StoredProcedure;
+            deptCmd.Parameters.AddWithValue("@UserID", userIdParam);
 
             SqlDataReader deptReader = deptCmd.ExecuteReader();
             while (deptReader.Read())
@@ -100,6 +135,9 @@ namespace MOM_PROJECT.Controllers
                 if (model.StaffID == 0)
                 {
                     cmd.CommandText = "PR_MOM_Staff_Insert";
+                    var insertUserIdStr = HttpContext.Session.GetString("UserID");
+                    cmd.Parameters.AddWithValue("@UserID",
+                        string.IsNullOrEmpty(insertUserIdStr) ? (object)DBNull.Value : Convert.ToInt32(insertUserIdStr));
                 }
                 else
                 {

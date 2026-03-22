@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+@using Microsoft.AspNetCore.Http
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -63,17 +64,31 @@
         <a class="nav-link nav-profile d-flex align-items-center pe-0"
            href="#"
            data-bs-toggle="dropdown">
-          <img src="~/assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
+          @{
+            string headerPhoto = Context.Session.GetString("ProfilePhoto") ?? "";
+            string headerInitial = (Context.Session.GetString("UserName") ?? "U").Substring(0,1).ToUpper();
+          }
+          @if (!string.IsNullOrEmpty(headerPhoto))
+          {
+            <img src="@headerPhoto" alt="Profile" class="rounded-circle" style="width:36px;height:36px;object-fit:cover;">
+          }
+          else
+          {
+            <div class="rounded-circle d-flex align-items-center justify-content-center"
+                 style="width:36px;height:36px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;font-weight:700;font-size:14px;">
+              @headerInitial
+            </div>
+          }
           <span class="d-none d-md-block dropdown-toggle ps-2">
-            @(ViewBag.Username ?? "User")
+            @(Context.Session.GetString("UserName") ?? "User")
           </span>
         </a>
 
         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
 
           <li class="dropdown-header">
-            <h6>@(ViewBag.Username ?? "User")</h6>
-            <span>MOM User</span>
+            <h6>@(Context.Session.GetString("UserName") ?? "User")</h6>
+            <span>@(Context.Session.GetString("UserRole") ?? "Member")</span>
           </li>
 
           <li><hr class="dropdown-divider"></li>

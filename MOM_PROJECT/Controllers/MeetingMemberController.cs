@@ -115,9 +115,17 @@ namespace MOM_PROJECT.Controllers
         private List<SelectListItem> GetMeetingList()
         {
             List<SelectListItem> list = new();
+
+            // Filter meetings by the logged-in user
+            int? userId = null;
+            var userIdStr = HttpContext.Session.GetString("UserID");
+            if (!string.IsNullOrEmpty(userIdStr))
+                userId = Convert.ToInt32(userIdStr);
+
             using SqlConnection con = new(_connectionString);
             using SqlCommand cmd = new("PR_MOM_Meetings_SelectAll", con);
             cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@UserID", (object?)userId ?? DBNull.Value);
             con.Open();
 
             SqlDataReader dr = cmd.ExecuteReader();
@@ -135,9 +143,17 @@ namespace MOM_PROJECT.Controllers
         private List<SelectListItem> GetStaffList()
         {
             List<SelectListItem> list = new();
+
+            // Filter staff by the logged-in user
+            int? userId = null;
+            var userIdStr = HttpContext.Session.GetString("UserID");
+            if (!string.IsNullOrEmpty(userIdStr))
+                userId = Convert.ToInt32(userIdStr);
+
             using SqlConnection con = new(_connectionString);
             using SqlCommand cmd = new("PR_MOM_Staff_SelectAll", con);
             cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@UserID", (object?)userId ?? DBNull.Value);
             con.Open();
 
             SqlDataReader dr = cmd.ExecuteReader();

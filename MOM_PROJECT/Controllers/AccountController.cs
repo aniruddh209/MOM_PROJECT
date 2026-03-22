@@ -1,53 +1,248 @@
 using Microsoft.AspNetCore.Mvc;
-namespace MOM_PROJECT.Controllers;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.Data.SqlClient;
+using MOM_PROJECT.Models;
+using System.Data;
 
-public class AccountController : Controller
+namespace MOM_PROJECT.Controllers
 {
-    public ActionResult Login()
+    [AllowAnonymous]
+    public class AccountController : Controller
     {
-        return View();
-    }
+        private readonly string _connectionString =
+            "Server=localhost;Database=MOM_PROJECT;User Id=SA;Password=Aniruddh18;TrustServerCertificate=True;";
 
-    public ActionResult Register()
-    {
-        return View();
-    }
+        private readonly IWebHostEnvironment _env;
 
-    public ActionResult Logout()
-    {
-        HttpContext.Session.Clear();
-        return RedirectToAction("Login", "Account");
-    }
+        public AccountController(IWebHostEnvironment env)
+        {
+            _env = env;
+        }
 
-    private static string fullName = "Aniruddh Parmar";
-    private static string company = "MOM IT Solutions";
-    private static string job = "Lead Administrator";
-    private static string country = "India";
-    private static string phone = "+91 98765 43210";
-    private static string email = "aniruddh@test.com";
+        // ============================
+        //        LOGIN  (GET)
+        // ============================
+        [HttpGet]
+        public IActionResult Login()
+        {
+            if (HttpContext.Session.GetString("UserID") != null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            return View(new UserModel());
+        }
 
-    public ActionResult Profile()
-    {
-        ViewBag.FullName = fullName;
-        ViewBag.Company = company;
-        ViewBag.Job = job;
-        ViewBag.Country = country;
-        ViewBag.Phone = phone;
-        ViewBag.Email = email;
-        return View();
-    }
+        // ============================
+        //        LOGIN  (POST)
+        // ============================
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Login(UserModel model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
 
-    [HttpPost]
-    public ActionResult UpdateProfile(string fullNameInput, string companyInput, string jobInput, string countryInput, string phoneInput, string emailInput)
-    {
-        if(!string.IsNullOrEmpty(fullNameInput)) fullName = fullNameInput;
-        if(!string.IsNullOrEmpty(companyInput)) company = companyInput;
-        if(!string.IsNullOrEmpty(jobInput)) job = jobInput;
-        if(!string.IsNullOrEmpty(countryInput)) country = countryInput;
-        if(!string.IsNullOrEmpty(phoneInput)) phone = phoneInput;
-        if(!string.IsNullOrEmpty(emailInput)) email = emailInput;
+            try
+            {
+                using SqlConnection con = new SqlConnection(_connectionString);
+                using SqlCommand cmd = con.CreateCommand();
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "PR_MST_User_Login";
+                cmd.Parameters.AddWithValue("@Username", model.Username);
+                cmd.Parameters.AddWithValue("@Password", model.Password);
 
-        TempData["SuccessMessage"] = "Profile updated successfully!";
-        return RedirectToAction("Profile");
+                con.Open();
+                using SqlDataReader reader = cmd.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    HttpContext.Session.SetString("UserID", reader["UserID"].ToString());
+                    HttpContext.Session.SetString("UserName", reader["Username"].ToString());
+                    HttpContext.Session.SetString("UserRole", reader["Role"].ToString());
+                    HttpContext.Session.SetString("ProfilePhoto", reader["ProfilePhoto"]?.ToString() ?? "");
+
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Invalid username or password.");
+                }
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, "Something went wrong: " + ex.Message);
+            }
+
+            return View(model);
+        }
+
+        // ============================
+        //       REGISTER  (GET)
+        // ============================
+        [HttpGet]
+        public IActionResult Register()
+        {
+            if (HttpContext.Session.GetString("UserID") != null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            return View(new RegisterModel());
+        }
+
+        // ============================
+        //       REGISTER  (POST)
+        // ============================
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Register(RegisterModel model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            try
+            {
+                using SqlConnection con = new SqlConnection(_connectionString);
+                using SqlCommand cmd = con.CreateCommand();
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "PR_MST_User_Register";
+                cmd.Parameters.AddWithValue("@Username", model.Username);
+                cmd.Parameters.AddWithValue("@Password", model.Password);
+                cmd.Parameters.AddWithValue("@Role", model.Role);
+
+                con.Open();
+                using SqlDataReader reader = cmd.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    HttpContext.Session.SetString("UserID", reader["UserID"].ToString());
+                    HttpContext.Session.SetString("UserName", reader["Username"].ToString());
+                    HttpContext.Session.SetString("UserRole", reader["Role"].ToString());
+                    HttpContext.Session.SetString("ProfilePhoto", reader["ProfilePhoto"]?.ToString() ?? "");
+
+                    TempData["SuccessMessage"] = "Account created successfully! Welcome aboard.";
+                    return RedirectToAction("Index", "Home");
+                }
+            }
+            catch (SqlException ex)
+            {
+                if (ex.Message.Contains("Username already exists"))
+                {
+                    ModelState.AddModelError("Username", "This username is already taken. Try another one.");
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Registration failed: " + ex.Message);
+                }
+            }
+
+            return View(model);
+        }
+
+        // ============================
+        //          LOGOUT
+        // ============================
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Login", "Account");
+        }
+
+        // ============================
+        //         PROFILE (GET)
+        // ============================
+        public IActionResult Profile()
+        {
+            ViewBag.FullName = HttpContext.Session.GetString("UserName") ?? "User";
+            ViewBag.Company = "MOM IT Solutions";
+            ViewBag.Job = HttpContext.Session.GetString("UserRole") ?? "Member";
+            ViewBag.Country = "India";
+            ViewBag.Phone = "+91 98765 43210";
+            ViewBag.Email = (HttpContext.Session.GetString("UserName") ?? "user") + "@mom.com";
+            ViewBag.ProfilePhoto = HttpContext.Session.GetString("ProfilePhoto") ?? "";
+            return View();
+        }
+
+        // ============================
+        //    UPDATE PROFILE (POST)
+        // ============================
+        [HttpPost]
+        public IActionResult UpdateProfile(string fullNameInput, string companyInput, string jobInput,
+            string countryInput, string phoneInput, string emailInput, IFormFile? ProfilePhotoFile)
+        {
+            string? photoPath = HttpContext.Session.GetString("ProfilePhoto");
+
+            // Handle file upload
+            if (ProfilePhotoFile != null && ProfilePhotoFile.Length > 0)
+            {
+                string uploadsFolder = Path.Combine(_env.WebRootPath, "uploads");
+                if (!Directory.Exists(uploadsFolder))
+                    Directory.CreateDirectory(uploadsFolder);
+
+                string fileName = Guid.NewGuid() + Path.GetExtension(ProfilePhotoFile.FileName);
+                string fullPath = Path.Combine(uploadsFolder, fileName);
+
+                using (var stream = new FileStream(fullPath, FileMode.Create))
+                {
+                    ProfilePhotoFile.CopyTo(stream);
+                }
+
+                photoPath = "/uploads/" + fileName;
+            }
+
+            // Save photo path to DB
+            var userIdStr = HttpContext.Session.GetString("UserID");
+            if (!string.IsNullOrEmpty(userIdStr))
+            {
+                using SqlConnection con = new SqlConnection(_connectionString);
+                using SqlCommand cmd = new SqlCommand("PR_MST_User_UpdateProfile", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@UserID", Convert.ToInt32(userIdStr));
+                cmd.Parameters.AddWithValue("@ProfilePhoto", (object?)photoPath ?? DBNull.Value);
+
+                con.Open();
+                cmd.ExecuteNonQuery();
+
+                // Update session
+                HttpContext.Session.SetString("ProfilePhoto", photoPath ?? "");
+            }
+
+            TempData["SuccessMessage"] = "Profile updated successfully!";
+            return RedirectToAction("Profile");
+        }
+
+        // ============================
+        //    REMOVE PROFILE PHOTO
+        // ============================
+        [HttpPost]
+        public IActionResult RemoveProfilePhoto()
+        {
+            var userIdStr = HttpContext.Session.GetString("UserID");
+            if (!string.IsNullOrEmpty(userIdStr))
+            {
+                // Delete old file from disk
+                string? oldPhoto = HttpContext.Session.GetString("ProfilePhoto");
+                if (!string.IsNullOrEmpty(oldPhoto))
+                {
+                    string oldFilePath = Path.Combine(_env.WebRootPath, oldPhoto.TrimStart('/'));
+                    if (System.IO.File.Exists(oldFilePath))
+                        System.IO.File.Delete(oldFilePath);
+                }
+
+                // Set NULL in DB
+                using SqlConnection con = new SqlConnection(_connectionString);
+                using SqlCommand cmd = new SqlCommand("PR_MST_User_UpdateProfile", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@UserID", Convert.ToInt32(userIdStr));
+                cmd.Parameters.AddWithValue("@ProfilePhoto", DBNull.Value);
+
+                con.Open();
+                cmd.ExecuteNonQuery();
+
+                HttpContext.Session.SetString("ProfilePhoto", "");
+            }
+
+            TempData["SuccessMessage"] = "Profile photo removed successfully!";
+            return RedirectToAction("Profile");
+        }
     }
 }

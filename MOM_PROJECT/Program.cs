@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+using MOM_PROJECT.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,19 +6,20 @@ var builder = WebApplication.CreateBuilder(args);
 // ADD SERVICES
 // =============================
 
-// MVC (Controllers + Views)
-builder.Services.AddControllersWithViews();
+// MVC (Controllers + Views) — with global CheckAccess filter
+// This means EVERY page requires login, EXCEPT pages marked [AllowAnonymous]
+builder.Services.AddControllersWithViews(options =>
+{
+    options.Filters.Add(new CheckAccess());
+});
 
-// OPTIONAL: If you use Session anywhere
-builder.Services.AddSession();
-
-// OPTIONAL: If you use Authentication later
-builder.Services.AddAuthentication();
-builder.Services.AddAuthorization();
-
-// OPTIONAL: If you use DbContext (keep if already using EF somewhere)
-// builder.Services.AddDbContext<AppDbContext>(options =>
-//     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+// Session — keeps track of who is logged in
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);    // session expires after 30 min idle
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 
 var app = builder.Build();
 
@@ -43,10 +44,6 @@ app.UseRouting();
 
 // Session (must be BEFORE Authorization)
 app.UseSession();
-
-// Auth
-app.UseAuthentication();
-app.UseAuthorization();
 
 // =============================
 // ROUTES

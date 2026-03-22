@@ -11,13 +11,42 @@ namespace MOM_PROJECT.Controllers
         private readonly string _connectionString =
             "Server=localhost;Database=MOM_PROJECT;User Id=SA;Password=Aniruddh18;TrustServerCertificate=True;";
 
+        // GET: MeetingVenueList (no search)
+        [HttpGet]
         public IActionResult MeetingVenueList()
         {
+            List<MeetingVenueModel> list = GetMeetingVenues(null);
+            return View(list);
+        }
+
+        // POST: MeetingVenueList (search via FormCollection)
+        [HttpPost]
+        public IActionResult MeetingVenueList(IFormCollection formData)
+        {
+            string searchText = formData["SearchText"].ToString();
+            if (string.IsNullOrWhiteSpace(searchText))
+                searchText = null;
+
+            ViewBag.SearchText = searchText;
+            List<MeetingVenueModel> list = GetMeetingVenues(searchText);
+            return View(list);
+        }
+
+        // Shared helper
+        private List<MeetingVenueModel> GetMeetingVenues(string? searchText)
+        {
             List<MeetingVenueModel> list = new List<MeetingVenueModel>();
+
+            int? userId = null;
+            var userIdStr = HttpContext.Session.GetString("UserID");
+            if (!string.IsNullOrEmpty(userIdStr))
+                userId = Convert.ToInt32(userIdStr);
 
             using SqlConnection con = new SqlConnection(_connectionString);
             using SqlCommand cmd = new SqlCommand("PR_MOM_MeetingVenue_SelectAll", con);
             cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@UserID", (object?)userId ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@SearchText", (object?)searchText ?? DBNull.Value);
 
             con.Open();
             SqlDataReader reader = cmd.ExecuteReader();
@@ -31,7 +60,7 @@ namespace MOM_PROJECT.Controllers
                 list.Add(model);
             }
 
-            return View(list);
+            return list;
         }
 
         [HttpGet]
@@ -80,6 +109,9 @@ namespace MOM_PROJECT.Controllers
             else
             {
                 cmd.CommandText = "PR_MOM_MeetingVenue_Insert";
+                var insertUserIdStr = HttpContext.Session.GetString("UserID");
+                cmd.Parameters.AddWithValue("@UserID",
+                    string.IsNullOrEmpty(insertUserIdStr) ? (object)DBNull.Value : Convert.ToInt32(insertUserIdStr));
             }
 
             cmd.Parameters.AddWithValue("@MeetingVenueName", model.MeetingVenueName);

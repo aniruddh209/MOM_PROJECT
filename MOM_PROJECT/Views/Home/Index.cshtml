@@ -1,4 +1,4 @@
-﻿@{
+@{
     ViewData["Title"] = "Dashboard";
     Layout = "_Layout";
 }
@@ -337,9 +337,9 @@ body[data-theme="dark"] .chart-action-btn:hover {
             <button class="btn-modern btn-modern-outline" onclick="window.location.reload()">
                 <i class="bi bi-arrow-clockwise"></i> Refresh Data
             </button>
-            <button class="btn-modern btn-modern-primary">
+            <a asp-action="ExportDashboardReport" asp-controller="Home" class="btn-modern btn-modern-primary" style="text-decoration:none;">
                 <i class="bi bi-download"></i> Export Report
-            </button>
+            </a>
         </div>
     </div>
 

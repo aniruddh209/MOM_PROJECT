@@ -18,13 +18,25 @@ namespace MOM_PROJECT.Controllers
             ViewBag.EndDate = DateTime.Today.ToString("yyyy-MM-dd");
             ViewBag.Summary = new AttendanceSummaryModel();
 
+            // Get the logged-in user's ID from session
+            int? userId = null;
+            var userIdStr = HttpContext.Session.GetString("UserID");
+            if (!string.IsNullOrEmpty(userIdStr))
+                userId = Convert.ToInt32(userIdStr);
+
             return View(new List<AttendanceReportModel>());
         }
         
         [HttpPost]
         public IActionResult AttendanceReport(DateTime startDate, DateTime endDate)
         {
-            var list = GetAttendanceData(startDate, endDate);
+            // Get the logged-in user's ID from session
+            int? userId = null;
+            var userIdStr = HttpContext.Session.GetString("UserID");
+            if (!string.IsNullOrEmpty(userIdStr))
+                userId = Convert.ToInt32(userIdStr);
+
+            var list = GetAttendanceData(startDate, endDate, userId);
 
             var summary = new AttendanceSummaryModel
             {
@@ -48,7 +60,13 @@ namespace MOM_PROJECT.Controllers
         [HttpPost]
         public IActionResult ExportAttendance(DateTime startDate, DateTime endDate)
         {
-            var list = GetAttendanceData(startDate, endDate);
+            // Get the logged-in user's ID from session
+            int? userId = null;
+            var userIdStr = HttpContext.Session.GetString("UserID");
+            if (!string.IsNullOrEmpty(userIdStr))
+                userId = Convert.ToInt32(userIdStr);
+
+            var list = GetAttendanceData(startDate, endDate, userId);
 
             using var wb = new XLWorkbook();
             var ws = wb.Worksheets.Add("Attendance Report");
@@ -87,7 +105,7 @@ namespace MOM_PROJECT.Controllers
                 $"AttendanceReport_{DateTime.Now:yyyyMMddHHmm}.xlsx"
             );
         }
-        private List<AttendanceReportModel> GetAttendanceData(DateTime startDate, DateTime endDate)
+        private List<AttendanceReportModel> GetAttendanceData(DateTime startDate, DateTime endDate, int? userId = null)
         {
             List<AttendanceReportModel> list = new();
 
@@ -96,6 +114,7 @@ namespace MOM_PROJECT.Controllers
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@StartDate", startDate);
             cmd.Parameters.AddWithValue("@EndDate", endDate);
+            cmd.Parameters.AddWithValue("@UserID", (object?)userId ?? DBNull.Value);
 
             con.Open();
             using SqlDataReader r = cmd.ExecuteReader();

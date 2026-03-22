@@ -29,6 +29,30 @@
     </div>
   }
 
+  <!-- Search Form -->
+  <form method="post" asp-action="DepartmentList" asp-controller="Department" class="mb-3">
+    <div class="mom-card" style="border-radius:14px;">
+      <div class="mom-card-body" style="padding:16px 24px;">
+        <div class="row g-2 align-items-end">
+          <div class="col-md-5">
+            <label class="mom-label" style="margin-bottom:6px;">🔍 Search by Department Name</label>
+            <input type="text" name="SearchText" class="form-control mom-control"
+                   placeholder="Enter department name..." value="@ViewBag.SearchText" />
+          </div>
+          <div class="col-md-4 d-flex gap-2">
+            <button type="submit" class="mom-btn-save" style="padding:10px 24px;">
+              🔍 Search
+            </button>
+            <a asp-action="DepartmentList" asp-controller="Department"
+               class="btn btn-outline-secondary mom-btn-back" style="padding:10px 20px;">
+              ↻ Reset
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
   <!-- Main Card -->
   <div class="mom-card">
     <div class="mom-card-header">
@@ -42,7 +66,7 @@
       <table class="mom-table datatable">
         <thead>
           <tr>
-            <th>Department Name</th>
+            <th>Department</th>
             <th class="text-center">Actions</th>
           </tr>
         </thead>
@@ -53,13 +77,24 @@
             {
               <tr>
                 <td>
-                  <div class="d-flex align-items-center gap-2">
-                    <div class="mom-avatar">@item.DepartmentName.Substring(0,1).ToUpper()</div>
+                  <div class="d-flex align-items-center gap-3">
+                    @if (!string.IsNullOrEmpty(item.DepartmentLogo))
+                    {
+                      <img src="@item.DepartmentLogo" alt="@item.DepartmentName"
+                           style="width:40px; height:40px; border-radius:10px; object-fit:cover; box-shadow:0 2px 6px rgba(0,0,0,0.1);" />
+                    }
+                    else
+                    {
+                      <div class="mom-avatar">@item.DepartmentName.Substring(0,1).ToUpper()</div>
+                    }
                     <span style="font-weight:600;color:#1e1b4b;">@item.DepartmentName</span>
                   </div>
                 </td>
                 <td class="text-center">
                   <div class="d-inline-flex gap-2">
+                    <a asp-action="DepartmentView" asp-controller="Department"
+                       asp-route-id="@item.DepartmentID" class="mom-btn-edit"
+                       style="background:#e0f2fe; color:#0369a1;">👁 View</a>
                     <a asp-action="DepartmentAddEdit" asp-controller="Department"
                        asp-route-id="@item.DepartmentID" class="mom-btn-edit">✏ Edit</a>
                     <a asp-action="DeleteDepartment" asp-controller="Department"

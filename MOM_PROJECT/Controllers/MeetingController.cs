@@ -12,14 +12,44 @@ namespace MOM_PROJECT.Controllers
         private readonly string _connectionString =
             "Server=localhost;Database=MOM_PROJECT;User Id=SA;Password=Aniruddh18;TrustServerCertificate=True;";
 
+        // GET: MeetingList (no search)
+        [HttpGet]
         public IActionResult MeetingList()
         {
+            List<MeetingModel> list = GetMeetings(null);
+            return View(list);
+        }
+
+        // POST: MeetingList (search via FormCollection)
+        [HttpPost]
+        public IActionResult MeetingList(IFormCollection formData)
+        {
+            string searchText = formData["SearchText"].ToString();
+            if (string.IsNullOrWhiteSpace(searchText))
+                searchText = null;
+
+            ViewBag.SearchText = searchText;
+            List<MeetingModel> list = GetMeetings(searchText);
+            return View(list);
+        }
+
+        // Shared helper
+        private List<MeetingModel> GetMeetings(string? searchText)
+        {
             List<MeetingModel> list = new List<MeetingModel>();
+
+            int? userId = null;
+            var userIdStr = HttpContext.Session.GetString("UserID");
+            if (!string.IsNullOrEmpty(userIdStr))
+                userId = Convert.ToInt32(userIdStr);
 
             using (SqlConnection con = new SqlConnection(_connectionString))
             {
                 SqlCommand cmd = new SqlCommand("PR_MOM_Meetings_SelectAll", con);
                 cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@UserID", (object?)userId ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@SearchText", (object?)searchText ?? DBNull.Value);
 
                 con.Open();
                 SqlDataReader reader = cmd.ExecuteReader();
@@ -43,7 +73,7 @@ namespace MOM_PROJECT.Controllers
                 }
             }
 
-            return View(list);
+            return list;
         }
 
         [HttpGet]
@@ -79,11 +109,15 @@ namespace MOM_PROJECT.Controllers
 
                     reader.Close();
                 }
-                model.DepartmentList = new List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>();
                 model.DepartmentList = new List<SelectListItem>();
+
+                // Get the logged-in user's ID for dropdown filtering
+                var userIdStr = HttpContext.Session.GetString("UserID");
+                object userIdParam = string.IsNullOrEmpty(userIdStr) ? DBNull.Value : (object)Convert.ToInt32(userIdStr);
 
                 SqlCommand deptCmd = new SqlCommand("PR_MOM_Department_SelectAll", con);
                 deptCmd.CommandType = CommandType.StoredProcedure;
+                deptCmd.Parameters.AddWithValue("@UserID", userIdParam);
 
                 SqlDataReader deptReader = deptCmd.ExecuteReader();
 
@@ -101,6 +135,7 @@ namespace MOM_PROJECT.Controllers
                 model.MeetingTypeList = new List<SelectListItem>();
                 SqlCommand typeCmd = new SqlCommand("PR_MOM_MeetingType_SelectAll", con);
                 typeCmd.CommandType = CommandType.StoredProcedure;
+                typeCmd.Parameters.AddWithValue("@UserID", userIdParam);
                 SqlDataReader typeReader = typeCmd.ExecuteReader();
 
                 while (typeReader.Read())
@@ -116,6 +151,7 @@ namespace MOM_PROJECT.Controllers
                 model.MeetingVenueList = new List<SelectListItem>();
                 SqlCommand venueCmd = new SqlCommand("PR_MOM_MeetingVenue_SelectAll", con);
                 venueCmd.CommandType = CommandType.StoredProcedure;
+                venueCmd.Parameters.AddWithValue("@UserID", userIdParam);
                 SqlDataReader venueReader = venueCmd.ExecuteReader();
 
                 while (venueReader.Read())
@@ -140,9 +176,15 @@ namespace MOM_PROJECT.Controllers
                 using (SqlConnection con = new SqlConnection(_connectionString))
                 {
                     con.Open();
+
+                    // Get the logged-in user's ID for dropdown filtering
+                    var postUserIdStr = HttpContext.Session.GetString("UserID");
+                    object postUserIdParam = string.IsNullOrEmpty(postUserIdStr) ? DBNull.Value : (object)Convert.ToInt32(postUserIdStr);
+
                     model.DepartmentList = new List<SelectListItem>();
                     SqlCommand deptCmd = new SqlCommand("PR_MOM_Department_SelectAll", con);
                     deptCmd.CommandType = CommandType.StoredProcedure;
+                    deptCmd.Parameters.AddWithValue("@UserID", postUserIdParam);
                     SqlDataReader deptReader = deptCmd.ExecuteReader();
                     while (deptReader.Read())
                     {
@@ -157,6 +199,7 @@ namespace MOM_PROJECT.Controllers
                     model.MeetingTypeList = new List<SelectListItem>();
                     SqlCommand typeCmd = new SqlCommand("PR_MOM_MeetingType_SelectAll", con);
                     typeCmd.CommandType = CommandType.StoredProcedure;
+                    typeCmd.Parameters.AddWithValue("@UserID", postUserIdParam);
                     SqlDataReader typeReader = typeCmd.ExecuteReader();
                     while (typeReader.Read())
                     {
@@ -171,6 +214,7 @@ namespace MOM_PROJECT.Controllers
                     model.MeetingVenueList = new List<SelectListItem>();
                     SqlCommand venueCmd = new SqlCommand("PR_MOM_MeetingVenue_SelectAll", con);
                     venueCmd.CommandType = CommandType.StoredProcedure;
+                    venueCmd.Parameters.AddWithValue("@UserID", postUserIdParam);
                     SqlDataReader venueReader = venueCmd.ExecuteReader();
                     while (venueReader.Read())
                     {
@@ -204,6 +248,13 @@ namespace MOM_PROJECT.Controllers
                 else
                 {
                     cmd.CommandText = "PR_MOM_Meetings_Insert";
+
+                    // Save the logged-in user's ID with the meeting
+                    var userIdStr = HttpContext.Session.GetString("UserID");
+                    if (!string.IsNullOrEmpty(userIdStr))
+                        cmd.Parameters.AddWithValue("@UserID", Convert.ToInt32(userIdStr));
+                    else
+                        cmd.Parameters.AddWithValue("@UserID", DBNull.Value);
                 }
 
                 cmd.Parameters.AddWithValue("@MeetingDate", model.MeetingDate);
