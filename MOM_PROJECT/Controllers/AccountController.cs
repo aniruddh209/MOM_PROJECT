@@ -18,10 +18,7 @@ namespace MOM_PROJECT.Controllers
         {
             _env = env;
         }
-
-        // ============================
-        //        LOGIN  (GET)
-        // ============================
+        
         [HttpGet]
         public IActionResult Login()
         {
@@ -31,10 +28,7 @@ namespace MOM_PROJECT.Controllers
             }
             return View(new UserModel());
         }
-
-        // ============================
-        //        LOGIN  (POST)
-        // ============================
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Login(UserModel model)
@@ -75,10 +69,7 @@ namespace MOM_PROJECT.Controllers
 
             return View(model);
         }
-
-        // ============================
-        //       REGISTER  (GET)
-        // ============================
+        
         [HttpGet]
         public IActionResult Register()
         {
@@ -89,9 +80,7 @@ namespace MOM_PROJECT.Controllers
             return View(new RegisterModel());
         }
 
-        // ============================
-        //       REGISTER  (POST)
-        // ============================
+     
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Register(RegisterModel model)
@@ -138,18 +127,14 @@ namespace MOM_PROJECT.Controllers
             return View(model);
         }
 
-        // ============================
-        //          LOGOUT
-        // ============================
+       
         public IActionResult Logout()
         {
             HttpContext.Session.Clear();
             return RedirectToAction("Login", "Account");
         }
 
-        // ============================
-        //         PROFILE (GET)
-        // ============================
+
         public IActionResult Profile()
         {
             ViewBag.FullName = HttpContext.Session.GetString("UserName") ?? "User";
@@ -162,9 +147,7 @@ namespace MOM_PROJECT.Controllers
             return View();
         }
 
-        // ============================
-        //    UPDATE PROFILE (POST)
-        // ============================
+    
         [HttpPost]
         public IActionResult UpdateProfile(string fullNameInput, string companyInput, string jobInput,
             string countryInput, string phoneInput, string emailInput, IFormFile? ProfilePhotoFile)
@@ -210,9 +193,7 @@ namespace MOM_PROJECT.Controllers
             return RedirectToAction("Profile");
         }
 
-        // ============================
-        //    REMOVE PROFILE PHOTO
-        // ============================
+
         [HttpPost]
         public IActionResult RemoveProfilePhoto()
         {
